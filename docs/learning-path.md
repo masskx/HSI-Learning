@@ -5,20 +5,30 @@
 ## 当前建议的学习顺序
 
 1. 先理解高光谱数据长什么样。
-   从 `数据读取和可视化.ipynb` 入手，认识数据立方体、波段、标签图、伪彩色可视化和 Ground Truth。
+   从 `notebooks/01_data_reading_and_visualization.ipynb` 入手，认识数据立方体、波段、标签图、伪彩色可视化和 Ground Truth。
 2. 再建立传统机器学习 baseline。
-   通过 `机器学习方法分类.ipynb` 先完成从像素特征到分类器的最短闭环，理解训练集、测试集、混淆矩阵和分类报告。
-3. 最后进入深度学习 baseline。
-   用 `HybridSN.ipynb` 和新的 `scripts/train_hybridsn.py` 理解 PCA、Patch 构造、3D/2D 卷积组合以及整图推理。
+   通过 `notebooks/02_svm_baseline.ipynb` 先完成从像素特征到分类器的最短闭环，理解训练集、测试集、混淆矩阵和分类报告。
+3. 然后进入经典深度学习 baseline。
+   用 `notebooks/03_hybridsn_baseline.ipynb` 和 `scripts/train_hybridsn.py` 理解 PCA、Patch 构造、3D/2D 卷积组合以及整图推理。
+4. 最后补齐不同建模视角。
+   继续阅读 `04_1d_cnn_teaching.ipynb`、`05_2d_cnn_teaching.ipynb`、`06_3d_cnn_teaching.ipynb` 和 `07_transformer_teaching.ipynb`，建立不同模型对高光谱数据的理解方式。
 
 ## 当前仓库和未来课程形态的对应关系
 
-- `数据读取和可视化.ipynb`
+- `notebooks/01_data_reading_and_visualization.ipynb`
   对应“入门”阶段，重点是认识数据与标签。
-- `机器学习方法分类.ipynb`
+- `notebooks/02_svm_baseline.ipynb`
   对应“基础 baseline”阶段，重点是把经典方法跑通。
-- `HybridSN.ipynb`
+- `notebooks/03_hybridsn_baseline.ipynb`
   对应“深度学习进阶”阶段，重点是理解空间-光谱联合建模。
+- `notebooks/04_1d_cnn_teaching.ipynb`
+  对应“光谱序列建模入门”阶段，重点是理解 1D CNN。
+- `notebooks/05_2d_cnn_teaching.ipynb`
+  对应“空间建模入门”阶段，重点是理解 2D CNN。
+- `notebooks/06_3d_cnn_teaching.ipynb`
+  对应“联合空间-光谱建模”阶段，重点是理解 3D CNN。
+- `notebooks/07_transformer_teaching.ipynb`
+  对应“注意力建模入门”阶段，重点是理解光谱 Transformer。
 - `scripts/train_hybridsn.py`
   对应“工程化复现”阶段，重点是把 notebook 里的实验逻辑沉淀成脚本。
 - `src/hsi_learning/`

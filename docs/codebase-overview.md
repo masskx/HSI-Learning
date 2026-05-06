@@ -6,7 +6,7 @@
 
 文件：
 
-- [数据读取和可视化.ipynb](/D:/JupyterWorkSpace/HSI-Learning/数据读取和可视化.ipynb)
+- [01_data_reading_and_visualization.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/01_data_reading_and_visualization.ipynb)
 
 当前内容：
 
@@ -29,7 +29,7 @@
 
 文件：
 
-- [机器学习方法分类.ipynb](/D:/JupyterWorkSpace/HSI-Learning/机器学习方法分类.ipynb)
+- [02_svm_baseline.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/02_svm_baseline.ipynb)
 - [scripts/build_indian_pines_csv.py](/D:/JupyterWorkSpace/HSI-Learning/scripts/build_indian_pines_csv.py)
 
 当前内容：
@@ -56,7 +56,7 @@
 
 文件：
 
-- [HybridSN.ipynb](/D:/JupyterWorkSpace/HSI-Learning/HybridSN.ipynb)
+- [03_hybridsn_baseline.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/03_hybridsn_baseline.ipynb)
 - [scripts/train_hybridsn.py](/D:/JupyterWorkSpace/HSI-Learning/scripts/train_hybridsn.py)
 - [src/hsi_learning/models/hybridsn.py](/D:/JupyterWorkSpace/HSI-Learning/src/hsi_learning/models/hybridsn.py)
 - [src/hsi_learning/data.py](/D:/JupyterWorkSpace/HSI-Learning/src/hsi_learning/data.py)
@@ -107,16 +107,31 @@
 - `engine.py`
   负责训练循环、验证、checkpoint 和训练曲线保存。
 - `evaluation.py`
-  负责整图推理、指标计算和预测图导出。
+负责整图推理、指标计算和预测图导出。
 
-## 5. 现在仓库的主要短板
+## 5. 新增的教学 notebook
+
+当前还补充了三本轻量教学 notebook：
+
+- [04_1d_cnn_teaching.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/04_1d_cnn_teaching.ipynb)
+- [05_2d_cnn_teaching.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/05_2d_cnn_teaching.ipynb)
+- [06_3d_cnn_teaching.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/06_3d_cnn_teaching.ipynb)
+- [07_transformer_teaching.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/07_transformer_teaching.ipynb)
+
+这些 notebook 的作用是：
+
+- 降低第一次接触不同深度学习建模方式的门槛
+- 保持统一的数据集、统一的结果图配色、统一的结果输出位置
+- 让 notebook 成为真正可学习的入口，而不仅是实验草稿
+
+## 6. 现在仓库的主要短板
 
 - notebook 的教学说明还不够完整
 - 传统机器学习还没有脚本化训练入口
 - 缺少统一的实验配置模板和结果对比机制
 - 只覆盖了 `HybridSN`，还没有形成多模型基线矩阵
 
-## 6. 推荐的后续推进方向
+## 7. 推荐的后续推进方向
 
 ### 先继续补最值得补的部分
 
