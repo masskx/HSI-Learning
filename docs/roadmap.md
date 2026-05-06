@@ -11,12 +11,15 @@
 - 分离源码与实验产物
 - 保证现有 notebook 可以顺畅运行
 
-已开始：
+已经完成：
 
 - README 重写
 - 代码总览文档
 - 路线图文档
+- 学习路径文档
 - 数据派生脚本
+- `HybridSN` 脚本入口
+- `src/hsi_learning/` 最小工程化骨架
 - 实验产物忽略规则
 
 ## 阶段 2：形成入门学习路径
@@ -38,6 +41,10 @@
 - `04_svm_baseline.ipynb`
 - `05_hybridsn_baseline.ipynb`
 
+当前状态：
+
+- 内容主线已经清楚，但还没有把现有 notebook 重新整理成课程化命名和章节化结构。
+
 ## 阶段 3：把实验做成可复现工程
 
 目标：
@@ -48,6 +55,12 @@
 - 统一实验结果目录
 - 用脚本替代 notebook 里的重复逻辑
 
+当前进度：
+
+- `HybridSN` 已经开始落地到 `src/` 和 `scripts/`
+- `results/hybridsn/<dataset>/` 已经形成最小输出约定
+- 数据加载、Patch 构造、训练、评估已经具备可复用模块
+
 建议目录形态：
 
 ```text
@@ -57,8 +70,8 @@ HSI-Learning/
 ├─ scripts/
 ├─ src/
 │  └─ hsi_learning/
-│     ├─ data/
 │     ├─ models/
+│     ├─ baselines/
 │     ├─ training/
 │     ├─ evaluation/
 │     └─ visualization/
@@ -104,8 +117,8 @@ HSI-Learning/
 
 ## 当前最值得优先做的 5 件事
 
-1. 先把现有 3 个 notebook 的说明补全。
-2. 把传统机器学习 CSV 生成逻辑脚本化。
-3. 把 `HybridSN` 的数据、模型、训练拆成独立模块。
-4. 统一 `results/` 输出格式，不再混入主仓库。
-5. 增加一个最小可复现训练脚本，替代纯手工 notebook 训练。
+1. 给现有 3 个 notebook 增加更清晰的教学说明和章节划分。
+2. 把传统机器学习训练也补成脚本入口，而不是只有 CSV 生成脚本。
+3. 再补一个更轻量的深度学习 baseline，降低第一次复现门槛。
+4. 给 `results/` 设计统一输出规范和 benchmark 汇总格式。
+5. 逐步把 notebook 目录和命名整理成真正的课程路径。

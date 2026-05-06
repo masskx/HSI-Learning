@@ -1,6 +1,6 @@
 # 当前代码总览
 
-这个仓库现在的核心代码基本都集中在 3 个 notebook 中，属于“先跑通实验，再逐步工程化”的状态。
+这个仓库现在正处在“保留 notebook 学习体验，同时逐步工程化”的阶段。核心内容仍然主要来自 3 个 notebook，但已经开始把最关键的深度学习 baseline 拆成脚本和模块，方便后续长期维护。
 
 ## 1. 数据读取和可视化
 
@@ -30,6 +30,7 @@
 文件：
 
 - [机器学习方法分类.ipynb](/D:/JupyterWorkSpace/HSI-Learning/机器学习方法分类.ipynb)
+- [scripts/build_indian_pines_csv.py](/D:/JupyterWorkSpace/HSI-Learning/scripts/build_indian_pines_csv.py)
 
 当前内容：
 
@@ -47,15 +48,20 @@
 
 当前问题：
 
-- 数据生成和训练逻辑都写在 notebook 里
-- CSV 属于派生文件，不应长期手工维护
+- 训练逻辑仍主要写在 notebook 里
 - 目前只有 SVM，一些常见基线还没补齐
+- 样本划分和结果输出还没完全统一
 
 ## 3. HybridSN 深度学习流程
 
 文件：
 
 - [HybridSN.ipynb](/D:/JupyterWorkSpace/HSI-Learning/HybridSN.ipynb)
+- [scripts/train_hybridsn.py](/D:/JupyterWorkSpace/HSI-Learning/scripts/train_hybridsn.py)
+- [src/hsi_learning/models/hybridsn.py](/D:/JupyterWorkSpace/HSI-Learning/src/hsi_learning/models/hybridsn.py)
+- [src/hsi_learning/data.py](/D:/JupyterWorkSpace/HSI-Learning/src/hsi_learning/data.py)
+- [src/hsi_learning/engine.py](/D:/JupyterWorkSpace/HSI-Learning/src/hsi_learning/engine.py)
+- [src/hsi_learning/evaluation.py](/D:/JupyterWorkSpace/HSI-Learning/src/hsi_learning/evaluation.py)
 
 当前内容：
 
@@ -63,41 +69,63 @@
 - PCA 降维
 - 训练集 / 验证集 / 测试集划分
 - Patch 数据集构造
-- `PatchSet(Dataset)` 与 `DataLoader`
 - `HybridSN` 3D + 2D 卷积模型
-- `Adam` 优化器与 `CrossEntropyLoss`
-- 最优模型保存
+- 最优 checkpoint 选择
 - 整图推理、分类图导出、`OA / AA / Kappa`
 
 价值：
 
-- 当前仓库中最完整的可训练深度学习基线
-- 可以作为后续模块化重构的主参考来源
+- 当前仓库中最完整的深度学习 baseline
+- 已经从 notebook 中抽出一个最小可复现的脚本入口
+- 为后续引入更多模型提供了统一的代码落点
 
 当前问题：
 
-- 参数、路径、数据集切换仍然偏手工
-- 模型、数据、训练、评估没有拆分成独立模块
-- notebook 输出较重，不利于版本管理
+- 目前只完成了 `HybridSN` 一条线的模块化
+- 还没有更轻量的深度学习入门 baseline
+- 还缺少更统一的配置体系和结果汇总表
 
-## 4. 现在仓库的主要短板
+## 4. 新增的工程化骨架
 
-- 代码入口分散，主要靠 notebook 手工执行
-- 数据派生文件与实验输出和源码混在一起
-- 依赖说明和实验说明不足
-- 没有统一的实验配置和结果记录结构
+当前已经新增：
 
-## 5. 推荐的后续拆分方向
+- [src/hsi_learning/__init__.py](/D:/JupyterWorkSpace/HSI-Learning/src/hsi_learning/__init__.py)
+- [src/hsi_learning/utils.py](/D:/JupyterWorkSpace/HSI-Learning/src/hsi_learning/utils.py)
+- [src/hsi_learning/data.py](/D:/JupyterWorkSpace/HSI-Learning/src/hsi_learning/data.py)
+- [src/hsi_learning/models/](/D:/JupyterWorkSpace/HSI-Learning/src/hsi_learning/models)
+- [src/hsi_learning/engine.py](/D:/JupyterWorkSpace/HSI-Learning/src/hsi_learning/engine.py)
+- [src/hsi_learning/evaluation.py](/D:/JupyterWorkSpace/HSI-Learning/src/hsi_learning/evaluation.py)
 
-### 先拆最值得拆的部分
+这套结构目前承担的职责：
 
-- `scripts/build_indian_pines_csv.py`
-- `src/hsi_learning/data/`
-- `src/hsi_learning/models/`
-- `src/hsi_learning/train/`
-- `src/hsi_learning/eval/`
+- `utils.py`
+  负责目录创建、随机种子、设备解析和 JSON 持久化。
+- `data.py`
+  负责数据集加载、PCA、标签划分、PatchDataset 和 DataLoader。
+- `models/hybridsn.py`
+  负责 `HybridSN` 模型定义。
+- `engine.py`
+  负责训练循环、验证、checkpoint 和训练曲线保存。
+- `evaluation.py`
+  负责整图推理、指标计算和预测图导出。
 
-### 保留 notebook 的角色
+## 5. 现在仓库的主要短板
+
+- notebook 的教学说明还不够完整
+- 传统机器学习还没有脚本化训练入口
+- 缺少统一的实验配置模板和结果对比机制
+- 只覆盖了 `HybridSN`，还没有形成多模型基线矩阵
+
+## 6. 推荐的后续推进方向
+
+### 先继续补最值得补的部分
+
+- `src/hsi_learning/baselines/` 或等价的传统机器学习模块
+- 一个更轻量的深度学习 baseline，例如 `1D CNN` 或 `2D CNN`
+- 更清晰的 notebook 章节化说明
+- 统一的实验汇总表或 benchmark 文档
+
+### notebook 继续保留的角色
 
 - notebook 继续作为教程和可视化入口
 - 训练与评估逻辑逐步迁移到脚本和模块
