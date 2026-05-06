@@ -1,0 +1,14 @@
+# Install PyTorch separately according to your CPU/CUDA environment first.
+# Then install the remaining dependencies with:
+# pip install -r requirements.txt
+
+numpy
+scipy
+pandas
+matplotlib
+seaborn
+scikit-learn
+spectral
+tqdm
+torchinfo
+jupyter
