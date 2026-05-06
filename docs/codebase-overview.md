@@ -117,6 +117,7 @@
 - [05_2d_cnn_teaching.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/05_2d_cnn_teaching.ipynb)
 - [06_3d_cnn_teaching.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/06_3d_cnn_teaching.ipynb)
 - [07_transformer_teaching.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/07_transformer_teaching.ipynb)
+- [08_ssrn_teaching.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/08_ssrn_teaching.ipynb)
 
 这些 notebook 的作用是：
 

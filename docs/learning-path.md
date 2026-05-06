@@ -11,7 +11,7 @@
 3. 然后进入经典深度学习 baseline。
    用 `notebooks/03_hybridsn_baseline.ipynb` 和 `scripts/train_hybridsn.py` 理解 PCA、Patch 构造、3D/2D 卷积组合以及整图推理。
 4. 最后补齐不同建模视角。
-   继续阅读 `04_1d_cnn_teaching.ipynb`、`05_2d_cnn_teaching.ipynb`、`06_3d_cnn_teaching.ipynb` 和 `07_transformer_teaching.ipynb`，建立不同模型对高光谱数据的理解方式。
+   继续阅读 `04_1d_cnn_teaching.ipynb`、`05_2d_cnn_teaching.ipynb`、`06_3d_cnn_teaching.ipynb`、`07_transformer_teaching.ipynb` 和 `08_ssrn_teaching.ipynb`，建立不同模型对高光谱数据的理解方式。
 
 ## 当前仓库和未来课程形态的对应关系
 
@@ -29,6 +29,8 @@
   对应“联合空间-光谱建模”阶段，重点是理解 3D CNN。
 - `notebooks/07_transformer_teaching.ipynb`
   对应“注意力建模入门”阶段，重点是理解光谱 Transformer。
+- `notebooks/08_ssrn_teaching.ipynb`
+  对应“经典残差结构”阶段，重点是理解 SSRN 的谱域和空间联合残差建模。
 - `scripts/train_hybridsn.py`
   对应“工程化复现”阶段，重点是把 notebook 里的实验逻辑沉淀成脚本。
 - `src/hsi_learning/`

@@ -33,6 +33,8 @@ HSI-Learning/
    同时利用空间和光谱维度的 3D CNN 基线。
 7. [07_transformer_teaching.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/07_transformer_teaching.ipynb)
    用光谱序列建模方式理解 Transformer 在高光谱分类中的用法。
+8. [08_ssrn_teaching.ipynb](/D:/JupyterWorkSpace/HSI-Learning/notebooks/08_ssrn_teaching.ipynb)
+   通过谱域残差块与空间残差块理解 SSRN 的经典两段式建模思路。
 
 更细的学习说明见 [docs/learning-path.md](/D:/JupyterWorkSpace/HSI-Learning/docs/learning-path.md)。
 
