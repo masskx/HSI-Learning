@@ -26,10 +26,24 @@
 
 ## 3. 脚本入口
 
-- [scripts/build_indian_pines_csv.py](../scripts/build_indian_pines_csv.py)  
-  将高光谱立方体展开为传统机器学习可用的样本表。
-- [scripts/train_hybridsn.py](../scripts/train_hybridsn.py)  
-  提供脚本化的 `HybridSN` 训练、验证、测试与结果导出流程。
+训练入口（每个模型一条命令完成 PCA/预处理 → 划分 → 训练 → 整图推理 → 指标导出，产物入 `results/<model>/<dataset>/`）：
+
+- [scripts/train_hybridsn.py](../scripts/train_hybridsn.py) —— HybridSN（协议 B 默认；`--train-rate/--val-rate/--seed` 可切换协议 C）
+- [scripts/train_1d_cnn.py](../scripts/train_1d_cnn.py) —— 1D CNN（协议 C，对应 `notebooks/04`）
+- [scripts/train_2d_cnn.py](../scripts/train_2d_cnn.py) —— 2D CNN（协议 C，对应 `notebooks/05`）
+- [scripts/train_3d_cnn.py](../scripts/train_3d_cnn.py) —— 3D CNN（协议 C，对应 `notebooks/06`）
+- [scripts/train_ssrn.py](../scripts/train_ssrn.py) —— SSRN（协议 D 默认；`--mode sklearn` 切协议 C；`--lambda-sir`/`--no-residual` 消融开关）
+- [scripts/train_transformer.py](../scripts/train_transformer.py) —— 谱 Transformer（协议 C，对应 `notebooks/07`）
+
+数据处理与实验汇总：
+
+- [scripts/build_indian_pines_csv.py](../scripts/build_indian_pines_csv.py) —— 将高光谱立方体展开为传统机器学习可用的样本表
+- [scripts/aggregate_ch12_ablation.py](../scripts/aggregate_ch12_ablation.py) —— 多种子消融矩阵汇总（mean ± std）
+
+章节插图生成器（每章一个，最小依赖，产物入 `chapters/assets/`）：
+
+- [scripts/generate_ch01_figures.py](../scripts/generate_ch01_figures.py) … [generate_ch14_figures.py](../scripts/generate_ch14_figures.py)（ch13 为 LaTeX 骨架，无图）
+- [scripts/_chfigure_utils.py](../scripts/_chfigure_utils.py) —— 共享工具：数据加载、类别表、分层划分、confusion-matrix 绘图、配色常量（与 `src/hsi_learning/data.py` 保持同步的注释）
 
 ## 4. 可复用源码
 

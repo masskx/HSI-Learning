@@ -17,11 +17,9 @@ import numpy as np
 
 from _chfigure_utils import (
     ASSETS,
-    BASELINE,
     CLASS_NAMES,
     GRAY_SERIES,
     GRID,
-    INK,
     MUTED,
     apply_style,
     load_indian_pines,

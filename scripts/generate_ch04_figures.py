@@ -28,7 +28,6 @@ from _chfigure_utils import (
     INK,
     apply_style,
     load_indian_pines,
-    stretch,
 )
 
 WINDOW = 41  # zoom window size around the selected pixels

@@ -150,5 +150,5 @@ MACs 明细可以手算验证：每层 attention 的 QK^T 与 attn@V 各贡献 $
 - Dosovitskiy, A., et al., "An image is worth 16×16 words: Transformers for image recognition at scale," *ICLR*, 2021.——ViT 原始论文；"归纳偏置 vs 数据量"结论的出处，本章负结果的理论背景。
 - Hong, D., et al., "SpectralFormer: Rethinking hyperspectral image classification with transformers," *IEEE TGRS*, 2022.——HSI Transformer 的代表工作（group-wise attention），10.4 前沿线索 1 的第一篇精读对象。
 - Vaswani, A., et al., "Attention is all you need," *NeurIPS*, 2017.——Transformer 原始论文。
-- He, X., et al. 的 SS-Mamba 系列与 SpectroFM/SpectralGPT 等基础模型工作（10.4 线索 2/3 的入口文献；逐章写实时核对最新版本）。
+- SS-Mamba、SpectralGPT/SpectroFM 等基础模型工作（10.4 线索 2/3 的入口文献；该方向更新极快，检索关键词 `SS-Mamba hyperspectral` / `hyperspectral foundation model`，以 arXiv 最新版本为准）。
 - PyTorch 文档：`nn.TransformerEncoderLayer`（Pre-LN 细节、fast path 的触发条件）、`nn.MultiheadAttention` 的 `in_proj_weight`（图 10-1 的实现基础）。

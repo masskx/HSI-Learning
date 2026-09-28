@@ -12,7 +12,7 @@ from __future__ import annotations
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
-from _chfigure_utils import ASSETS, GRID, INK, apply_style
+from _chfigure_utils import ASSETS, INK, apply_style
 
 STAGES = [
     ("① 选题开题", "gap → 假设\n立项书", "#2a78d6"),

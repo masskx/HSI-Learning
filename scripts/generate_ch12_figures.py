@@ -24,7 +24,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
-from _chfigure_utils import ASSETS, GRID, INK, apply_style
+from _chfigure_utils import ASSETS, GRID, apply_style
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"

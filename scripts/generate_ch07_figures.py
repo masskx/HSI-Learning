@@ -22,7 +22,6 @@ from __future__ import annotations
 
 import json
 import sys
-import time
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -44,7 +43,6 @@ from _chfigure_utils import (  # noqa: E402
     apply_style,
     fig_confusion_matrix,
     load_indian_pines,
-    stretch,
 )
 from train_1d_cnn import SpectralCNN1D  # noqa: E402
 from train_2d_cnn import SpectralSpatialCNN2D  # noqa: E402

@@ -31,7 +31,6 @@ from sklearn.svm import SVC
 
 from _chfigure_utils import (
     ASSETS,
-    CLASS_NAMES,
     GRID,
     INK,
     MUTED,

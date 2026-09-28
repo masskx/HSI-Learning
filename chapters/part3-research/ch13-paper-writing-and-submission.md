@@ -131,6 +131,5 @@ IMRaD 不是格式惯性，而是一套**论证协议**——每节回答一个�
 
 - Simon Peyton Jones, "How to write a great research paper"（经典讲义；写作顺序与贡献点纪律的出处，网上可查）。
 - IEEE Author Center（IEEEtran 模板、图表规范、投稿流程官方文档）。
-- Whiteson, S., et al. 关于可复现科研写作的讨论（逐章写实时补充）。
 - 本课程交付物：[`latex/paper_skeleton.tex`](latex/paper_skeleton.tex)——IEEEtran 可编译骨架（Overleaf/TeX Live 均可编译）。
 - 第 11 章表 11-1（选刊版图）与第 12 章（本章实验节的素材来源）。
