@@ -23,6 +23,7 @@ from pathlib import Path
 import numpy as np
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from sklearn.decomposition import PCA
 from sklearn.metrics import (accuracy_score, classification_report,
                              cohen_kappa_score, confusion_matrix, recall_score)
@@ -93,6 +94,37 @@ class PatchDataset2D(Dataset):
         return patch, torch.tensor(int(self.labels[idx]), dtype=torch.long)
 
 
+class FocalLoss(nn.Module):
+    """Focal loss (Lin et al., ICCV 2017): down-weights easy examples.
+
+    FL(p_t) = -(1 - p_t)^gamma * log(p_t); gamma=0 reduces to plain CE.
+    """
+
+    def __init__(self, gamma: float = 2.0):
+        super().__init__()
+        self.gamma = gamma
+
+    def forward(self, logits: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
+        ce = F.cross_entropy(logits, target, reduction="none")
+        p_t = torch.exp(-ce)
+        return ((1 - p_t) ** self.gamma * ce).mean()
+
+
+def build_criterion(loss_name: str, y_train: np.ndarray, num_classes: int,
+                    focal_gamma: float, device: torch.device) -> nn.Module:
+    """Loss factory for the class-imbalance study (Chapter 15)."""
+    if loss_name == "ce":
+        return nn.CrossEntropyLoss()
+    if loss_name == "weighted":
+        counts = np.bincount(y_train, minlength=num_classes)
+        weights = len(y_train) / (num_classes * np.maximum(counts, 1))  # sklearn "balanced"
+        print("class weights (balanced):", np.round(weights, 3))
+        return nn.CrossEntropyLoss(weight=torch.tensor(weights, dtype=torch.float32, device=device))
+    if loss_name == "focal":
+        return FocalLoss(gamma=focal_gamma)
+    raise ValueError(f"unknown loss {loss_name!r} (ce | weighted | focal)")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Train the teaching 2D CNN on patches.")
     parser.add_argument("--dataset", default="IP", choices=["IP", "SA", "PU"])
@@ -105,6 +137,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--batch-size", type=int, default=256)
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--weight-decay", type=float, default=1e-4)
+    parser.add_argument("--loss", default="ce", choices=["ce", "weighted", "focal"],
+                        help="class-imbalance loss (Chapter 15): plain CE, "
+                             "class-weighted CE, or focal loss.")
+    parser.add_argument("--focal-gamma", type=float, default=2.0)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--device", default="auto")
     parser.add_argument("--num-workers", type=int, default=0)
@@ -206,6 +242,9 @@ def main() -> int:
                                  num_classes=len(class_names)).to(device)
     total_params = sum(p.numel() for p in model.parameters())
 
+    criterion = build_criterion(args.loss, y_train, len(class_names),
+                                args.focal_gamma, device)
+
     fit_result = fit(
         model=model,
         train_loader=train_loader,
@@ -218,6 +257,7 @@ def main() -> int:
             eval_interval=1,
             output_dir=output_dir,
         ),
+        criterion=criterion,
     )
 
     model.load_state_dict(torch.load(fit_result.best_checkpoint, map_location=device))
@@ -261,6 +301,8 @@ def main() -> int:
                 "batch_size": args.batch_size,
                 "lr": args.lr,
                 "weight_decay": args.weight_decay,
+                "loss": args.loss,
+                "focal_gamma": args.focal_gamma if args.loss == "focal" else None,
                 "device": str(device),
             },
             "model": {

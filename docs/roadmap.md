@@ -46,6 +46,9 @@
 - ✅ ch12 科研实验设计与可复现工程——正文 + **多种子消融研究完成**（SIR λ=0/0.1 + 去残差 × 3 种子 = 9 次训练，mean ± std 入板）：H1（SIR）未检测到收益（第 9 章单种子负结果稳定复现）；H2（残差）方向性成立（−0.45 OA，3/3 一致）且去残差组训练不稳定可见（一次 0.60 崩塌），量级受预算限制；新增 `scripts/aggregate_ch12_ablation.py` 与 `generate_ch12_figures.py`（误差棒柱状图 + 种子间波动曲线）；记分板新增协议 D′（mean±std）块
 - ✅ ch13 论文写作与投稿——完整正文（13.1–13.6 共六节：IMRaD 审稿人视角、引言三段式、实验节五件套、LaTeX 纪律、投稿与 rebuttal）；**交付可编译 IEEEtran 骨架** `chapters/part3-research/latex/paper_skeleton.tex`（含课程真实数字的 booktabs 主表、消融表模板、投稿前 checklist）
 - ✅ ch14 毕业实战 Capstone——完整正文（14.1–14.6 共六阶段：选题立项/基线复现/改进实现/实验消融/论文撰写/模拟投稿，六阶段流程图 + 三个衔接课程资产的示例选题 + 立项书模板含负结果退路）
+- ✅ ch15 实战补遗——完整正文（15.1–15.5 共五节）、五张分析图（t-SNE、Grad-CAM、空间分桶、损失权衡、逐类召回）；`train_2d_cnn.py` 新增 `--loss ce/weighted/focal`（engine.fit 支持自定义 criterion）；SA/PU 跨数据集零改动跑通（99.77%/99.66%）；gokriznastic/HybridSN 仓库走读（与课程实现逐层 diff ✓）；SpectralFormer 精读笔记
+
+**课程 15 章全部完成。**
 
 **课程 14 章全部完成。**
 

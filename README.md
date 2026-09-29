@@ -37,6 +37,7 @@
 | 12 | [科研实验设计与可复现工程 Experimental Design & Reproducibility](chapters/part3-research/ch12-experimental-design-and-reproducibility.md) | [train_hybridsn.py](scripts/train_hybridsn.py) · [aggregate_ch12_ablation.py](scripts/aggregate_ch12_ablation.py) | ✅ |
 | 13 | [论文写作与投稿 Paper Writing & Submission](chapters/part3-research/ch13-paper-writing-and-submission.md) | [IEEEtran 论文骨架](chapters/part3-research/latex/paper_skeleton.tex) | ✅ |
 | 14 | [毕业实战：完成一篇论文 Capstone: Your First Paper](chapters/part3-research/ch14-capstone-your-first-paper.md) | 全部 | ✅ |
+| 15 | [实战补遗：五个拦路虎 Practical Essentials](chapters/part3-research/ch15-practical-essentials.md) | [train_2d_cnn.py](scripts/train_2d_cnn.py) · [generate_ch15_analysis.py](scripts/generate_ch15_analysis.py) | ✅ |
 
 ## 学习路径建议 / Suggested Learning Path
 
