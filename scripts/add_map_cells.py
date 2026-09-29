@@ -103,7 +103,7 @@ for i, cell in enumerate(nb17.cells):
         break
 
 map_cells_17 = [
-    md("## 6. 开集分类图\n\n已知类用彩色显示，未知类（低置信度）用黑色标记。"),
+    md("## 6. 开集分类图\n\n已知类用彩色显示，未知类（低置信度）用**白色**标记。"),
     code("""# 全图像元预测
 all_pos = np.argwhere(np.ones_like(gt, dtype=bool))
 PAD = 4
@@ -130,17 +130,27 @@ pred_original = np.array([known_sorted[p] + 1 for p in all_preds])
 threshold = msp_scores[is_known_test].mean()
 print(f"MSP threshold: {threshold:.4f}")
 
-# open-set map
+# open-set map: 0 = background, 1..16 = known classes, 17 = unknown
+UNKNOWN_CODE = 17
 openset_map = np.zeros(h * w, dtype=np.int64)
 for i in range(len(all_pos)):
     r, c = all_pos[i]
     if gt[r, c] == 0:
-        openset_map[r * w + c] = 0
+        openset_map[r * w + c] = 0  # background
     elif all_msp[i] < threshold:
-        openset_map[r * w + c] = 0  # unknown → black
+        openset_map[r * w + c] = UNKNOWN_CODE  # unknown → white
     else:
         openset_map[r * w + c] = pred_original[i]
 openset_map = openset_map.reshape(h, w)
+print(f"unknown pixels: {(openset_map == UNKNOWN_CODE).sum()}")
+
+# custom colormap: 0=black(bg), 1..16=nipy_spectral class colors, 17=white(unknown)
+from matplotlib.colors import ListedColormap
+_base = plt.cm.nipy_spectral(np.linspace(0, 1, 256))
+_openset_colors = [_base[0]]                                  # 0  → background (black)
+_openset_colors += [_base[int(k / 16 * 255)] for k in range(1, 17)]  # 1..16 → classes
+_openset_colors += [[1.0, 1.0, 1.0, 1.0]]                     # 17 → unknown (white)
+openset_cmap = ListedColormap(_openset_colors)
 
 # GT with unknown hidden
 gt_vis = gt.copy()
@@ -152,10 +162,12 @@ axes[0].imshow(gt, cmap="nipy_spectral", vmin=0, vmax=16, interpolation="nearest
 axes[0].set_title("Ground Truth (all 16 classes)")
 axes[1].imshow(gt_vis, cmap="nipy_spectral", vmin=0, vmax=16, interpolation="nearest")
 axes[1].set_title("GT (unknown classes hidden)")
-axes[2].imshow(openset_map, cmap="nipy_spectral", vmin=0, vmax=16, interpolation="nearest")
-axes[2].set_title("Open-Set Prediction (black = unknown)")
+im = axes[2].imshow(openset_map, cmap=openset_cmap, vmin=-0.5, vmax=17.5, interpolation="nearest")
+axes[2].set_title("Open-Set Prediction (white = unknown)")
 for ax in axes:
     ax.set_xticks([]); ax.set_yticks([])
+cbar = plt.colorbar(im, ax=axes[2], fraction=0.046, pad=0.02, ticks=[0, 1, 8, 16, 17])
+cbar.ax.set_yticklabels(["bg", "1", "8", "16", "unknown"])
 plt.tight_layout()
 plt.show()"""),
 ]
