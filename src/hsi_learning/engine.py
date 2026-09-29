@@ -108,11 +108,16 @@ def fit(
     val_loader,
     device: torch.device,
     config: TrainingConfig,
+    criterion: torch.nn.Module | None = None,
 ) -> FitResult:
-    """Train a model and persist the best validation checkpoint."""
+    """Train a model and persist the best validation checkpoint.
+
+    ``criterion`` defaults to plain CrossEntropyLoss; pass a custom module
+    (e.g. class-weighted or focal loss) without touching the loop itself.
+    """
     output_dir = ensure_dir(config.output_dir)
     optimizer = torch.optim.Adam(model.parameters(), lr=config.lr, weight_decay=config.weight_decay)
-    criterion = nn.CrossEntropyLoss()
+    criterion = criterion if criterion is not None else nn.CrossEntropyLoss()
 
     history = {"train_loss": [], "train_acc": [], "val_acc": [], "val_epoch": []}
     best_checkpoint: Path | None = None

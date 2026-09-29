@@ -216,3 +216,5 @@ indian_pines_all.csv
 df_indian_pines_gt.csv
 dataset/indian_pines_all.csv
 dataset/df_indian_pines_gt.csv
+_tmp_repos/
+_tmp_*.py
