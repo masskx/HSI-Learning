@@ -39,6 +39,13 @@
 | 14 | [毕业实战：完成一篇论文 Capstone: Your First Paper](chapters/part3-research/ch14-capstone-your-first-paper.md) | 全部 | ✅ |
 | 15 | [实战补遗：五个拦路虎 Practical Essentials](chapters/part3-research/ch15-practical-essentials.md) | [train_2d_cnn.py](scripts/train_2d_cnn.py) · [generate_ch15_analysis.py](scripts/generate_ch15_analysis.py) | ✅ |
 
+### 第四部分 小样本与开集 / Part IV Few-Shot and Open-Set
+
+| 章 | 标题 | 配套实操 | 状态 |
+|---|---|---|---|
+| 16 | [小样本高光谱图像分类 Few-Shot Classification](chapters/part4-few-shot-open-set/ch16-few-shot-classification.md) | [train_protonet.py](scripts/train_protonet.py) | ✅ |
+| 17 | [开集高光谱图像分类 Open-Set Classification](chapters/part4-few-shot-open-set/ch17-open-set-classification.md) | [train_openset.py](scripts/train_openset.py) | ✅ |
+
 ## 学习路径建议 / Suggested Learning Path
 
 1. **基础篇（第 1–4 章）按顺序学**：认识数据 → 建立实验协议 → 跑通传统基线 → 掌握 patch 数据工程。

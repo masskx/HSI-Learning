@@ -50,6 +50,12 @@
 
 **课程 15 章全部完成。**
 
+## Part IV：小样本与开集分类（ch16–ch17，已完成）
+
+- ✅ ch16 小样本高光谱图像分类——原型网络 Prototypical Networks（episodic training，N-way K-shot），K-shot 曲线 1/5/10-shot（85.12/92.29/92.33%——K=5 稳定点）
+- ✅ ch17 开集高光谱图像分类——MSP 基线 + 距离阈值拒绝，AUROC 0.68 vs 0.96（嵌入距离远优于 softmax 置信度）；已知 12 类 / 未知 4 类（稀有类）
+- 📁 `chapters/part4-few-shot-open-set/`
+
 **课程 14 章全部完成。**
 
 ## 阶段 4：科研篇配套产出（已完成）
