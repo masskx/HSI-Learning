@@ -81,15 +81,15 @@ fig, ax = plt.subplots(figsize=(12, 4.5))
 bars = ax.bar(range(16), counts, color=["#eb6834" if c < 100 else "#2a78d6" for c in counts])
 ax.set_xticks(range(16), [f"{c+1}\\n{name[:12]}" for c, name in enumerate(class_names)],
               fontsize=7, rotation=45, ha="right")
-ax.set_ylabel("标注样本数")
-ax.set_title("类别分布：红色为稀有类（< 100 样本）")
+ax.set_ylabel("Sample count")
+ax.set_title("Class distribution: red bars are rare classes (< 100 samples)")
 for bar, count in zip(bars, counts):
     ax.text(bar.get_x() + bar.get_width() / 2, count + 20, str(count), ha="center", fontsize=8)
-ax.axhline(100, color="red", linestyle="--", alpha=0.5, label="100 样本线")
+ax.axhline(100, color="red", linestyle="--", alpha=0.5, label="100-sample line")
 ax.legend()
 plt.tight_layout()
 plt.show()
-print(f"最大/最小比: {max(counts)/min(counts):.0f}x")"""),
+print(f"Max/min ratio: {max(counts)/min(counts):.0f}x")"""),
 
 md("""## 2. 数据准备
 
@@ -201,11 +201,11 @@ ax.bar(x + w/2, aa_vals, w, color="#eb6834", label="AA")
 for i, (o, a) in enumerate(zip(oa_vals, aa_vals)):
     ax.text(i - w/2, o + 0.5, f"{o:.1f}", ha="center", fontsize=9)
     ax.text(i + w/2, a + 0.5, f"{a:.1f}", ha="center", fontsize=9)
-ax.set_xticks(x, ["CE", "加权 CE", "Focal γ=2"], fontsize=11)
-ax.set_ylabel("准确率 (%)")
-ax.set_ylim(0, 105)
-ax.legend(fontsize=10)
-ax.set_title("损失函数的 OA-AA 权衡")
+ax.set_xticks(x, ["CE", "weighted CE", "Focal γ=2"], fontsize=11)
+ax.set_ylabel("Accuracy (%)")
+ax.set_ylim(0, 118)
+ax.legend(fontsize=10, loc="upper center", ncol=2)
+ax.set_title("OA-AA trade-off across loss functions")
 plt.tight_layout()
 plt.show()"""),
 
@@ -218,16 +218,16 @@ sorted_names = [class_names[i] for i in sorted_idx]
 sorted_freq = [counts[i] for i in sorted_idx]
 
 fig, ax = plt.subplots(figsize=(13, 5.5))
-for loss_name, color, label in [("ce", "#898781", "CE"), ("weighted", "#2a78d6", "加权 CE"), ("focal", "#eb6834", "Focal γ=2")]:
+for loss_name, color, label in [("ce", "#898781", "CE"), ("weighted", "#2a78d6", "weighted CE"), ("focal", "#eb6834", "Focal γ=2")]:
     rec = results[loss_name]["recall"][sorted_idx] * 100
     ax.plot(range(16), rec, marker="o", markersize=5, color=color, linewidth=1.8, label=label)
 ax.set_xticks(range(16), [f"{n[:14]}\\n({f})" for n, f in zip(sorted_names, sorted_freq)],
               fontsize=7, rotation=45, ha="right")
-ax.set_ylabel("逐类召回率 (%)")
+ax.set_ylabel("Per-class recall (%)")
 ax.set_ylim(-5, 105)
 ax.axhline(100, color="gray", linewidth=0.5, linestyle=":")
 ax.legend(fontsize=10)
-ax.set_title("逐类召回率：加权 CE 对稀有类的提升一目了然")
+ax.set_title("Per-class recall: weighted CE boosts rare classes")
 plt.tight_layout()
 plt.show()"""),
 
@@ -328,7 +328,7 @@ md("""## 7. 空间分桶误差分析
 code("""fig, ax = plt.subplots(figsize=(9, 5))
 x = np.arange(3)
 w = 0.35
-buckets = [(0.0, 0.3, "边界\\n(<0.3)"), (0.3, 0.8, "过渡\\n(0.3–0.8)"), (0.8, 1.01, "内部\\n(≥0.8)")]
+buckets = [(0.0, 0.3, "Boundary\\n(<0.3)"), (0.3, 0.8, "Transition\\n(0.3-0.8)"), (0.8, 1.01, "Interior\\n(>=0.8)")]
 colors = {"ce": "#898781", "weighted": "#2a78d6"}
 
 for j, loss_name in enumerate(["ce", "weighted"]):
@@ -339,15 +339,15 @@ for j, loss_name in enumerate(["ce", "weighted"]):
         acc = (preds[mask] == y_test[mask]).mean()
         accs.append(acc)
     ax.bar(x + (j - 0.5) * w, np.array(accs) * 100, w,
-           color=colors[loss_name], label="CE" if loss_name == "ce" else "加权 CE")
+           color=colors[loss_name], label="CE" if loss_name == "ce" else "weighted CE")
     for xi, a in zip(x + (j - 0.5) * w, accs):
         ax.text(xi, a * 100 + 0.8, f"{a*100:.1f}", ha="center", fontsize=9)
 
 ax.set_xticks(x, [b[2] for b in buckets], fontsize=11)
-ax.set_ylabel("精度 (%)")
-ax.set_ylim(0, 105)
-ax.legend(fontsize=10)
-ax.set_title("空间分桶误差：边界 vs 内部（加权 CE 的改善在边界桶最明显）")
+ax.set_ylabel("Accuracy (%)")
+ax.set_ylim(0, 118)
+ax.legend(fontsize=10, loc="upper center", ncol=2)
+ax.set_title("Spatial bucketing: boundary vs interior (weighted CE helps most at boundaries)")
 plt.tight_layout()
 plt.show()"""),
 

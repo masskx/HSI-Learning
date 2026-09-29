@@ -43,10 +43,23 @@ SEQ_BLUES = [
 
 
 def apply_style() -> None:
-    """Apply the shared matplotlib style (CJK font on Windows, light surface)."""
+    """Apply the shared matplotlib style (CJK-capable font, light surface).
+
+    The font list falls back across Windows / macOS / Linux CJK fonts so the
+    Chinese figure labels render everywhere; the first available match wins,
+    so Windows rendering is unchanged.
+    """
     plt.rcParams.update(
         {
-            "font.sans-serif": ["Microsoft YaHei", "SimHei", "Arial"],
+            "font.sans-serif": [
+                "Microsoft YaHei",     # Windows
+                "SimHei",              # Windows (older)
+                "PingFang SC",         # macOS
+                "Hiragino Sans GB",    # macOS (older)
+                "Noto Sans CJK SC",    # Linux
+                "WenQuanYi Zen Hei",   # Linux (older)
+                "Arial",               # last-resort Latin fallback
+            ],
             "axes.unicode_minus": False,
             "figure.facecolor": SURFACE,
             "axes.facecolor": SURFACE,
