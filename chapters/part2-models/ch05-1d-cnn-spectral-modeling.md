@@ -68,7 +68,7 @@ PyTorch 的 `nn.Conv1d` 约定输入形状 `(N, C_in, L)`——批大小、通�
 | classifier.1 | Linear(512→128) | (1, 128) | 65,664 |
 | classifier.4 | Linear(128→16) | (1, 16) | 2,064 |
 
-用感受野公式算一个具体数：三层卷积后（两层 stride=2 的池化），每个输出位置能看到原始光谱上 $7 + (5-1)\times 2 + (3-1)\times 4 = 23$ 个波段——约 230 nm 的光谱窗口。**网络"看得见"整条红边**，这不是巧合而是设计出来的尺度匹配。
+感受野必须把池化也算进去。以 `r=1, j=1` 开始，每层递推 `r'=r+(k-1)j, j'=j*s`：Conv7 → r=7；Pool2 → r=8,j=2；Conv5 → r=16；Pool2 → r=18,j=4；Conv3 → **r=26**。这是第三层卷积位置的理论输入索引范围（尚未经过自适应池化），不是26个独立物理窄波段的保证；删带后的索引不能未经波长表核验换算成nm。
 
 ## 5.3 网络设计范式：SpectralCNN1D 逐块解读
 
@@ -140,8 +140,8 @@ PyTorch 的 `nn.Conv1d` 约定输入形状 `(N, C_in, L)`——批大小、通�
 
 ## 本章要点 / Key Takeaways
 
-- 中文：Conv1d = 局部连接 + 参数共享的滑动滤波器，天然匹配"光谱特征局部且位置无关"；三层卷积后感受野约 23 波段（~230 nm），与红边尺度匹配；训练诊断看三处——best epoch 压边（训练不足）、train/val 岔开（过拟合）、loss 不降（学习率）；本章 61.10% → 75.27% 的提升全部来自"把训练做完整"，但训练充分后仍输同协议 SVM 5.4 个点——深度模型不自动更强，瓶颈在输入信息而非函数族；空间上下文是下一步。
-- English: Conv1d is a sliding filter with local connectivity and weight sharing — a natural fit for spectra whose features are local and location-independent; three stacked convs reach a ~23-band receptive field, matching the red-edge scale. Read training curves for three signals: best epoch pinned at the end (undertrained), train/val divergence (overfitting), flat loss (learning rate). Our 61.10% → 75.27% gain came purely from finishing the training — yet the model still trails the same-protocol SVM by 5.4 points: deep models are not automatically better, and the bottleneck is input information, not the function family. Spatial context is next.
+- 中文：Conv1d 沿输入序列作局部、共享权重的特征提取。本实现第三层卷积后的理论感受野为26个输入索引位置，计算必须包含两层池化；没有波长映射不能换算为nm。验证曲线与损失用于提出训练诊断假设，best epoch靠后本身不证明未收敛或一定还能提升。历史15/60轮对照说明该次运行对训练预算敏感，但不足以证明SVM达到信息上限或所有1D CNN不如SVM。
+- English: Conv1d provides local weight sharing along the input sequence. Including both pooling layers gives a receptive field of 26 input positions after the third convolution; this is not a wavelength interval without metadata. Learning curves motivate diagnostic hypotheses, not guaranteed improvements. The historical budget comparison is a setting-specific observation, not proof of a universal SVM advantage or an information ceiling.
 
 ## 自测题 / Self-check
 
@@ -154,9 +154,9 @@ PyTorch 的 `nn.Conv1d` 约定输入形状 `(N, C_in, L)`——批大小、通�
 <summary><strong>参考答案（先自己回答再看）</strong></summary>
 
 1. `Conv1d` 沿最后一维 L 做滑动窗口。`(N, 1, 200)`：1 个通道、200 个光谱位置，核沿波段滑——正确。`(N, 200, 1)`：200 个"通道"、长度 1，核没有可滑动的空间（k>1 的核直接无处安放），网络退化成逐通道的全连接——最常见的初学者形状错位。判别方法：**卷积核滑动的轴 = 你希望提取局部特征的轴**。
-2. 感受野 = 7 + (5−1)×2 + (3−1)×4 = 23。逐层：第一层 k=7 → 7；一次 MaxPool(2) 后，第二层 k=5 在减半序列上等效跨 10 → 感受野 7 + 4×2 = 15；再一次池化后第三层 k=3 等效跨 12 → 15 + 2×4 = 23。约 230 nm 窗口，恰好覆盖红边（~700 nm 处约 30–50 nm 宽的陡坡）加两侧基线。
-3. 三条证据（loss 仍在降、val_acc 仍在升、best=最后 epoch）指向**训练不足**而非过拟合（train/val 贴合）。下一步：加大 epochs 重跑（本章 15→60，OA +14.2）；若加到 60 后 best 仍压边（55/60 略压边），继续加或提高学习率；同时观察 train/val 是否开始岔开——一旦岔开就转入过拟合对策（Dropout、weight decay、早停）。
-4. 1024 个样本、76,880 参数的非凸优化 vs 1024 样本上近凸的核方法：小数据 + 纯光谱信息下，SVM 的解更接近该信息量下的上限；神经网络的表达力优势需要更多信息（空间上下文）才有用武之地。读论文时的提示：当一篇 DL 论文在"输入与基线相同信息、样本量小"的设定下只赢零点几个点，要怀疑增益来自调参而非范式；真正有说服力的对比是把新信息源（空间/时序）加入后的增益分解（这正是第 12 章消融实验的思维方式）。
+2. 第三层卷积的理论感受野是26个输入索引位置：Conv7(7) → Pool2(8,j=2) → Conv5(16) → Pool2(18,j=4) → Conv3(26)。两个池化各自扩大覆盖范围，不能只乘其stride而漏掉其核宽。缺少删带后的波长元数据时，不把这个范围换算成nm，也不能由此声称与红边的物理尺度匹配。
+3. 最优验证轮次靠近预算末端是检查预算、优化器和曲线趋势的理由，不是训练不足的充分证明。预先固定延长预算的方案，仍用验证集选模型；不要因测试成绩不满意不断追加轮次。train/val差距也可能受Dropout、BatchNorm和统计口径影响，应在一致评估模式下分析。
+4. 本次配置下SVM测试分数较高，但原因可能涉及优化、正则、网络宽度、训练预算和数据规模，不能据此认定已达信息上限。比较方法应对齐协议并检查多次运行；加入空间信息还需控制patch、预处理等变量，不能将所有增益归因于单一因素。
 </details>
 
 ## 延伸阅读 / Further Reading

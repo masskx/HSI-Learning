@@ -1,0 +1,5 @@
+# Local slide generation only; no cloud API or upload.
+python-pptx>=1.0,<2
+Pillow>=10
+# Optional PDF rasterization for LibreOffice/PowerPoint-rendered previews:
+PyMuPDF>=1.24,<2

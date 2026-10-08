@@ -167,32 +167,11 @@ def fig_gradcam(model, patches: np.ndarray, y_test: np.ndarray, gt: np.ndarray, 
 
         # Grad-CAM: gradient of predicted class logit w.r.t. last conv output
         x = torch.from_numpy(patch).permute(2, 0, 1).unsqueeze(0)  # (1, 12, 9, 9)
-        x.requires_grad_(True)
-        feat_out = model.features(x)                               # (1, 128, 1, 1)
-        logits = model.classifier(feat_out.flatten(1))
-        pred_cls = logits.argmax(dim=1).item()
-
-        # hook the last conv layer (index 6 = Conv2d 64→128) for CAM
-        cams = {}
-        def hook(name):
-            def fn(mod, inp, out):
-                cams[name] = out.detach()
-            return fn
-        h = model.features[6].register_forward_hook(hook("last_conv"))
-        with torch.no_grad():
-            _ = model.features(x.detach())
-        h.remove()
-        fmap = cams["last_conv"]  # (1, 128, 5, 5) — before AdaptiveAvgPool
-
-        # simple channel-mean CAM proxy (true Grad-CAM needs spatial gradients)
-        cam = fmap[0].mean(dim=0).numpy()  # (5, 5)
-        cam = np.maximum(cam, 0)
-        if cam.max() > 0:
-            cam = cam / cam.max()
-
-        # upsample to 9x9
-        from scipy.ndimage import zoom
-        cam_up = zoom(cam, 9 / 5, order=1)[:9, :9]
+        from hsi_learning.teaching import grad_cam
+        # Select the actual last convolution (index 7), not the preceding ReLU.
+        cam_tensor, logits = grad_cam(model, model.features[7], x)
+        pred_cls = int(logits.argmax(dim=1).item())
+        cam_up = cam_tensor[0].cpu().numpy()
 
         # display: patch PCA-0 grayscale + CAM overlay
         disp = patch[:, :, 0]

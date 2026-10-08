@@ -1,0 +1,14 @@
+{
+  "status": "pending-execution",
+  "description": "Lecture bundle manifest. No verified weights are published by this file.",
+  "prepare_command": "python scripts/prepare_teaching_artifacts.py",
+  "verify_command": "python scripts/check_teaching_ready.py",
+  "bundles": [
+    {"name": "classifier-ce", "path": "results/teaching_ready/classifier-ce", "status": "pending"},
+    {"name": "classifier-weighted", "path": "results/teaching_ready/classifier-weighted", "status": "pending"},
+    {"name": "protonet", "path": "results/teaching_ready/protonet", "status": "pending"},
+    {"name": "openset", "path": "results/teaching_ready/openset", "status": "pending"}
+  ],
+  "bundle_files": ["model.pth", "preprocessing.npz", "split.npz", "run_config.json", "history.json", "metrics.json", "hashes.json"],
+  "provenance": "Per-run configuration records source hashes, dataset hashes, environment and protocol. Run-local hashes.json validates files. Binary upload is not authorized by preparation."
+}

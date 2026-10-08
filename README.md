@@ -3,7 +3,16 @@
 > A chapter-by-chapter course on hyperspectral image (HSI) classification — from data fundamentals to publishing your first paper.
 > 一门分章节讲解的高光谱图像分类课程：从数据基础到独立撰写和发表论文。
 
-本仓库面向高光谱图像分类学习者，按「基础篇 → 模型篇 → 科研篇」三个部分分章节组织：每一章是独立的 markdown 讲解，配套可运行的 notebook 与工程化代码，最终以「毕业实战：完成一篇论文」收尾。
+本仓库面向高光谱图像分类学习者，包含四部分、17章。推荐学习主线为「数据与闭集基础 → 经典模型 → 小样本 → 开集 → 科研方法与写作」。通过经典方法、关键推导、真实代码与可检验实验学习研究，而不是追求单次最高分或保证论文发表。
+
+## 录课入口 / Lecture Preparation
+
+- [视频课程导航与11个问题驱动单元](docs/teaching/course-map.md)
+- [新手启动指南](docs/getting-started.md)
+- [国庆录制安排](docs/teaching/recording-schedule.md) · [录制验收清单](docs/teaching/recording-checklist.md)
+- [方法来源审计](docs/teaching/source-audit.md) · [教学纠错记录](docs/teaching/errata.md)
+
+**录课状态与旧章节状态分开记录。** 下面的历史 ✅ 不代表本轮已经完成来源复核、修正版执行与试录。修正版演示须通过测试/资产核验/图像检查后再发布；历史实验不作为新实现的执行证据。
 
 ## 课程目录 / Course Outline
 
@@ -81,9 +90,10 @@ HSI-Learning/
 ├─ chapters/                  # 分章课程讲解（本仓库主线）
 │  ├─ part1-foundations/      # 第 1–4 章 基础篇
 │  ├─ part2-models/           # 第 5–10 章 模型篇
-│  ├─ part3-research/         # 第 11–14 章 科研篇
+│  ├─ part3-research/         # 第 11–15 章 科研与实战补遗
+│  ├─ part4-few-shot-open-set/ # 第 16–17 章 小样本与开集
 │  └─ assets/                 # 章节插图
-├─ dataset/                   # Indian Pines 数据与说明
+├─ dataset/                   # Indian Pines / Salinas / PaviaU 数据与说明
 ├─ notebooks/                 # 章节配套的实操 notebook
 ├─ scripts/                   # 脚本化训练与数据处理入口
 ├─ src/hsi_learning/          # 可复用代码模块

@@ -55,7 +55,7 @@
 
 - **token 化**：标准化光谱 `(N, 200)` → `unsqueeze(-1)` → 每个 band 的标量经 `Linear(1→64)` 投影成 64 维 token `(N, 200, 64)`。光谱值本身只有一维信息量，投影层负责把它"撑开"到可交互的维度；
 - **位置编码**：`nn.Parameter(randn(1, 200, 64) * 0.02)`——可学习的位置嵌入。attention 对顺序完全无感，波段序号（即物理波长顺序）全靠它注入；
-- **编码器**：`nn.TransformerEncoder`，2 层 × 4 头，`d_model=64`，FFN 128，GELU，Pre-LN 结构（PyTorch 现代实现）；
+- **编码器**：`nn.TransformerEncoder`，2 层 × 4 头，`d_model=64`，FFN 128，GELU，Post-LN 结构（本代码未设置 `norm_first=True`，默认 `norm_first=False`）；
 - **池化与头**：200 个 token 取**均值池化** → LayerNorm → FC(64→64→16)。
 
 **表 10-1**　模型规模与代价（`scripts/generate_ch10_figures.py` 实测；协议 C，输入 `(1, 200)`）
@@ -151,4 +151,4 @@ MACs 明细可以手算验证：每层 attention 的 QK^T 与 attn@V 各贡献 $
 - Hong, D., et al., "SpectralFormer: Rethinking hyperspectral image classification with transformers," *IEEE TGRS*, 2022.——HSI Transformer 的代表工作（group-wise attention），10.4 前沿线索 1 的第一篇精读对象。
 - Vaswani, A., et al., "Attention is all you need," *NeurIPS*, 2017.——Transformer 原始论文。
 - SS-Mamba、SpectralGPT/SpectroFM 等基础模型工作（10.4 线索 2/3 的入口文献；该方向更新极快，检索关键词 `SS-Mamba hyperspectral` / `hyperspectral foundation model`，以 arXiv 最新版本为准）。
-- PyTorch 文档：`nn.TransformerEncoderLayer`（Pre-LN 细节、fast path 的触发条件）、`nn.MultiheadAttention` 的 `in_proj_weight`（图 10-1 的实现基础）。
+- PyTorch 文档：`nn.TransformerEncoderLayer`（`norm_first=False`为默认Post-LN，本课程未启用Pre-LN；注意fast path条件）、`nn.MultiheadAttention` 的 `in_proj_weight`（图10-1的实现基础）。

@@ -1,0 +1,16 @@
+[
+  {
+    "kind": "course-notebook-output",
+    "notebook": "00_environment_check.ipynb",
+    "cell_id": "dataset",
+    "sha256": "ce2f8ec30d76edb148d07636d8f8b81ac8d8c951e7e5e11b2c3348d658301b3c",
+    "license": "Course-generated figure; underlying dataset conditions still apply",
+    "path": "assets\\generated\\00_environment_check-dataset-0-ce2f8ec30d.png",
+    "uses": [
+      {
+        "lesson": "L01",
+        "slide": 3
+      }
+    ]
+  }
+]

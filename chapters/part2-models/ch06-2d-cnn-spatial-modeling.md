@@ -29,7 +29,7 @@
 - 输出尺寸：$H_{out} = H + 2p - k + 1$（每维独立）；
 - 感受野叠加：与 5.2 节同一条公式，二维独立地作用于 H、W 两轴。
 
-本章模型（SpectralSpatialCNN2D）的完整形状流见表 6-1。一个值得停下来算的数：三层 3×3 卷积夹一层 stride-2 池化后，感受野 = $3 + 2\times2 + 2\times2 = 11$——**在 9×9 的 patch 上，第三层卷积的 11×11 感受野已经超过 patch 本身**（图 6-1 右）。这意味着两点：网络容量刚好"看全"整个邻域，再堆卷积层只会空转；空间信息被充分聚合后，`AdaptiveAvgPool2d((1,1))` 顺理成章地接管收尾。
+本章实际结构是 Conv3 → Pool2(stride2) → Conv3 → Conv3。按 `r'=r+(k-1)j, j'=j*s` 计算，各阶段感受野为 **3→4→8→12**，第三层卷积后为12×12，而非漏掉池化核后的11×11。9×9输入的部分理论覆盖会落在padding区域；覆盖超过输入不代表所有位置都获得相同有效信息，也不意味着继续堆层只会空转。自适应池化选择如何汇总特征，是另一个结构决策。
 
 ![图 6-1 2D CNN 的输入与感受野](../assets/ch06-patch-and-receptive-field.png)
 
@@ -107,7 +107,7 @@
 
 ### 2D 视角的代价
 
-对照实验的另一半是 2D CNN 丢了什么：PCA-12 压掉了 88% 的光谱方差（第 3 章）；patch 内所有位置对卷积**一视同仁**——中心像元（判别目标）与边缘像元（纯上下文）没有地位差别，中心信息可能被邻域稀释。这两个缺口分别指向后续两章：光谱维的精细建模（第 7 章 3D 卷积把光谱留进核里）与"目标-上下文"的地位不对称（第 8 章起混合结构的动机之一）。
+对照实验的另一半是 2D CNN 丢了什么：PCA-12 减少的是光谱表示的维数，不是“丢掉88%的方差”；保留方差比例必须从拟合对象的 `explained_variance_ratio_` 计算。patch 内所有位置对卷积**一视同仁**——中心像元（判别目标）与边缘像元（纯上下文）没有地位差别，中心信息可能被邻域稀释。这两个缺口分别指向后续两章：光谱维的精细建模（第 7 章 3D 卷积把光谱留进核里）与"目标-上下文"的地位不对称（第 8 章起混合结构的动机之一）。
 
 ---
 
@@ -122,8 +122,8 @@
 
 ## 本章要点 / Key Takeaways
 
-- 中文：2D CNN 把 PCA 压缩后的光谱维变成通道数，卷积只在空间维滑动；三层 3×3 卷积的感受野（11×11）已覆盖 9×9 patch，参数大头在最宽的卷积层（70%）；空间上下文是高光谱最大的单一增益来源（逐类召回全面修复），但随机划分下每个测试 patch 平均含 ~8 个训练邻居（重叠 60–89%），95.83% 里混着无法在协议内分离的泄漏水分——OA 爆表时更要看 AA（87.04%）与混淆矩阵；Oats 0→0 提醒：上下文救不了训练样本不存在的小类。
-- English: A 2D CNN turns PCA-compressed spectra into channels and slides kernels only over space; the 11×11 receptive field of three 3×3 convs already covers a 9×9 patch, and the widest layer holds 70% of the parameters. Spatial context is the single largest gain in hyperspectral deep learning — but under random splits each test patch contains ~8 training neighbors (60–89% overlap), so the 95.83% OA mixes in leakage that cannot be separated within the protocol; when OA explodes, check AA (87.04%) and the confusion matrix. Oats at 0→0 is the reminder: context cannot rescue classes whose training samples barely exist.
+- 中文：普通2D卷积在空间滑动并聚合全部输入通道；本实现含一次池化，第三层卷积后理论感受野为12×12。PCA维数和保留方差比例不同。随机同场景patch存在观测重叠，指标适用域要写清；单次逐类改善或失败不能只归因于空间上下文、patch大小或某个模型家族。
+- English: A standard 2D convolution mixes all input channels while sliding over space. Including the pooling kernel gives a 12×12 theoretical receptive field after the third convolution. PCA dimensionality is not retained variance. Same-scene random patch experiments share observations; their results do not isolate the causal effect of spatial context or architecture.
 
 ## 自测题 / Self-check
 
@@ -137,8 +137,8 @@
 
 1. $32 \times (12 \times 3 \times 3 + 1) = 3{,}488$。核的权重张量是 $C_{out} \times C_{in} \times k_h \times k_w$：1D 核每次聚合 $k$ 个光谱位置（7 个），2D 核每次聚合 $k_h \times k_w = 9$ 个空间位置再乘上全部输入通道——"贵"在卷积核同时跨越通道与二维空间。
 2. 成本结构不同。2D 的输入是 $k^2$ 倍放大的 patch：原始 200 波段下 9×9 patch 是 16,200 维，第一层卷积就要为"光谱聚合"付出 32×(200×9)≈5.8 万参数，且计算按 $C_{in}$ 线性放大；1D 没有空间放大，200 维本身就是完整输入。本质上：**patch 范式放大了光谱维的成本，PCA 是把这份成本打回原形的手段**。
-3. $3 + 2\times2 + 2\times2 = 11$（二维各轴独立同值）。11 > 9：第三层的任何输出位置都能看到整个 patch——空间信息已充分聚合，继续堆 3×3 卷积不会带来新的空间范围，只会堆参数；设计上应转向通道混合（1×1 卷积）或直接池化收尾。
-4. 重叠率区间 49/81 ≈ 60%（对角距离 (2,2) 的邻居）到 72/81 ≈ 89%（距离 (0,1) 的近邻）；10% 训练率下 81 个位置平均有 ~8 个训练像元。定量分离：改为**空间不相交划分**——按空间块（象限/条带）切分训练与测试，保证两侧 patch 无任何像元重叠；同时报告两种口径的数字，差值即泄漏贡献的估计。注意先核查测试块内的类别完整性（稀有类可能整块缺失，需要换块或合并小块）。
+3. 每轴感受野按Conv3→Pool2→Conv3→Conv3得到3→4→8→12；第三卷积位置理论覆盖为12×12。其超出9×9输入的部分对应padding，边界与中心的有效观测范围不同。不能仅凭理论RF超过patch就断定深层无用：非线性、通道组合和优化也影响表达。
+4. 相邻9×9窗口的共享比例可按位移手算，例如横移1像元为72/81、对角位移(2,2)为49/81；这不是所有测试点的平均重叠率。空间划分应增加按patch半径设计的缓冲区并检查类别覆盖。随机与空间划分同时改变分布、样本数和任务难度，所以精度差不能直接称“净泄漏贡献”。
 </details>
 
 ## 延伸阅读 / Further Reading

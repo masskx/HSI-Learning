@@ -1,154 +1,73 @@
-# 第 16 章 小样本高光谱图像分类
+# 第16章 小样本高光谱分类 / Few-Shot HSI Classification
 
-> **Few-Shot Hyperspectral Image Classification**
+状态：正文纠错完成；修正版算法、Notebook和实验输出待执行验收。历史输出不可作为新协议成绩。
 
-状态：✅ 已完成
+## 16.1 先说明“少”的是什么
 
----
+5-way 5-shot 指**一个任务的支持集**有5类、每类5个标签，不是整个encoder仅训练过25个标注样本。meta-training 使用多少标签、是否预训练、测试类是否见过，必须另外报告。
 
-## 本章定位
+- **same-class 少标注**：训练/验证/测试为同一组类的不同像元，研究同类分类的标注效率。
+- **class-disjoint few-shot**：meta-train、meta-val、meta-test 类别不交，验证与测试任务各自提供support，再分类query。
+- **同场景局限**：类别不交只保证监督类别不交，空间patch可能包含别类无标签观测；不等于跨场景/空间独立泛化。
 
-Part IV 开篇：从"闭集全监督"跨入"标注稀缺"的真实场景。前 15 章假设你有 10–30% 的标注样本（1024–3075 个），本章问一个更尖锐的问题：**如果每个类别只有 5 个标注样本呢？** 答案是原型网络（Prototypical Networks, Snell et al. NeurIPS 2017）——HSI 领域引用最多的 few-shot 方法，核心思想简单到一行公式，但打开了元学习（meta-learning）的大门。
+本轮主示范使用显式IP类划分：train={2,3,5,6,10,11}，val={1,4,7,8,9}，test={12,13,14,15,16}。它是教学协议，不代表原论文基准。每类须有足够的互不重复support/query。固定候选类集合，不能在K变大时悄悄删掉难类。
 
-## 学习目标 / Learning Objectives
+## 16.2 原型网络的核心
 
-- 理解从"全监督"到"少样本"的设定变化：N-way K-shot 是什么、为什么需要它
-- 掌握 episodic training 的采样逻辑（每轮一个"迷你任务"而非一个 batch）
-- 会实现原型网络：支持集 → 原型 → 距离分类 → 损失
-- 理解"学一个好的嵌入空间"与"学一个分类器"的本质区别
+支持集嵌入的类均值为原型：
 
----
+$$c_k=\frac{1}{|S_k|}\sum_{(x,y)\in S_k}f_\theta(x).$$
 
-## 16.1 问题设定：从 10% 到 5-shot
+采用平方欧氏距离得到logits与概率：
 
-前 15 章的实验协议中，10% 训练率对应 1025 个标注样本（16 类平均每类 64 个）。本章把条件收紧到极端：
+$$z_k(x)=-\|f_\theta(x)-c_k\|_2^2,\quad p(y=k|x)=\mathrm{softmax}(z(x))_k.$$
 
-> **5-way 5-shot**：每个 episode 随机抽 5 个类，每类只给 5 个标注样本 → 总共 **25 个标注样本**。
+二维例：原型(1,0)、(9,0)，query=(4,0)，logits=(-9,-25)。分类不需要额外固定C类Linear头；新类支持集可以构造新原型，但其可泛化性需要未见类测试验证。
 
-这比第 2 章 Oats 类的总量（20 个）还多不了多少。物理背景是真实的：HSI 的像元标注需要实地调查或高分辨率影像交叉验证，稀有地物的标注成本极高。
+“只用标准batch就不可能学可迁移嵌入”是不成立的；监督预训练也是重要few-shot baseline。Episodic training的价值是让训练任务形式接近部署任务，并非唯一途径。
 
-| 设定 | 标注量 | 训练方式 |
-|---|---|---|
-| 全监督（ch05–10） | 8199–3074 个 | 标准 mini-batch SGD |
-| 小样本本章 | **25 个**（5-way 5-shot） | **Episodic training** |
+## 16.3 Episodic training 的完整步骤
 
-训练方式的切换是本章的核心：标准 SGD 的每个 batch 混合所有类，模型学的是"这 16 类的决策边界"；episodic training 的每个 episode 只含 N 个类的 K 个样本，模型学的是"**如何从极少的样本中快速学会区分类别**"——这是一种元能力（learning to learn）。
+1. 从meta-training候选类抽N类，每类K+Q个不同像元。
+2. 前K个为support，其余为query；把全局类ID映射成episode局部标签0…N−1。
+3. encoder产生嵌入，support建原型，query算损失。
+4. 反向传播只更新encoder；独立meta-validation任务选择checkpoint。
+5. 冻结encoder，在meta-test任务评估；query标签只计算最终指标。
 
-## 16.2 半监督自训练速览
+代码：`src/hsi_learning/teaching.py` 的 `EpisodeSampler`、`prototype_logits`；训练入口 `scripts/train_protonet.py`。采样器不足N类时抛错，不静默缩小N-way。三个随机流独立，改变验证频次不能改变训练episode。
 
-在进入原型网络之前，先看一个更朴素的利用稀缺标注的思路：**自训练（self-training）**。
+BatchNorm采用明确的推理统计策略，不用测试query批量更新统计。PCA/scaler只fit meta-training中心像元。数据预处理、类清单、episode像元位置随模型保存。
 
-```
-1. 用 10% 标注样本训练模型 M₀（第 6 章的方法）
-2. 用 M₀ 预测剩余 90% 未标注样本 → 伪标签
-3. 只保留置信度 > 0.95 的伪标签样本
-4. 用 标注 + 伪标注 重新训练 → M₁
-5. 可迭代 K 轮
-```
+## 16.4 K-shot 对照与地图
 
-这个方法的缺陷也是显而易见的：如果 M₀ 在某个区域系统性错误，伪标签会**放大**错误（confirmation bias）。改进方向包括 Mean Teacher（一致性正则化）、MixMatch 等——但它们的本质都是**从"无标注数据的分布"中提取监督信号**。
+用**同一冻结encoder**，固定类池与query任务，比较1/5/10-shot。支持集增加通常使均值估计更稳定，但不是每个任务必定提高；相关样本、类内多模态和异常值都可能破坏单调性。
 
-原型网络走的是另一条路：不用无标注数据，而是**改变"从少量标注样本学习"的方式本身**。
+Notebook显示support/query位置、二维手算、真实嵌入分类与任务精度分布。全图演示只使用当前episode的原型，所有像元被强制分配到可用的五类；GT仅用于显示/诊断。它不是16类OA，也不是额外的未见类成绩。
 
-## 16.3 原型网络原理
+旧表85.12/92.29/92.33来自同类像元划分、分别训练的K设置及反复test监控，**保留历史记录但撤回“25标签达到92%、K=5已稳定”的科研结论**。修正版结果在执行后另存，不预填数字。
 
-### 核心思想（一行公式）
+## 实操与研究写作
 
-$$c_k = \frac{1}{|S_k|} \sum_{(x_i, y_i) \in S_k} f_\theta(x_i), \qquad p_\phi(y = k \mid x) = \frac{\exp(-d(f_\theta(x), c_k))}{\sum_{k'} \exp(-d(f_\theta(x), c_{k'}))}$$
-
-翻译成人话：**每个类的原型 = 该类支持集样本在嵌入空间中的均值；查询样本的分类 = 看它离哪个原型最近**。
-
-### Episodic Training
-
-每个训练 step 的流程：
-
-```
-1. 从训练集随机抽 N 个类（如 5 类）
-2. 每类抽 K 个样本作为支持集 S（如 5-shot → 25 个）
-3. 每类抽 Q 个样本作为查询集 Q（如 15 → 75 个）
-4. 将 S 和 Q 的所有样本通过 encoder f_θ 得到嵌入向量
-5. 对每个类：原型 c_k = 该类支持集嵌入的均值
-6. 对每个查询样本：计算到 N 个原型的距离 → softmax → N 类概率
-7. 用查询样本的真实标签计算交叉熵损失 → 反向传播
+```bash
+python scripts/train_protonet.py --episodes 200 --eval-episodes 30
+python scripts/train_protonet.py --mode same-class --output-dir results/teaching_sameclass
 ```
 
-**关键洞察**：模型不再直接学"16 类的决策边界"，而是学一个**好的嵌入空间**——在这个空间里，同一类的样本靠近，不同类的远离。这种能力可以泛化到训练时从未见过的类（只要给几个样本就能算原型）。
+讲课卡：[L08](../../docs/teaching/lessons/08-few-shot.md)。写作必须交代元训练标签预算、类划分、K/Q/N、重复采样依赖、预处理拟合范围、空间重叠、checkpoint选择与seed。
 
-### 与全监督的对照
+## 自测与答案
 
-| | 全监督（ch06） | 原型网络（本章） |
-|---|---|---|
-| 学什么 | N 类的决策边界 | 好的嵌入空间 + 距离度量 |
-| 训练单元 | mini-batch（混所有类） | episode（每轮 N 类） |
-| 分类方式 | Linear 层 → softmax | 到原型的距离 → softmax |
-| 新类适应 | 需要重新训练 | 算新类的原型即可 |
+1. 5-way 5-shot是否只有25个训练标签？不是，只是当前任务support；encoder训练预算另计。
+2. 给query样本加入support会怎样？造成评估泄漏，即使没有梯度更新。
+3. K变大为何不一定更好？原型估计受样本代表性影响，独立同分布假设不总成立。
+4. 原型网络和闭集精度能直接比较吗？必须相同类集合/测试任务/标签预算，不能比较不同难度任务的裸数。
 
-## 16.4 实现与运行
+## Key Takeaways
 
-`scripts/train_protonet.py` 的核心组件：
+少样本教学的核心是**任务与标签预算清楚，support/query严格分开，原型计算可手算与可验证**。
 
-- **`EpisodicSampler`**：从训练集按类采样 episode（确保每类有 ≥ K+Q 个样本）
-- **`prototypical_loss()`**：原型计算 + 负欧氏距离 + softmax + NLL
-- **encoder**：复用 `SpectralSpatialCNN2D.features`（128 维嵌入），去掉分类头
+Few-shot claims require explicit annotation budgets and class splits. Prototype means and squared distances are simple; trustworthy evaluation is the essential part.
 
-```python
-# 核心三行（完整实现见 scripts/train_protonet.py）
-prototypes = torch.stack([support_emb[support_y == c].mean(dim=0) for c in range(n_way)])
-distances = torch.cdist(query_emb, prototypes)          # (M, n_way)
-loss = F.nll_loss(F.log_softmax(-distances, dim=1), query_y)  # 越近越好
-```
+## 来源
 
-> **注意**：距离取负后做 softmax——越近的距离给出越高的概率。这等价于使用负欧氏距离作为 logits。
-
-### 实验结果
-
-**表 16-1**　原型网络 K-shot 曲线（5-way，IP，500 episodes 训练 + 200 episodes 评估）
-
-| K-shot | 支持集总量 | 5-way 精度 |
-|---|---:|---:|
-| 1-shot | 5 | 85.12% |
-| **5-shot** | **25** | **92.29%** |
-| 10-shot | 50 | 92.33% |
-
-![图 16-1 K-shot 曲线](../assets/ch16-kshot-curve.png)
-
-**图 16-1**　K-shot 曲线呈现经典的**边际递减**形态：1→5-shot 大幅提升（+7.2 个点，原型估计从单样本均值稳定为 5 样本均值），5→10-shot 几乎持平（+0.04，原型已稳定）。**K=5 是本模型/数据集的稳定点**——更多的支持样本不再改善原型质量。
-
-### 与全监督的对照
-
-5-way 5-shot 的 92.29% 看起来很高，但要注意评估方式完全不同：传统 OA 是对全部 8200 个测试样本（16 类）的整体精度，而 5-way 5-shot 是 5 类 × 15 查询 × 200 episodes 的平均精度——**任务难度和度量单位都不同，两者不可直接比较**。原型网络的价值不在于绝对精度，而在于**用 25 个标注样本达到 92% 的 5 类区分能力**。
-
----
-
-## 配套实操 / Hands-on
-
-- `scripts/train_protonet.py` —— 本章核心实现：
-  - `--k-shot 1 / 5 / 10` → K-shot 曲线
-  - `--n-way 3 / 5 / 10` → N-way 难度
-  - `--episodes 100 / 500 / 1000` → 训练预算
-- 练习：实现 self-training（伪标签 + 置信度阈值）——约 20 行代码，与原型网络对比
-
-## 本章要点 / Key Takeaways
-
-- 中文：小样本设定的核心变化不是"数据少了"而是"学习目标从决策边界变成嵌入空间"；原型网络用"类均值原型 + 欧氏距离"完成了这个转换，episodic training 是其训练范式；模型的元能力（从 K 个样本学会区分类别）比绝对精度更有价值。
-- English: Few-shot learning changes the objective from learning a decision boundary to learning an embedding space; Prototypical Networks achieve this with class-mean prototypes and Euclidean distance, trained episodically. The meta-ability — distinguishing classes from K examples — matters more than absolute accuracy.
-
-## 自测题 / Self-check
-
-1. 为什么 episodic training 不用标准 mini-batch（混所有类）？如果用了会发生什么？
-2. 原型网络的新类适应为什么不需要重新训练？给出操作步骤。
-3. 1-shot 和 5-shot 的本质区别是什么（不要只说"样本多了"）？
-
-<details>
-<summary><strong>参考答案</strong></summary>
-
-1. 标准 batch 混所有类 → 模型学的是"固定 C 类的决策边界"（classifier 权重绑定 C）。Episodic 训练每轮随机抽 N 类，迫使模型学习"从任何 N 个类、K 个样本中快速区分类别"的**元能力**——如果用标准 batch，模型会退化为普通的分类器训练，失去 few-shot 泛化能力。
-2. 对每个新类：采集 ≥1 个标注样本 → 通过 encoder 得到嵌入 → 算均值作为原型 → 查询样本按最近原型分类。全程无需梯度更新——嵌入空间是可迁移的。
-3. 1-shot 的原型 = 单个样本的嵌入（方差极大，不稳定）；5-shot 的原型 = 5 个样本的均值（方差缩小 √5 ≈ 2.24 倍，更稳定）。**K 的本质是原型估计的置信度**，不只是"多了几个样本"。
-</details>
-
-## 延伸阅读 / Further Reading
-
-- Snell, J., Swersky, K., Zemel, R., "Prototypical networks for few-shot learning," *NeurIPS*, 2017.
-- Finn, C., et al., "Model-agnostic meta-learning for fast adaptation of deep networks," *ICML*, 2017.（MAML，原理-level 理解即可）
-- Vinyals, O., et al., "Matching networks for one shot learning," *NeurIPS*, 2016.（episodic training 的起源）
+[Snell et al., Prototypical Networks, NeurIPS 2017](https://arxiv.org/abs/1703.05175)；[Vinyals et al., Matching Networks](https://arxiv.org/abs/1606.04080)。来源访问/核验状态见 [source-audit](../../docs/teaching/source-audit.md)。

@@ -1,5 +1,18 @@
 # 当前代码概览
 
+## 录课准备入口（本轮新实现，执行验收待完成）
+
+- [视频导航](teaching/course-map.md)：11个问题驱动单元、章节/notebook对应和讲课卡。
+- [新手指南](getting-started.md) 与 [第0课](../notebooks/00_environment_check.ipynb)。
+- [teaching.py](../src/hsi_learning/teaching.py)：独立episode采样、平方距离原型、验证阈值、真实Grad-CAM。
+- [teaching_runs.py](../src/hsi_learning/teaching_runs.py)：修正协议运行、可恢复预处理与模型包。
+- [teaching_plots.py](../src/hsi_learning/teaching_plots.py)：support/query、未知白色map、误拒/漏检图。
+- [prepare_recording.py](../scripts/prepare_recording.py)：串行测试、冒烟、资产、notebook、验收；失败停止且留日志。
+- [build_lecture_notebooks.py](../scripts/build_lecture_notebooks.py)：00/15/16/17的唯一生成源，稳定cell ID，成功执行才替换原文件。
+- [check_teaching_ready.py](../scripts/check_teaching_ready.py)：自动检查报告，不替代图像目检和试录。
+
+旧 `add_map_cells.py` / `patch_openset_white.py` 已停用，防止重复插入与测试阈值回流。历史 notebook 在新执行成功前仍保留旧输出，是否能录请查看 [交付状态](teaching/delivery-status.md)。
+
 这个仓库目前由四部分组成：分章课程讲解、教学 notebook、脚本入口、可复用源码模块。
 
 ## 1. 分章课程讲解

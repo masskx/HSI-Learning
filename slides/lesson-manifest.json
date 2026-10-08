@@ -1,0 +1,1006 @@
+{
+  "design": {
+    "system": "slides/src/deck_design.py",
+    "engine": "python-pptx",
+    "fonts": {
+      "cjk": "Microsoft YaHei (latin+ea set per run)",
+      "code": "Consolas"
+    },
+    "formulas": "matplotlib mathtext -> transparent PNG, LaTeX source in course_content.py",
+    "motif": "hyperspectral gradient strip; no footers, no page numbers",
+    "replaces": "ppt-generator-skill v1 shell (withdrawn after visual review)"
+  },
+  "decks": [
+    {
+      "id": "L00",
+      "title": "先验证环境，再相信结果",
+      "path": "decks\\L00-environment.pptx",
+      "slides": 13,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "先验证环境，再相信结果"
+        },
+        {
+          "type": "objectives",
+          "title": "本课交付"
+        },
+        {
+          "type": "theory",
+          "title": "pip 安装成功，为什么仍然 import 失败？",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "一次成功，分四层验证",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "项目根目录不是个人绝对路径",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "image",
+          "title": "先检查数据，暂时不训练",
+          "image": [
+            "00_environment_check.ipynb",
+            "dataset",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "手算一个分类头输出",
+          "image": null,
+          "math": "B=2,\\ C=16 \\;\\Rightarrow\\; \\mathrm{logits} \\in \\mathbb{R}^{2 \\times 16}"
+        },
+        {
+          "type": "theory",
+          "title": "demo 与 train 是两种承诺",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "课堂练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助"
+        },
+        {
+          "type": "limits",
+          "title": "小结与边界"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "00_environment_check.ipynb",
+      "cells": [
+        "environment",
+        "dataset",
+        "forward"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "cecee24b581ce2a0fcf3a2517bbf0fa7f9389823fd90075888a516e4ef595362"
+    },
+    {
+      "id": "L01",
+      "title": "200 个波段，是 200 张照片吗？",
+      "path": "decks\\L01-data.pptx",
+      "slides": 13,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "200 个波段，是 200 张照片吗？"
+        },
+        {
+          "type": "objectives",
+          "title": "本课交付"
+        },
+        {
+          "type": "image",
+          "title": "同样大小的两幅图，只有一幅是标签",
+          "image": [
+            "00_environment_check.ipynb",
+            "dataset",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "image",
+          "title": "观测图是三个波段的合成显示",
+          "image": [
+            "03_hybridsn_baseline.ipynb",
+            "cell5",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "一个数组，两种视角",
+          "image": null,
+          "math": "X \\in \\mathbb{R}^{H \\times W \\times B}"
+        },
+        {
+          "type": "image",
+          "title": "不同波段，同一地物亮度不同",
+          "image": [
+            "01_data_reading_and_visualization.ipynb",
+            "8482399b-633f-4fb3-922f-94cb5d0df5b1",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "先预测 shape，再切片",
+          "image": null,
+          "math": "145 \\times 145 \\times 200"
+        },
+        {
+          "type": "theory",
+          "title": "零标签不等于零信号",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "课堂练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助"
+        },
+        {
+          "type": "limits",
+          "title": "小结与边界"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "01_data_reading_and_visualization.ipynb",
+      "cells": [
+        "loadmat",
+        "cube[:, :, b]",
+        "cube[r, c, :]"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "a91b416b4dc020395a1de0c5a6b497ff1a5806a5a8154e433378266a76dc693c"
+    },
+    {
+      "id": "L02",
+      "title": "99% 准确率，为什么可能没有意义？",
+      "path": "decks\\L02-protocol.pptx",
+      "slides": 13,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "99% 准确率，为什么可能没有意义？"
+        },
+        {
+          "type": "objectives",
+          "title": "本课交付"
+        },
+        {
+          "type": "theory",
+          "title": "先问分母，再问高分",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "image",
+          "title": "三份数据，三种职责",
+          "image": [
+            "03_hybridsn_baseline.ipynb",
+            "cell11",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "总报大类，也能得到90% OA",
+          "image": null,
+          "math": "OA = \\frac{900}{1000} = 0.90 \\qquad AA = \\frac{1+0+0}{3} = \\frac{1}{3}"
+        },
+        {
+          "type": "theory",
+          "title": "Kappa不是“再算一次准确率”",
+          "image": null,
+          "math": "\\kappa = \\frac{p_o - p_e}{1 - p_e} = \\frac{0.90 - 0.90}{0.10} = 0"
+        },
+        {
+          "type": "image",
+          "title": "混淆矩阵是指标的原图",
+          "image": [
+            "02_svm_baseline.ipynb",
+            "32e479d9-7018-4689-af9b-d70239566b14",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "课程四套协议，数字不可互比",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "课堂练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助"
+        },
+        {
+          "type": "limits",
+          "title": "小结与边界"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "02_svm_baseline.ipynb",
+      "cells": [
+        "train_test_split",
+        "classification_report"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "0c31e4985c6142e677e43732eb7adf595403185effb1e9f97b2b6911f62821e8"
+    },
+    {
+      "id": "L03",
+      "title": "上神经网络之前，先做一个可信基线",
+      "path": "decks\\L03-svm.pptx",
+      "slides": 13,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "上神经网络之前，先做一个可信基线"
+        },
+        {
+          "type": "objectives",
+          "title": "本课交付"
+        },
+        {
+          "type": "theory",
+          "title": "Baseline是检查器，不是稻草人",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "从cube到样本表",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "RBF把距离变成相似度",
+          "image": null,
+          "math": "K(x, x\\') = \\exp(-\\gamma \\, \\| x - x\\' \\|^2)"
+        },
+        {
+          "type": "theory",
+          "title": "尺度塌缩：教科书网格全灭",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "调参只能看验证证据",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "image",
+          "title": "换个特征，混淆结构就变",
+          "image": [
+            "02_svm_baseline.ipynb",
+            "ff083796-156f-45dd-8d43-c6eefa8ae068",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "课堂练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助"
+        },
+        {
+          "type": "limits",
+          "title": "小结与边界"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "02_svm_baseline.ipynb",
+      "cells": [
+        "SVC",
+        "train_test_split"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "97b45a56d7319cc455ea3941dfb70fafeda2e93208555580c764f0c592e0bfc5"
+    },
+    {
+      "id": "L04",
+      "title": "一个像元怎样变成模型输入？",
+      "path": "decks\\L04-patch.pptx",
+      "slides": 13,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "一个像元怎样变成模型输入？"
+        },
+        {
+          "type": "objectives",
+          "title": "本课交付"
+        },
+        {
+          "type": "image",
+          "title": "邻域是输入，中心是监督",
+          "image": [
+            "03_hybridsn_baseline.ipynb",
+            "cell5",
+            2
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "先在toy数组上手算",
+          "image": null,
+          "math": "p = \\frac{s-1}{2} \\qquad \\mathrm{center} = (r{+}p,\\ c{+}p)"
+        },
+        {
+          "type": "theory",
+          "title": "三次shape变化",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "零填充不是零反射率地物",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "image",
+          "title": "回贴map必须有位置证据",
+          "image": [
+            "03_hybridsn_baseline.ipynb",
+            "cell18",
+            1
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "patch 重叠：这不是小事",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "课堂练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助"
+        },
+        {
+          "type": "limits",
+          "title": "小结与边界"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "03_hybridsn_baseline.ipynb",
+      "cells": [
+        "PatchSet",
+        "__getitem__"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "6a2c4b4c1a0ca2bf3afbc9d079f6f906e8c8f5f32e4b850a2c4feaa7cb51e943"
+    },
+    {
+      "id": "L05",
+      "title": "1D、2D、3D：到底沿哪个轴卷积？",
+      "path": "decks\\L05-cnn.pptx",
+      "slides": 13,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "1D、2D、3D：到底沿哪个轴卷积？"
+        },
+        {
+          "type": "objectives",
+          "title": "本课交付"
+        },
+        {
+          "type": "theory",
+          "title": "先看轴，再看模型名字",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "2D卷积也混合通道",
+          "image": null,
+          "math": "\\mathrm{Params} = C_{\\mathrm{out}} \\left( \\frac{C_{\\mathrm{in}}}{g}\\, k_h k_w + 1 \\right)"
+        },
+        {
+          "type": "theory",
+          "title": "池化也扩大感受野",
+          "image": null,
+          "math": "r' = r + (k-1)\\,j \\qquad j' = j \\times s"
+        },
+        {
+          "type": "image",
+          "title": "训练曲线读的是趋势",
+          "image": [
+            "05_2d_cnn_teaching.ipynb",
+            "1a44d125",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "image",
+          "title": "预测放回空间再读",
+          "image": [
+            "05_2d_cnn_teaching.ipynb",
+            "feb108ea",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "PCA空间与物理光谱分开",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "课堂练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助"
+        },
+        {
+          "type": "limits",
+          "title": "小结与边界"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "05_2d_cnn_teaching.ipynb",
+      "cells": [
+        "SpectralSpatialCNN2D"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "c7f612a4afad994ceaf5cfedd1df23172afa6182d7ca6309bf543dba01be9a86"
+    },
+    {
+      "id": "L06",
+      "title": "HybridSN 的 reshape 为什么是关键？",
+      "path": "decks\\L06-hybridsn.pptx",
+      "slides": 13,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "HybridSN 的 reshape 为什么是关键？"
+        },
+        {
+          "type": "objectives",
+          "title": "本课交付"
+        },
+        {
+          "type": "theory",
+          "title": "不是混合就一定更好",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "无padding，尺寸会逐层收缩",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "把C与D合并，不是降维",
+          "image": null,
+          "math": "32 \\times 3 \\times 19 \\times 19 \\;=\\; 96 \\times 19 \\times 19"
+        },
+        {
+          "type": "theory",
+          "title": "参数大户藏在Flatten后",
+          "image": null,
+          "math": "18{,}496 \\times 256 + 256 = 4{,}735{,}232"
+        },
+        {
+          "type": "image",
+          "title": "训练过程与检查点选择",
+          "image": [
+            "03_hybridsn_baseline.ipynb",
+            "cell16",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "论文、作者代码、教学代码分三列",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "课堂练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助"
+        },
+        {
+          "type": "limits",
+          "title": "小结与边界"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "03_hybridsn_baseline.ipynb",
+      "cells": [
+        "HybridSN",
+        "forward"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "ee7d7884e9b1921f128ac312f50d509e40c2766ed680a8524de36c4048c0b9dc"
+    },
+    {
+      "id": "L07",
+      "title": "OA 很高，小类为什么仍全错？",
+      "path": "decks\\L07-errors.pptx",
+      "slides": 13,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "OA 很高，小类为什么仍全错？"
+        },
+        {
+          "type": "objectives",
+          "title": "本课交付"
+        },
+        {
+          "type": "image",
+          "title": "先隐藏OA，读小类召回",
+          "image": [
+            "15_imbalance_analysis_teaching.ipynb",
+            "loss-comparison",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "加权CE与Focal改变什么",
+          "image": null,
+          "math": "w_c = \\frac{N}{C\\, n_c} \\qquad FL = -(1 - p_t)^{\\gamma} \\log p_t"
+        },
+        {
+          "type": "image",
+          "title": "同一split，才能读这张图",
+          "image": [
+            "15_imbalance_analysis_teaching.ipynb",
+            "maps",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "Grad-CAM必须真的求梯度",
+          "image": null,
+          "math": "\\alpha_k = \\frac{1}{HW} \\sum_{i,j} \\frac{\\partial z_c}{\\partial A_{ij}^{k}} \\qquad \\mathrm{CAM} = \\mathrm{ReLU}\\left(\\sum_{k} \\alpha_k A^{k}\\right)"
+        },
+        {
+          "type": "image",
+          "title": "失败样本也要展示",
+          "image": [
+            "15_imbalance_analysis_teaching.ipynb",
+            "gradcam",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "解释图不是因果证明",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "课堂练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助"
+        },
+        {
+          "type": "limits",
+          "title": "小结与边界"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "15_imbalance_analysis_teaching.ipynb",
+      "cells": [
+        "loss-comparison",
+        "gradcam",
+        "maps"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "ad642d6f7558de638a71f62f603f12de42e66a9c7565062724daf29190a91d90"
+    },
+    {
+      "id": "L08",
+      "title": "5-shot 的五个样本，究竟怎么算？",
+      "path": "decks\\L08-fewshot.pptx",
+      "slides": 13,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "5-shot 的五个样本，究竟怎么算？"
+        },
+        {
+          "type": "objectives",
+          "title": "本课交付"
+        },
+        {
+          "type": "theory",
+          "title": "25个标签，不是全部训练预算",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "同类少标注与未见类学习",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "image",
+          "title": "Support和Query不能串门",
+          "image": [
+            "16_protonet_teaching.ipynb",
+            "episode",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "用二维例子算原型",
+          "image": null,
+          "math": "c_k = \\mathrm{mean}_i\\, f(x_i) \\qquad \\mathrm{logits} = - \\| f(q) - c_k \\|^2"
+        },
+        {
+          "type": "image",
+          "title": "K对照要用同一encoder",
+          "image": [
+            "16_protonet_teaching.ipynb",
+            "evaluation",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "image",
+          "title": "全图map只是任务外示范",
+          "image": [
+            "16_protonet_teaching.ipynb",
+            "maps",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "课堂练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助"
+        },
+        {
+          "type": "limits",
+          "title": "小结与边界"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "16_protonet_teaching.ipynb",
+      "cells": [
+        "protocol",
+        "episode",
+        "prototype-math",
+        "evaluation",
+        "maps"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "d6c41821926cb3bab5e60653f4701174554f6cb5999d48ef07891fd33331c23f"
+    },
+    {
+      "id": "L09",
+      "title": "模型能学会说“我不知道”吗？",
+      "path": "decks\\L09-openset.pptx",
+      "slides": 14,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "模型能学会说“我不知道”吗？"
+        },
+        {
+          "type": "objectives",
+          "title": "本课交付"
+        },
+        {
+          "type": "theory",
+          "title": "未知、背景、难样本不是同一个概念",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "Softmax没有未知输出槽",
+          "image": null,
+          "math": "s_{\\mathrm{MSP}}(x) = 1 - \\max\\, \\mathrm{softmax}(z(x))"
+        },
+        {
+          "type": "theory",
+          "title": "距离是另一种读模型的方式",
+          "image": null,
+          "math": "s_{\\mathrm{dist}}(x) = \\min_k \\| f(x) - c_k \\|_2"
+        },
+        {
+          "type": "theory",
+          "title": "阈值在测试前冻结",
+          "image": null,
+          "math": "\\tau = Q_{0.95}(s_{\\mathrm{val}}) \\qquad s > \\tau \\;\\Rightarrow\\; \\mathrm{reject}"
+        },
+        {
+          "type": "image",
+          "title": "排序能力不等于部署准确率",
+          "image": [
+            "17_openset_teaching.ipynb",
+            "evaluation",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "image",
+          "title": "白色越多，不一定越好",
+          "image": [
+            "17_openset_teaching.ipynb",
+            "maps",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "image",
+          "title": "把误拒、漏检、错分拆开",
+          "image": [
+            "17_openset_teaching.ipynb",
+            "maps",
+            1
+          ],
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "课堂练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助"
+        },
+        {
+          "type": "limits",
+          "title": "小结与边界"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "17_openset_teaching.ipynb",
+      "cells": [
+        "protocol",
+        "scores",
+        "calibration",
+        "evaluation",
+        "maps"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "6a86f196030b22f9d2ca9cc516c931bb10a0a9e678e92e2e1437ed60bf7fdb2c"
+    },
+    {
+      "id": "L10",
+      "title": "一次实验怎样变成可信研究证据？",
+      "path": "decks\\L10-research.pptx",
+      "slides": 13,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "一次实验怎样变成可信研究证据？"
+        },
+        {
+          "type": "objectives",
+          "title": "本课交付"
+        },
+        {
+          "type": "theory",
+          "title": "研究不是把模块加在一起",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "阅读先区分三个层次",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "一次只改一个有解释的变量",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "三颗种子不是统计魔法",
+          "image": null,
+          "math": "\\Delta_i = \\mathrm{m}_{\\mathrm{var}}(\\mathrm{seed}_i) - \\mathrm{m}_{\\mathrm{base}}(\\mathrm{seed}_i)"
+        },
+        {
+          "type": "theory",
+          "title": "把每一句结论绑到证据",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "论文骨架是证据的目录",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "课堂练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助"
+        },
+        {
+          "type": "limits",
+          "title": "小结与边界"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": null,
+      "cells": [
+        "run_config.json",
+        "metrics.json",
+        "source-audit.md"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "4fc3fdf28b7dfe02f2c7d09e8e72b8fb696235b258aebb27b4bed0f67be50193"
+    }
+  ],
+  "note": "PPTX generated and package-checked; rendering/visual review is a separate step."
+}

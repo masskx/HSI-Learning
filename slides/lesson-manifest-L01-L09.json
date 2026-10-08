@@ -1,0 +1,187 @@
+{
+  "skill": {
+    "coordinate": "@user_3b34947d/ppt-generator-skill",
+    "version": "1.0.2",
+    "implementation": "C:\\Users\\mashuai\\.claude\\skills\\@user_3b34947d\\ppt-generator-skill\\scripts\\generate_ppt.py",
+    "sha256": "0223f63e49bf58396e17c24c0c95fa7f93d81ace4d6ea9f643e46301e676d3d2",
+    "reused_function": "create_content_slide"
+  },
+  "decks": [
+    {
+      "id": "L01",
+      "title": "200 个波段，是 200 张照片吗？",
+      "path": "decks\\L01-data.pptx",
+      "slides": 13,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "200 个波段，是 200 张照片吗？"
+        },
+        {
+          "type": "objectives",
+          "title": "学习目标"
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "同样大小的两幅图，只有一幅是标签",
+          "image": [
+            "00_environment_check.ipynb",
+            "dataset",
+            0
+          ]
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "一个数组，两种视角",
+          "image": null
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "先预测 shape，再切片",
+          "image": null
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "零标签不等于零信号",
+          "image": null
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "band index 不是 wavelength",
+          "image": null
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "显示拉伸与模型预处理要分开",
+          "image": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "受控练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助与验证"
+        },
+        {
+          "type": "limits",
+          "title": "限制与总结"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "01_data_reading_and_visualization.ipynb",
+      "cells": [
+        "loadmat",
+        "cube[:, :, b]",
+        "cube[r, c, :]"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "864b2b3a44dc307c51ca5934035b596c58ca0cc94426919ace662f0e941c8596"
+    },
+    {
+      "id": "L09",
+      "title": "模型能学会说“我不知道”吗？",
+      "path": "decks\\L09-openset.pptx",
+      "slides": 14,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "模型能学会说“我不知道”吗？"
+        },
+        {
+          "type": "objectives",
+          "title": "学习目标"
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "未知、背景、难样本不是同一个概念",
+          "image": null
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "Softmax没有未知输出槽",
+          "image": null
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "距离是另一种读模型的方式",
+          "image": null
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "阈值在测试前冻结",
+          "image": null
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "排序能力不等于部署准确率",
+          "image": [
+            "17_openset_teaching.ipynb",
+            "evaluation",
+            0
+          ]
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "白色越多，不一定越好",
+          "image": [
+            "17_openset_teaching.ipynb",
+            "maps",
+            0
+          ]
+        },
+        {
+          "type": "theory-or-evidence",
+          "title": "把误拒、漏检、错分拆开",
+          "image": [
+            "17_openset_teaching.ipynb",
+            "maps",
+            1
+          ]
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "受控练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助与验证"
+        },
+        {
+          "type": "limits",
+          "title": "限制与总结"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "17_openset_teaching.ipynb",
+      "cells": [
+        "protocol",
+        "scores",
+        "calibration",
+        "evaluation",
+        "maps"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "a7292b4928a112bfe773ad4db77587cd0d37c2e8dfe1790ea909c46ae273ac73"
+    }
+  ],
+  "note": "PPTX generated and package-checked; rendering/visual review is a separate step."
+}

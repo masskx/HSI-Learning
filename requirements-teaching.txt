@@ -1,0 +1,8 @@
+# Install torch for your CPU/CUDA environment first, then:
+# python -m pip install -r requirements-teaching.txt
+-r requirements.txt
+nbformat
+nbclient
+ipykernel
+jupyter_client
+# Tests use Python unittest; no additional testing framework is required.

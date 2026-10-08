@@ -1,0 +1,163 @@
+[
+  {
+    "id": "aviris",
+    "url": "https://aviris.jpl.nasa.gov/html/aviris.overview.html",
+    "accessed_utc": "2026-10-08T05:41:01.476565+00:00",
+    "inclusion": "not-approved",
+    "license": "unverified",
+    "status": "blocked",
+    "error": "<urlopen error [WinError 10060] 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。>"
+  },
+  {
+    "id": "nasa-media-guidelines",
+    "url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+    "accessed_utc": "2026-10-08T05:41:22.915373+00:00",
+    "inclusion": "not-approved",
+    "license": "unverified",
+    "status": "blocked",
+    "error": "HTTP Error 429: Too Many Requests"
+  },
+  {
+    "id": "hyperspectral-datasets",
+    "url": "https://www.ehu.eus/ccwintco/index.php/Hyperspectral_Remote_Sensing_Scenes",
+    "accessed_utc": "2026-10-08T05:41:23.457143+00:00",
+    "inclusion": "not-approved",
+    "license": "unverified",
+    "status": "blocked",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "id": "hybridsn-official",
+    "url": "https://github.com/gokriznastic/HybridSN",
+    "accessed_utc": "2026-10-08T05:41:30.812257+00:00",
+    "inclusion": "not-approved",
+    "license": "unverified",
+    "resolved_url": "https://github.com/gokriznastic/HybridSN",
+    "status": "fetched",
+    "sha256": "c1e396da6d05da41b14cc8a94792b5e8e30a4e19a7ae1f8e993b635a2b373b87",
+    "title": "GitHub - gokriznastic/HybridSN: A keras based implementation of Hybrid-Spectral-Net as in IEEE GRSL paper \"HybridSN: Exploring 3D-2D CNN Feature Hierarchy for Hyperspectral Image Classification\". · GitHub",
+    "images": [
+      {
+        "url": "https://avatars.githubusercontent.com/u/14166854?s=60&v=4",
+        "alt": "gokriznastic",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://camo.githubusercontent.com/fdf2982b9f5d7489dcf44570e714e3a15fce6253e0cc6b5aa61a075aac2ff71b/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c6963656e73652d4d49542d79656c6c6f772e737667",
+        "alt": "License: MIT",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://camo.githubusercontent.com/7f4e5cf6e7dcf18b83b664c1359d9c44fce0d0aa50b2caa86d6cd30d3d1ab503/68747470733a2f2f696d672e736869656c64732e696f2f656e64706f696e742e7376673f75726c3d68747470733a2f2f70617065727377697468636f64652e636f6d2f62616467652f687962726964736e2d6578706c6f72696e672d33642d32642d636e6e2d666561747572652f6879706572737065637472616c2d696d6167652d636c617373696669636174696f6e2d6f6e2d696e6469616e",
+        "alt": "PWC",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/HSI-RN.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/IP-FC.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/IP-GT.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/IP-Pr.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/IP_legend.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/UP-FC.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/UP-GT.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/UP-Pr.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/UP_legend.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/SA-FC.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/SA-GT.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/SA-Pr.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/gokriznastic/HybridSN/raw/master/figure/SA_legend.jpg",
+        "alt": "",
+        "credit": "unverified",
+        "license": "unverified"
+      }
+    ]
+  },
+  {
+    "id": "spectralformer-official",
+    "url": "https://github.com/danfenghong/IEEE_TGRS_SpectralFormer",
+    "accessed_utc": "2026-10-08T05:41:31.985263+00:00",
+    "inclusion": "not-approved",
+    "license": "unverified",
+    "resolved_url": "https://github.com/danfenghong/IEEE_TGRS_SpectralFormer",
+    "status": "fetched",
+    "sha256": "c606cfd0dc9be8ff4d3e5af2c7380f697535d6bbf505580e53b923ab91441d67",
+    "title": "GitHub - danfenghong/IEEE_TGRS_SpectralFormer: Danfeng Hong, Zhu Han, Jing Yao, Lianru Gao, Bing Zhang, Antonio Plaza, Jocelyn Chanussot. Spectralformer: Rethinking hyperspectral image classification with transformers, IEEE Transactions on Geoscience and Remote Sensing (TGRS), 2021 · GitHub",
+    "images": [
+      {
+        "url": "https://avatars.githubusercontent.com/u/22520678?s=60&v=4",
+        "alt": "danfenghong",
+        "credit": "unverified",
+        "license": "unverified"
+      },
+      {
+        "url": "https://github.com/danfenghong/IEEE_TGRS_SpectralFormer/raw/main/SpectralFormer.PNG",
+        "alt": "alt text",
+        "credit": "unverified",
+        "license": "unverified"
+      }
+    ]
+  }
+]

@@ -1,191 +1,127 @@
-% =========================================================================
-% paper_skeleton.tex — HSI-Learning 课程论文骨架（IEEEtran, 期刊版）
-%
-% 编译方式：
-%   Overleaf：新建项目上传本文件即可（IEEEtran/booktabs/amsmath 均为内置）
-%   本地：    pdflatex paper_skeleton.tex && pdflatex paper_skeleton.tex
-%
-% 使用约定（第 13 章）：
-%   1. 每节开头的 % >>> 注释块是该节的写作任务清单，写完后删除；
-%   2. 所有占位符为 \todo{} 标注（文末定义），编译时高亮可见；
-%   3. 图表先引用后填图：figs/ 目录放图，\ref 全部交叉引用；
-%   4. 投稿前 checklist 见文末注释块。
-% =========================================================================
+% HSI-Learning writing scaffold: English typeset text, UTF-8 Chinese comments.
+% Build: pdflatex -> bibtex -> pdflatex -> pdflatex (see README.md).
+% 状态：静态修复版本，实际编译结果需要本地TeX日志确认。
 \documentclass[journal]{IEEEtran}
-
-\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsmath,amssymb}
 \usepackage{graphicx}
-\usepackage{booktabs}          % 三线表（第 12 章 12.5 节）
-\usepackage{multirow}
-\usepackage[colorinlistoftodos]{todonotes} % \todo 高亮占位；投稿前删除所有 \todo
+\usepackage{booktabs}
+\usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
-
-% ---- 占位符宏：编译时红色高亮，全部清除后才可投稿 ----------------------
-\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+% 不加载todonotes，避免重复定义已有的todo命令。
+\newcommand{\placeholder}[1]{\textcolor{red}{[TODO: #1]}}
 
 \begin{document}
-
-\title{Paper Title: A Concise, Specific Statement of the Contribution\todo{标题不含缩写、不含"Novel/Study of"}}
-
-\author{First~Author, Second~Author, and Third~Author%
-\thanks{Manuscript received XXX; revised XXX.（期刊模板会自动排版本信息）}%
-\thanks{The authors are with XXX. (e-mail: xxx@xxx.com)}}
-
+\title{A Specific, Testable Contribution to Hyperspectral Classification}
+\author{First Author and Second Author\thanks{Replace affiliations and contact information before submission.}}
 \maketitle
 
-% =========================================================================
 \begin{abstract}
-% >>> 摘要五句模板（约 150 词，数字必须出现）：
-% 背景一句 | 缺口一句 | 方法两句（含机制关键词）| 数字一句（数据集+协议+OA/AA/Kappa）| 意义一句
-\todo{Abstract: background in one sentence; gap in one; method in two with
-mechanism keywords; one sentence with numbers (dataset, protocol, OA/AA/$\kappa$);
-closing sentence on significance.}
+\placeholder{State the problem, the gap, the method, and the observed result
+under an explicit protocol. Do not insert unmeasured improvements or invented
+citations. Separate the scope of the evidence from wider claims.}
 \end{abstract}
-
 \begin{IEEEkeywords}
-Hyperspectral image classification, deep learning, spectral--spatial
-features, \todo{3--5 个关键词，按 IEEE 控制词表习惯}
+Hyperspectral image classification, reproducibility, spectral--spatial learning.
 \end{IEEEkeywords}
 
-% =========================================================================
 \section{Introduction}
-% >>> 三段式（第 13 章 13.2 节）：问题段（为什么重要）→ 缺口段（别人做到哪、
-%     缺什么，每句带 \cite，最后一句是"入场券"）→ 贡献段（3 条 bullet，
-%     每条对应实验节的一张表/图，可证伪、量化）。
-% >>> 写作顺序提醒：Introduction 在 Method/Experiments 之后写。
-
-% —— 问题段 ——
-Hyperspectral images (HSIs) record hundreds of contiguous spectral bands per
-pixel, enabling fine-grained land-cover classification \cite{landgrebe2002}.
-\todo{问题段：具体痛点（稀有类别 / 标注成本 / 计算预算）}
-
-% —— 缺口段 ——
-Deep convolutional models jointly exploit spatial and spectral information:
-3-D convolutions capture joint spectral--spatial features
-\cite{chen2016,zhong2018}, while 2-D counterparts are cheaper but discard
-spectral detail after dimensionality reduction \cite{makantasis2015}. Hybrid
-designs trade the two off explicitly \cite{roy2020hybridsn}. \todo{缺口段：
-2--3 句带引用，最后一句指出本文瞄准的空档。}
-
-% —— 贡献段 ——
-The main contributions of this paper are summarized as follows:
+% 写作次序建议：先Method/Experiments，再引言/摘要。
+Hyperspectral observations combine spatial structure with spectral measurements.
+\placeholder{Explain one concrete research problem and support the stated gap
+with verified sources.}
+The contributions must be independently testable:
 \begin{itemize}
-  \item \todo{贡献 1：模块/机制级，对应消融表的一行；}
-  \item \todo{贡献 2：量化结果（数据集 + 协议 + OA/AA，较基线 +X 点）；}
-  \item \todo{贡献 3：协议/代码/分析层面的可复现贡献。}
+\item \placeholder{One method contribution linked to a controlled ablation.}
+\item \placeholder{One measured observation with dataset, protocol and uncertainty.}
+\item \placeholder{One reproducibility artifact or failure analysis.}
 \end{itemize}
 
-% =========================================================================
 \section{Related Work}
-% >>> 每段 = 第 11 章对比矩阵的一个方法家族；段内按思想线索展开；
-%     每段最后一句指出该家族未解决的问题（四段汇合处 = 本文登场位置）。
-%     严禁：只罗列不对比；贬低前人。
+\subsection{Spectral--Spatial Models}
+HybridSN is a representative hybrid convolutional design~\cite{roy2020hybridsn}.
+\placeholder{Compare mechanisms and assumptions rather than list paper titles.
+Check original sources before adding details about preprocessing or performance.}
+\subsection{Few-Shot and Open-Set Tasks}
+Prototypical Networks classify queries by distances to support-set class
+means~\cite{snell2017prototypical}. This does not make an episode's support
+budget equal to the encoder's total training annotation budget.
+\placeholder{State which task your paper addresses; do not mix closed-set,
+few-shot and open-set scores without protocol alignment.}
 
-\subsection{Convolutional Approaches}
-\todo{1D/2D/3D 卷积路线 \cite{hu2015,makantasis2015,chen2016}；最后一句：未解决什么。}
+\section{Method}
+Let $\mathbf{X}\in\mathbb{R}^{H\times W\times B}$ denote the input cube.
+For a support class $k$, define
+\begin{equation}
+\mathbf{c}_k=\frac{1}{|S_k|}\sum_{(x_i,y_i)\in S_k}f_\theta(x_i).
+\label{eq:prototype}
+\end{equation}
+% 此公式是经典原型方法示例，不可当作自己的创新贡献。
+Equation~\ref{eq:prototype} is an illustrative baseline definition, not a new
+contribution. \placeholder{Replace this section with the actual method, with
+symbols and shapes defined on first use.}
 
-\subsection{Hybrid and Residual Designs}
-\todo{HybridSN \cite{roy2020hybridsn}、SSRN \cite{zhong2018}；最后一句：未解决什么。}
+\subsection{Executable Procedure}
+% 使用原生enumerate避免额外algorithm依赖，也不悬挂alg:method引用。
+\begin{enumerate}
+\item Freeze dataset identities, splits and preprocessing fit ranges.
+\item Fit preprocessing only on the declared training pool.
+\item Train the model and choose checkpoints using validation data.
+\item Freeze all choices, then compute the held-out predictions and metrics.
+\end{enumerate}
+\placeholder{Provide model and preprocessing artifacts, not just a checkpoint.}
 
-\subsection{Attention and Beyond}
-\todo{Transformer/State-space/基础模型 \cite{hong2022spectralformer}；最后一句：未解决什么。}
-
-% =========================================================================
-\section{Methodology}
-% >>> 先写符号表，再给总览图（真实形状 + 枢纽高亮，参考课程图 8-1/9-1 画法），
-%     核心机制放第一小节讲透；实现细节（padding 等）放实现段或脚注。
-\todo{总览图：figs/overview.pdf —— 结构 + 数据流 + 创新点高亮。}
-
-\subsection{Problem Formulation}
-Let $\mathbf{X} \in \mathbb{R}^{H \times W \times B}$ denote a hyperspectral
-cube and $y_i \in \{1,\dots,C\}$ the label of pixel $i$. \todo{符号系统：每个
-符号第一次出现时定义；张量形状写全。}
-
-\subsection{Proposed Module}
-\todo{核心机制：伪代码见 Algorithm~\ref{alg:method}；逐层形状可列表（参考
-第 8 章表 8-1，注意无 padding 的维度收缩）。}
-
-\subsection{Implementation Details}
-\todo{框架/硬件/epochs/lr/优化器——与 run\_config.json 逐项对应（第 12 章）。}
-
-% =========================================================================
 \section{Experiments}
-% >>> 五件套（第 13 章 13.4 节）：Datasets and Protocols → Implementation →
-%     Main Results → Ablation → Analysis。协议写进表注；每张图必须被讨论。
-
 \subsection{Datasets and Protocols}
-\todo{数据集表（尺寸/波段/类别/样本量）+ 协议表（划分/预处理/预算/种子，
-对应 run\_config.json；多种子报 mean$\pm$std，第 12 章）。}
+\placeholder{Record dataset version, class mapping, split policy, preprocessing
+fit range, spatial overlap, seeds, training budget and selection rule.}
 
-\subsection{Comparison With the State of the Art}
-表~\ref{tab:main} 汇总协议 C 下的主结果（课程真实数字，替换为你自己的）。
-
-\begin{table*}[!t]
-  \centering
-  \caption{Classification results under protocol C (10/10/80, seed 42) on the
-  Indian Pines corrected scene. Best results are in boldface.}
-  \label{tab:main}
-  \begin{tabular}{lcccc}
-    \toprule
-    Model & Input & OA (\%) & AA (\%) & $\kappa$ \\
-    \midrule
-    SVM (RBF) & spectra            & 80.70 & 77.73 & 0.7795 \\
-    1D CNN    & spectra            & 75.27 & 60.15 & 0.7147 \\
-    3D CNN    & 9$\times$9 patch   & 94.55 & 76.53 & 0.9377 \\
-    2D CNN    & 9$\times$9 patch   & 95.83 & 87.04 & 0.9525 \\
-    HybridSN  & 25$\times$25 patch & 96.66 & \textbf{93.28} & 0.9619 \\
-    SSRN      & 7$\times$7 patch   & \textbf{97.87} & 79.84 & \textbf{0.9756} \\
-    \bottomrule
-  \end{tabular}
-\end{table*}
-
-\subsection{Ablation Study}
-\todo{消融表：一次一变量、mean$\pm$std（3 种子）、对照组来自同一实验矩阵
-（第 12 章表；SIR 与 no-residual 消融可直接填入）。}
-
+\subsection{Main Results}
+Table~\ref{tab:main} is a formatting scaffold, not a result table. All dashes must
+be replaced by verified measurements; no numerical claim is supplied by this template.
 \begin{table}[!t]
-  \centering
-  \caption{Ablation under protocol D (20/10/70, mean $\pm$ std over 3 seeds).}
-  \label{tab:ablation}
-  \begin{tabular}{lcc}
-    \toprule
-    Variant & OA (\%) & AA (\%) \\
-    \midrule
-    Baseline (SSRN)        & \todo{xx.xx $\pm$ xx.xx} & \todo{xx.xx $\pm$ xx.xx} \\
-    \quad + SIR ($\lambda{=}0.1$) & \todo{xx.xx $\pm$ xx.xx} & \todo{xx.xx $\pm$ xx.xx} \\
-    \quad $-$ residual     & \todo{xx.xx $\pm$ xx.xx} & \todo{xx.xx $\pm$ xx.xx} \\
-    \bottomrule
-  \end{tabular}
+\centering
+\caption{Replace with the exact protocol and evaluation population.}
+\label{tab:main}
+\begin{tabular}{lccc}
+\toprule
+Method & OA (\%) & AA (\%) & $\kappa$ \\
+\midrule
+Baseline & -- & -- & -- \\
+Proposed & -- & -- & -- \\
+\bottomrule
+\end{tabular}
 \end{table}
 
-\subsection{Analysis and Discussion}
-\todo{混淆矩阵三步读法（第 2 章）、稀有类失败案例、注意力/特征可视化
-（第 10 章）——解释性小节区分"跑分论文"与"有洞察论文"。}
+\subsection{Ablation and Uncertainty}
+Table~\ref{tab:ablation} should contain paired runs under the same declared
+protocol. Report sample standard deviations and define the experimental unit;
+a mean difference compared with a standard deviation is not by itself a
+significance test.
+\begin{table}[!t]
+\centering
+\caption{Matched ablation: specify seeds, budget and changed component.}
+\label{tab:ablation}
+\begin{tabular}{lcc}
+\toprule
+Variant & OA (\%) & AA (\%) \\
+\midrule
+Baseline & -- & -- \\
+One controlled change & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-% =========================================================================
+\subsection{Failure Analysis}
+\placeholder{Report rare-class failures, rejected known samples or missed
+unknowns as appropriate. Attribution visualizations do not prove causation.}
+
 \section{Conclusion}
-\todo{带走什么 + 局限 + 未来工作；不重复摘要，不夸大结论。}
+\placeholder{Summarize the supported finding, important limitations and the
+next test. Avoid promises of universal superiority.}
 
-% =========================================================================
 \bibliographystyle{IEEEtran}
-% 用 Zotero/Better BibTeX 导出 references.bib（引用键规范见第 11 章 11.5 节）
 \bibliography{references}
-% 编译前未准备 .bib 时，可用如下占位手工条目先行排版：
-% \begin{thebibliography}{10}
-% \bibitem{landgrebe2002} D.~Landgrebe, ``Hyperspectral image data analysis,''
-%   \emph{IEEE Signal Process. Mag.}, 2002.
-% \end{thebibliography}
-
 \end{document}
 
-% =========================================================================
-% 投稿前 checklist（逐项核对后删除本块）
-%   [ ] 编译零 error、零 undefined reference（所有 \ref/\cite 不出现 "？"）
-%   [ ] 所有 \todo 已删除
-%   [ ] 每张图/表都在正文被 \ref 引用且被讨论
-%   [ ] 主表/消融表：精度全文统一两位小数、并列最优都加粗、协议写进表注
-%   [ ] 图：300 dpi、字号可读、nipy_spectral 约定（课程第 1 章）
-%   [ ] 摘要含数字；贡献点与实验表一一对应
-%   [ ] 协议声明：划分/种子/预处理拟合范围/训练预算（第 12 章规范）
-%   [ ] requirements.lock / 代码仓库链接写入脚注（可复现性承诺）
-% =========================================================================
+% 投稿前：清除placeholder；引用核实；图表均被讨论；编译无未定义引用；
+% 记录数据来源、使用条件、配置、环境和代码版本。遵守目标期刊AI披露政策。

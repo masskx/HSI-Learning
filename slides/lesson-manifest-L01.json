@@ -1,0 +1,102 @@
+{
+  "design": {
+    "system": "slides/src/deck_design.py",
+    "engine": "python-pptx",
+    "fonts": {
+      "cjk": "Microsoft YaHei (latin+ea set per run)",
+      "code": "Consolas"
+    },
+    "formulas": "matplotlib mathtext -> transparent PNG, LaTeX source in course_content.py",
+    "motif": "hyperspectral gradient strip; no footers, no page numbers",
+    "replaces": "ppt-generator-skill v1 shell (withdrawn after visual review)"
+  },
+  "decks": [
+    {
+      "id": "L01",
+      "title": "200 个波段，是 200 张照片吗？",
+      "path": "decks\\L01-data.pptx",
+      "slides": 13,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "200 个波段，是 200 张照片吗？"
+        },
+        {
+          "type": "objectives",
+          "title": "学习目标"
+        },
+        {
+          "type": "image",
+          "title": "同样大小的两幅图，只有一幅是标签",
+          "image": [
+            "00_environment_check.ipynb",
+            "dataset",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "一个数组，两种视角",
+          "image": null,
+          "math": "X \\in \\mathbb{R}^{H \\times W \\times B}"
+        },
+        {
+          "type": "theory",
+          "title": "先预测 shape，再切片",
+          "image": null,
+          "math": "145 \\times 145 = 21{,}025"
+        },
+        {
+          "type": "theory",
+          "title": "零标签不等于零信号",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "band index 不是 wavelength",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "显示拉伸与模型预处理要分开",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "代码实操"
+        },
+        {
+          "type": "exercise",
+          "title": "受控练习"
+        },
+        {
+          "type": "ai-assist",
+          "title": "AI辅助与验证"
+        },
+        {
+          "type": "limits",
+          "title": "限制与总结"
+        },
+        {
+          "type": "sources",
+          "title": "来源与复现"
+        }
+      ],
+      "notebook": "01_data_reading_and_visualization.ipynb",
+      "cells": [
+        "loadmat",
+        "cube[:, :, b]",
+        "cube[r, c, :]"
+      ],
+      "generated": true,
+      "rendered": false,
+      "visual_review": "pending",
+      "sha256": "001250fa4b7bfd05db0577d273d3837af7d7c82944a892a09fe30e09ffb82eb9"
+    }
+  ],
+  "note": "PPTX generated and package-checked; rendering/visual review is a separate step."
+}

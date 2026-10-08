@@ -121,19 +121,9 @@ SA/PU 的 99%+ 是**饱和口径**（训练样本 4–5 倍于 IP + patch 泄漏
 
 **走读的独特收获**：仓库自带 `paper.pdf`（5 页原文）+ `supplementary-material.pdf`（补充材料）——**第 11 章笔记的全部 ⚠️ 待核对项可以当场解决**（划分比例、PCA 维数、报告数字），无需依赖二手转述。这正是"选有代码 + 有论文的种子论文"的价值。
 
-## 15.4 第二篇精读示范：SpectralFormer
+## 15.4 第二篇阅读任务：SpectralFormer（待来源核验）
 
-选 **SpectralFormer**（Hong et al., *IEEE TGRS* 2022）作为第二篇精读对象——比 HybridSN 难一个量级（Transformer 结构 + 多数据集 + 预训练策略 + 消融表密集），正好检验第 11 章九节模板在难论文上的适用性。
-
-> 📄 **精读笔记**：[`notes/spectralformer-hong2022-tgrs-reading-notes.md`](notes/spectralformer-hong2022-tgrs-reading-notes.md)（完整九节模板）
-
-核心 takeaway（完整笔记见上方链接）：
-
-- **分组 token 化**：把 200+ 波段分成 G 组（默认 4），每组一个 token——把 attention 的 O(B²) 压到 O(G²)，同时保留"相邻波段高相关"的先验（课程第 1 章图 1-2 的知识点在这里变成设计决策）；
-- **跨层注意力**：浅层到深层的自适应加权——比 ResNet 的恒等 shortcut 更进一步，让浅层光谱细节直通深层分类头（第 9 章残差思想的 Transformer 版）；
-- **DSP 预训练**：自监督掩码波段重建 → 下游微调——直接攻击第 10 章诊断的"数据饥饿"（本章 Transformer 69.10% 的负结果的正解）。
-
-⚠️ 待核对：分组数 G 的确切值、PCA 维数、预训练协议、报告数字——需回原文核对。
+[阅读任务卡](notes/spectralformer-hong2022-tgrs-reading-notes.md) 已撤回旧版未经核实的“默认4个token、DSP掩码预训练”等机制描述。取得原文与作者代码前，本节不是可录制的方法精读范文；它用来练习来源审计、token形状核对与协议追踪。课程的纯谱Transformer不等同于SpectralFormer。
 
 ## 15.5 论文级分析三件套
 
@@ -149,11 +139,9 @@ SA/PU 的 99%+ 是**饱和口径**（训练样本 4–5 倍于 IP + patch 泄漏
 
 ### Grad-CAM 空间热力图
 
-对最后一个卷积层 (128, 5, 5) 的通道均值做 CAM → 上采样到 9×9 → 叠加在 patch 灰度图上——**模型到底在看 patch 的哪个位置**。
+真正的 Grad-CAM 对指定类别 logit 关于卷积特征图求梯度，按空间维平均梯度得到通道权重，计算 `ReLU(sum(weights * features))`，再插值回输入大小。实际特征尺寸由模型输出检查，不手写成5×5。
 
-![图 15-4 Grad-CAM 空间热力图](../assets/ch15-gradcam.png)
-
-**图 15-4**　三个典型样本的 CAM（左：Oats 稀有类，中：Soybean-mintill 大类，右：边界样本）+ 右端 purity 参考图。模型整体关注 patch 中心区域——与第 4 章"中心像元判别 + 邻域上下文"的设计一致。
+**旧图15-4是通道均值响应，不是Grad-CAM，现撤下教学展示。** 修正版见 `hsi_learning.teaching.grad_cam` 和 notebook 15 生成器，待执行后生成新图。热图不自动证明中心区域“因果重要”；全零输出也应如实记录。
 
 ### 空间分桶误差分析
 

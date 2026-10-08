@@ -1,0 +1,58 @@
+[
+  {
+    "kind": "course-notebook-output",
+    "notebook": "00_environment_check.ipynb",
+    "cell_id": "dataset",
+    "sha256": "ce2f8ec30d76edb148d07636d8f8b81ac8d8c951e7e5e11b2c3348d658301b3c",
+    "license": "Course-generated figure; underlying dataset conditions still apply",
+    "path": "assets\\generated\\00_environment_check-dataset-0-ce2f8ec30d.png",
+    "uses": [
+      {
+        "lesson": "L01",
+        "slide": 3
+      }
+    ]
+  },
+  {
+    "kind": "course-notebook-output",
+    "notebook": "17_openset_teaching.ipynb",
+    "cell_id": "evaluation",
+    "sha256": "14dc1772e9de3be0026f4bef8fec39d904f4d9bbe784dcb2711971ac4c55fa59",
+    "license": "Course-generated figure; underlying dataset conditions still apply",
+    "path": "assets\\generated\\17_openset_teaching-evaluation-0-14dc1772e9.png",
+    "uses": [
+      {
+        "lesson": "L09",
+        "slide": 7
+      }
+    ]
+  },
+  {
+    "kind": "course-notebook-output",
+    "notebook": "17_openset_teaching.ipynb",
+    "cell_id": "maps",
+    "sha256": "a14edb3f1cccdce7d60146de48490af0037e2151605ca3e468f05aa3144347cb",
+    "license": "Course-generated figure; underlying dataset conditions still apply",
+    "path": "assets\\generated\\17_openset_teaching-maps-0-a14edb3f1c.png",
+    "uses": [
+      {
+        "lesson": "L09",
+        "slide": 8
+      }
+    ]
+  },
+  {
+    "kind": "course-notebook-output",
+    "notebook": "17_openset_teaching.ipynb",
+    "cell_id": "maps",
+    "sha256": "b1870dea972e45daf89ae7a5d043aa31523c30af1e51773625dee9b10c0fc4f0",
+    "license": "Course-generated figure; underlying dataset conditions still apply",
+    "path": "assets\\generated\\17_openset_teaching-maps-1-b1870dea97.png",
+    "uses": [
+      {
+        "lesson": "L09",
+        "slide": 9
+      }
+    ]
+  }
+]
