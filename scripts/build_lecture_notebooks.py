@@ -126,7 +126,7 @@ train_logits,train_targets=episode_forward(learner,cube,train_ep,cfg['patch_size
 optimizer.zero_grad(); loss=torch.nn.functional.cross_entropy(train_logits,train_targets)
 loss.backward(); optimizer.step()
 print('Support -> prototypes -> query logits:',train_logits.shape,'CE:',float(loss.detach()))
-print('Meta-train gradient update:',float((next(learner.parameters())-before).norm()))
+print('Meta-train gradient update:',float((next(learner.parameters()).detach()-before).norm()))
 torch.testing.assert_close(next(model.parameters()),before)
 """),code('evaluation',"""import json
 metrics=json.loads((BUNDLE_ROOT/'protonet/metrics.json').read_text())
