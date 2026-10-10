@@ -224,3 +224,6 @@ slides/previews/
 slides/assets/generated/
 slides/assets/formulas/
 slides/classroom/
+
+# Slide builder dependencies (npm install in slides/)
+slides/node_modules/

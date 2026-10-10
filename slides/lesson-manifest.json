@@ -1,8 +1,9 @@
 {
   "design": {
-    "engine": "@oai/artifact-tool",
-    "style": "科研极简：浅底、深蓝、大图、克制排版",
-    "version": 2,
+    "engine": "pptxgenjs",
+    "builder": "scripts/build_course_slides.js",
+    "style": "光谱标识：午夜蓝封面与收尾、白底内容页、光谱色编号、真实平均光谱封面图",
+    "version": 3,
     "fonts": {
       "cjk": "Microsoft YaHei",
       "code": "Consolas"
@@ -90,9 +91,8 @@
         "forward"
       ],
       "generated": true,
-      "rendered": true,
-      "visual_review": "all pages individually reviewed at 1600x900",
-      "powerpoint_preview": "slides/previews/com-export/L00-environment-20261009T033506208Z"
+      "rendered": false,
+      "visual_review": "pending"
     },
     {
       "id": "L01",
@@ -192,9 +192,8 @@
         "cube[r, c, :]"
       ],
       "generated": true,
-      "rendered": true,
-      "visual_review": "all pages individually reviewed at 1600x900",
-      "powerpoint_preview": "slides/previews/com-export/L01-data-20261009T033506208Z"
+      "rendered": false,
+      "visual_review": "pending"
     },
     {
       "id": "L02",
@@ -276,9 +275,8 @@
         "raw-confusion"
       ],
       "generated": true,
-      "rendered": true,
-      "visual_review": "all pages individually reviewed at 1600x900",
-      "powerpoint_preview": "slides/previews/com-export/L02-protocol-20261009T033506208Z"
+      "rendered": false,
+      "visual_review": "pending"
     },
     {
       "id": "L03",
@@ -361,9 +359,8 @@
         "pca-confusion"
       ],
       "generated": true,
-      "rendered": true,
-      "visual_review": "all pages individually reviewed at 1600x900",
-      "powerpoint_preview": "slides/previews/com-export/L03-svm-20261009T034403578Z"
+      "rendered": false,
+      "visual_review": "pending"
     },
     {
       "id": "L04",
@@ -448,9 +445,8 @@
         "reshape-check"
       ],
       "generated": true,
-      "rendered": true,
-      "visual_review": "all pages individually reviewed at 1600x900",
-      "powerpoint_preview": "slides/previews/com-export/L04-patch-20261009T033506208Z"
+      "rendered": false,
+      "visual_review": "pending"
     },
     {
       "id": "L05A",
@@ -518,9 +514,8 @@
         "checkpoint"
       ],
       "generated": true,
-      "rendered": true,
-      "visual_review": "all pages individually reviewed at 1600x900",
-      "powerpoint_preview": "slides/previews/com-export/L05A-training-20261009T033506208Z"
+      "rendered": false,
+      "visual_review": "pending"
     },
     {
       "id": "L05",
@@ -613,9 +608,8 @@
         "current-curves"
       ],
       "generated": true,
-      "rendered": true,
-      "visual_review": "all pages individually reviewed at 1600x900",
-      "powerpoint_preview": "slides/previews/com-export/L05-cnn-20261009T033506208Z"
+      "rendered": false,
+      "visual_review": "pending"
     },
     {
       "id": "L06",
@@ -697,9 +691,8 @@
         "pca-change"
       ],
       "generated": true,
-      "rendered": true,
-      "visual_review": "all pages individually reviewed at 1600x900",
-      "powerpoint_preview": "slides/previews/com-export/L06-hybridsn-20261009T034403578Z"
+      "rendered": false,
+      "visual_review": "pending"
     },
     {
       "id": "L07",
@@ -791,9 +784,8 @@
         "target-comparison"
       ],
       "generated": true,
-      "rendered": true,
-      "visual_review": "all pages individually reviewed at 1600x900",
-      "powerpoint_preview": "slides/previews/com-export/L07-errors-20261009T033506208Z"
+      "rendered": false,
+      "visual_review": "pending"
     },
     {
       "id": "L08",
@@ -892,9 +884,8 @@
         "episode-update"
       ],
       "generated": true,
-      "rendered": true,
-      "visual_review": "all pages individually reviewed at 1600x900",
-      "powerpoint_preview": "slides/previews/com-export/L08-fewshot-20261009T033506208Z"
+      "rendered": false,
+      "visual_review": "pending"
     },
     {
       "id": "L09",
@@ -999,9 +990,8 @@
         "threshold-exercise"
       ],
       "generated": true,
-      "rendered": true,
-      "visual_review": "all pages individually reviewed at 1600x900",
-      "powerpoint_preview": "slides/previews/com-export/L09-openset-20261009T033506208Z"
+      "rendered": false,
+      "visual_review": "pending"
     },
     {
       "id": "L10",
@@ -1079,9 +1069,8 @@
         "source-audit.md"
       ],
       "generated": true,
-      "rendered": true,
-      "visual_review": "all pages individually reviewed at 1600x900",
-      "powerpoint_preview": "slides/previews/com-export/L10-research-20261009T033506208Z"
+      "rendered": false,
+      "visual_review": "pending"
     }
   ],
   "note": "Package validation is separate from visual inspection and actual trial teaching."
