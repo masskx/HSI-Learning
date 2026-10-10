@@ -1,0 +1,4 @@
+# Local video-intro rendering only (scripts/build_video_intro.py); ffmpeg must be on PATH.
+playwright>=1.45,<2
+numpy>=1.24
+scipy>=1.10  # optional: recompute the Indian Pines mean spectrum; cached in video/intro/spectrum.json

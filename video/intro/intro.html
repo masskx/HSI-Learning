@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HSI-Learning 片头</title>
+<!--
+  HSI-Learning video intro — same design tokens as slides/src/deck_design.py:
+  paper white, ink blue, one terracotta accent, hyperspectral gradient strip.
+
+  Every visual property is a pure function of time t (renderFrame(t)), so the
+  build script can step frames deterministically. Opened directly in a browser
+  it plays in real time; click to replay.
+
+  URL params:  ?lesson=L01   lesson variant (ends on that lesson's cover layout)
+               (none)        series variant
+               &capture=1    no autoplay, no viewport scaling (used by the build)
+               &t=3.2        freeze at a given time (for design review)
+-->
+<script src="intro-data.js"></script>
+<style>
+  :root {
+    --ink: #1C2B3A;      /* deck_design.INK */
+    --sub: #5C6B7A;      /* deck_design.SUB */
+    --line: #D9E2E9;     /* deck_design.LINE */
+    --accent: #C9571E;   /* deck_design.ACCENT */
+    --paper: #FFFFFF;
+    --cjk: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+    --mono: Consolas, "SFMono-Regular", Menlo, "DejaVu Sans Mono", monospace;
+  }
+  html, body { margin: 0; height: 100%; background: #0E141A; overflow: hidden; }
+  body.capture { background: var(--paper); }
+  /* 1920x1080 stage; 1 slide inch = 144 px, 1 pt = 2 px. */
+  #stage {
+    position: absolute; left: 0; top: 0; width: 1920px; height: 1080px;
+    background: var(--paper); overflow: hidden; transform-origin: 0 0;
+    font-family: var(--cjk); color: var(--ink);
+    -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision;
+  }
+  .abs { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+  .bar { position: absolute; left: 0; top: 0; width: 1px; height: 1px; }
+  #strip { left: 0; top: 0; width: 24.5px; height: 1080px; opacity: 0; }
+  #curve { left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+  #head { width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--accent);
+          box-shadow: 0 0 0 6px rgba(201, 87, 30, 0.16); }
+  #caption { font-family: var(--mono); font-size: 19px; color: var(--sub); letter-spacing: 0.06em; white-space: nowrap; }
+  #mark { left: 158px; top: 161px; font-size: 25px; color: var(--sub); white-space: nowrap; line-height: 1.32;
+          transform-origin: 0 0; }
+  #mark b { font-weight: 700; letter-spacing: 6px; }
+  #mark span { letter-spacing: 4px; }
+  #lid { left: 156px; top: 248px; font-size: 92px; font-weight: 700; color: var(--accent); line-height: 1.32; white-space: nowrap; }
+  #title { left: 156px; top: 412px; width: 1570px; font-size: 74px; font-weight: 700; line-height: 1.32; }
+  #subtitle { left: 158px; top: 636px; width: 1512px; font-size: 36px; color: var(--sub); line-height: 1.32; }
+  #rule { left: 158px; top: 746px; width: 1570px; height: 2px; background: var(--line); transform-origin: 0 0; }
+  #outputs { left: 158px; top: 786px; width: 1570px; font-size: 30px; color: var(--sub); line-height: 1.32; white-space: nowrap; }
+  #outputs b { color: var(--ink); font-weight: 700; }
+  #prereq { left: 158px; top: 924px; width: 1570px; font-size: 26px; color: var(--sub); line-height: 1.32; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bars"></div>
+  <svg id="curve" class="abs" viewBox="0 0 1920 1080">
+    <defs>
+      <linearGradient id="spec" gradientUnits="userSpaceOnUse" x1="360" y1="0" x2="1560" y2="0"></linearGradient>
+    </defs>
+    <path id="curvePath" d="" fill="none" stroke="url(#spec)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" pathLength="1"></path>
+  </svg>
+  <div id="head" class="abs"></div>
+  <div id="caption" class="abs"></div>
+  <div id="strip" class="abs"></div>
+  <div id="mark" class="abs"><b>HSI-LEARNING</b><span>  ·  高光谱图像分类课程</span></div>
+  <div id="lid" class="abs"></div>
+  <div id="title" class="abs"></div>
+  <div id="subtitle" class="abs"></div>
+  <div id="rule" class="abs"></div>
+  <div id="outputs" class="abs"></div>
+  <div id="prereq" class="abs"></div>
+</div>
+<script>
+(() => {
+  const DATA = window.INTRO_DATA;
+  const params = new URLSearchParams(location.search);
+  const CAPTURE = params.has('capture');
+  const DURATION = 6.5;
+  // deck_design.SPECTRAL_STOPS, violet -> red.
+  const STOPS = ['472A8A', '2C5FB0', '1F8FB8', '2E9E4F', 'F2C316', 'E8752A', 'D33A2C'];
+
+  // ---------------------------------------------------------- content
+  const id = (params.get('lesson') || '').toUpperCase();
+  const card = DATA.lessons[id] || DATA.series;
+  const $ = (s) => document.getElementById(s);
+  $('lid').textContent = card.id;
+  $('title').textContent = card.title;
+  $('subtitle').textContent = card.subtitle;
+  $('outputs').innerHTML = '';
+  const ob = document.createElement('b'); ob.textContent = card.outputs_label + ' · ';
+  $('outputs').append(ob, document.createTextNode(card.outputs.join('  ·  ')));
+  $('prereq').textContent = card.footer;
+  $('caption').textContent = DATA.caption;
+
+  // ---------------------------------------------------------- helpers
+  const clamp = (v) => Math.max(0, Math.min(1, v));
+  const seg = (t, a, b) => clamp((t - a) / (b - a));
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const outCubic = (k) => 1 - Math.pow(1 - k, 3);
+  const outQuint = (k) => 1 - Math.pow(1 - k, 5);
+  const inOutCubic = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+  const hex = (h) => [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const spectral = (u) => {
+    const x = clamp(u) * (STOPS.length - 1), i = Math.min(Math.floor(x), STOPS.length - 2), f = x - i;
+    const a = hex(STOPS[i]), b = hex(STOPS[i + 1]);
+    return `rgb(${a.map((v, j) => Math.round(lerp(v, b[j], f))).join(',')})`;
+  };
+  const mix = (h1, h2, k) => { const a = hex(h1), b = hex(h2); return `rgb(${a.map((v, j) => Math.round(lerp(v, b[j], k))).join(',')})`; };
+
+  // ---------------------------------------------------------- geometry
+  const N = DATA.spectrum.length;           // 200 bands
+  const X0 = 360, X1 = 1560, BASE = 610, AMP = 270;
+  const PITCH = (X1 - X0) / (N - 1);
+  const STRIP_W = 24.5, SEG_H = 1080 / N;   // cover strip: 0.17 in wide, full height
+  const xs = DATA.spectrum.map((_, i) => X0 + i * PITCH);
+  const ys = DATA.spectrum.map((v) => BASE - 22 - v * (AMP - 22));
+
+  $('curvePath').setAttribute('d', xs.map((x, i) => `${i ? 'L' : 'M'}${x.toFixed(2)},${ys[i].toFixed(2)}`).join(''));
+  const grad = $('spec');
+  STOPS.forEach((c, i) => {
+    const s = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+    s.setAttribute('offset', i / (STOPS.length - 1)); s.setAttribute('stop-color', '#' + c);
+    grad.appendChild(s);
+  });
+  $('strip').style.background = `linear-gradient(to bottom, ${STOPS.map((c) => '#' + c).join(', ')})`;
+  const bars = DATA.spectrum.map((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'bar'; d.style.background = spectral(i / (N - 1));
+    $('bars').appendChild(d); return d;
+  });
+
+  const tf = (el, x, y, s = 1) => { el.style.transform = `translate(${x}px, ${y}px) scale(${s})`; };
+  const show = (el, o) => { el.style.opacity = o; el.style.visibility = o <= 0.001 ? 'hidden' : 'visible'; };
+  const rise = (el, t, a, b, dy = 26) => { const k = outCubic(seg(t, a, b)); show(el, k); tf(el, 0, (1 - k) * dy); };
+
+  // ---------------------------------------------------------- timeline
+  function renderFrame(t) {
+    // 1 · bands rise and the mean spectrum draws itself (0.25 – 1.45 s)
+    const fold0 = 2.85;
+    bars.forEach((el, i) => {
+      const u = i / (N - 1);
+      const grow = outCubic(seg(t, 0.25 + 0.95 * u, 0.25 + 0.95 * u + 0.4));
+      const h0 = (BASE - ys[i]) * grow;
+      // 2 · fold: every band slides into its slot of the left spectral strip
+      const st = fold0 + 0.42 * u;
+      const k = inOutCubic(seg(t, st, st + 0.72));
+      // travel as thin dashes: collapse height first, widen only on arrival
+      const kh = outCubic(seg(t, st, st + 0.36)), kw = Math.pow(k, 4);
+      const x = lerp(xs[i] - 1.4, 0, k);
+      const y = lerp(BASE - h0, i * SEG_H, k) + (1 - k) * k * 120 * (1 - u);
+      const w = lerp(2.8, STRIP_W, kw), h = lerp(Math.max(h0, 0.01), SEG_H + 0.8, kh);
+      el.style.transform = `translate(${x}px, ${y}px) scale(${w}, ${h})`;
+      el.style.transformOrigin = '0 0';
+      el.style.opacity = grow <= 0 ? 0 : lerp(0.3, 1, k);
+    });
+    const done = t >= fold0 + 0.42 + 0.72;
+    show($('bars'), done ? 0 : 1);
+    show($('strip'), done ? 1 : 0);
+
+    const draw = inOutCubic(seg(t, 0.25, 1.45));
+    const fadeA = 1 - seg(t, fold0 - 0.1, fold0 + 0.3);
+    const path = $('curvePath');
+    path.style.strokeDasharray = '1 1';
+    path.style.strokeDashoffset = 1 - draw;
+    show($('curve'), draw > 0 ? fadeA : 0);
+
+    const fi = draw * (N - 1), i0 = Math.min(Math.floor(fi), N - 2), f = fi - i0;
+    tf($('head'), lerp(xs[i0], xs[i0 + 1], f), lerp(ys[i0], ys[i0 + 1], f));
+    show($('head'), Math.min(seg(t, 0.25, 0.4), 1 - seg(t, 1.45, 1.75)));
+
+    const cap = $('caption');
+    const capK = outCubic(seg(t, 1.25, 1.85));
+    show(cap, capK * fadeA);
+    tf(cap, X0, BASE + 26 + (1 - capK) * 12);
+
+    // wordmark: centred under the spectrum, then settles into the cover kicker slot
+    const mark = $('mark');
+    const mw = mark.offsetWidth, mh = mark.offsetHeight;
+    const S = 1.85, cx = 960, cy = BASE + 170;
+    const inK = outCubic(seg(t, 1.35, 2.15));
+    const mv = inOutCubic(seg(t, fold0 + 0.05, fold0 + 0.95));
+    const s = lerp(S, 1, mv);
+    const x = lerp(cx - (S * mw) / 2 - 158, 0, mv);
+    const y = lerp(cy - (S * mh) / 2 - 161 + (1 - inK) * 18, 0, mv);
+    show(mark, inK);
+    tf(mark, x, y, s);
+    mark.querySelector('b').style.color = mix('1C2B3A', '5C6B7A', mv);
+
+    // 3 · cover layout builds in (matches deck_design.cover)
+    const c0 = 3.55;
+    rise($('lid'), t, c0, c0 + 0.7, 30);
+    const tk = outQuint(seg(t, c0 + 0.15, c0 + 1.0));
+    const title = $('title');
+    // mask reveal: glyphs rise from behind the title's own baseline
+    const lift = (1 - tk) * title.offsetHeight;
+    show(title, tk > 0 ? 1 : 0);
+    title.style.clipPath = `inset(0 0 ${lift}px 0)`;
+    tf(title, 0, lift);
+    rise($('subtitle'), t, c0 + 0.4, c0 + 1.05, 20);
+    const rk = inOutCubic(seg(t, c0 + 0.5, c0 + 1.4));
+    show($('rule'), rk > 0 ? 1 : 0);
+    $('rule').style.transform = `scaleX(${rk})`;
+    rise($('outputs'), t, c0 + 0.75, c0 + 1.35, 16);
+    rise($('prereq'), t, c0 + 0.9, c0 + 1.5, 16);
+  }
+
+  window.INTRO = { renderFrame, DURATION, id: card.id };
+
+  // ---------------------------------------------------------- playback
+  const stage = $('stage');
+  if (CAPTURE) {
+    document.body.classList.add('capture');
+    renderFrame(0);
+    return;
+  }
+  const fit = () => {
+    const k = Math.min(innerWidth / 1920, innerHeight / 1080);
+    stage.style.transform = `translate(${(innerWidth - 1920 * k) / 2}px, ${(innerHeight - 1080 * k) / 2}px) scale(${k})`;
+  };
+  addEventListener('resize', fit); fit();
+  if (params.has('t')) { document.fonts.ready.then(() => renderFrame(parseFloat(params.get('t')))); return; }
+  let start = null, running = false;
+  const loop = (now) => {
+    if (start === null) start = now;
+    const t = (now - start) / 1000;
+    renderFrame(Math.min(t, DURATION));
+    running = t < DURATION;
+    if (running) requestAnimationFrame(loop);
+  };
+  const play = () => { start = null; if (!running) { running = true; requestAnimationFrame(loop); } };
+  document.fonts.ready.then(play);
+  addEventListener('click', play);
+})();
+</script>
+</body>
+</html>
