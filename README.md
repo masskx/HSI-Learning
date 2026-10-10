@@ -17,6 +17,7 @@
 - [新手启动指南](docs/getting-started.md)
 - [国庆录制安排](docs/teaching/recording-schedule.md) · [录制验收清单](docs/teaching/recording-checklist.md)
 - [视频片头（与课件封面无缝衔接，含系列片头与全部 12 课片头）](video/intro/README.md)
+- [逐页录课讲稿（12 课，TXT，可打印）](lesson/00-使用说明.txt)
 - [方法来源审计](docs/teaching/source-audit.md) · [教学纠错记录](docs/teaching/errata.md)
 
 **录课状态与旧章节状态分开记录。** 下面的历史 ✅ 不代表本轮已经完成来源复核、修正版执行与试录。修正版演示须通过测试/资产核验/图像检查后再发布；历史实验不作为新实现的执行证据。

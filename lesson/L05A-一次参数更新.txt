@@ -1,0 +1,188 @@
+﻿L05A · 模型的一次参数更新  —— 本课问题：模型怎样完成一次参数更新？
+================================================================
+课件：slides/decks/L05A-training.pptx（共 10 页）
+Notebook：notebooks/10_training_step_classroom.ipynb（cell：environment → batch → forward-loss → one-update → 新建 1 个 cell → mode-gradient → checkpoint）
+片头：video/intro/renders/HSI-Learning-intro-L05A-1080p60.mp4
+建议总时长：约 16 分钟（PPT 7 分钟 / Notebook 7 分钟 / 收尾 2 分钟）
+
+本课主线：训练就是不断重复“一次更新”。把一个 batch 拿出来，逐步看清楚：标签怎么变成 target，logits 怎么变成 loss，梯度怎么变成参数的变化。
+
+
+第一部分 · PPT 讲解
+================================================================
+
+▶ 第 1 页 · 封面（约 1 分钟）
+【画面】L05A，“模型的一次参数更新”，本课问题：模型怎样完成一次参数更新？
+【讲】
+  上节课我们把一个像元变成了 patch。今天把一批 patch 送进神经网络。
+  大家都听过“训练 20 个 epoch”，可是训练的最小单位，其实是“一次参数更新”。
+  今天我们不跑完整训练，只拿一个 batch，把这一次更新拆开看：每一步发生了什么，每个张量是什么形状。
+
+▶ 第 2 页 · 这节课，你将完成什么（约 0.5 分钟）
+【画面】一个 batch 的数据流 / 参数更新证据 / 验证 checkpoint 规则；Notebook 10，作业 A03。
+【讲】
+  三个交付物：画出一个 batch 的数据流；拿到参数确实被更新了的证据；以及理解为什么要用验证集选 checkpoint。
+  Notebook 是 10_training_step_classroom。
+
+▶ 第 3 页 · 从中心标签到模型 target（约 1 分钟）
+【画面】左：原始类别 1…16 / 损失 target 为 0…15 / 背景 0 不进入监督样本；右：Patch + center GT → class ID→target → logits: N×16。
+【讲】
+  第一步，标签。GT 里的类别编号是 1 到 16，0 是未标注。
+  但 PyTorch 的交叉熵要求 target 从 0 开始，所以要做一次映射：类别 1 变成 0，类别 16 变成 15。
+  未标注的 0 根本不进入训练样本，所以不会和类别 1 映射后的 0 混淆。
+  网络对每个样本输出 16 个分数，N 个样本就是 N 乘 16，这就是 logits。
+
+▶ 第 4 页 · Logits 与交叉熵（约 1.5 分钟）
+【画面】三张卡片：argmax 得到类别索引 / CE 内部使用 log-softmax / 输入 loss 不预先重复 softmax。
+【讲】
+  logits 是没有归一化的分数。要知道预测的是哪一类，取最大值所在的位置，也就是 argmax。
+  要计算损失，PyTorch 的 cross_entropy 会在内部先做 log-softmax，再取正确类别那一项的负值。
+  所以一个常见错误是：自己先做一次 softmax，再送进 cross_entropy，等于做了两次，结果就不对了。
+  手算一个最简单的例子：两类，logits 是 2 和 1，正确答案是第 0 类。
+  softmax 以后第 0 类的概率是 e² 除以 (e² + e¹)，大约 0.731，取负对数，交叉熵约等于 0.313。
+  待会儿 Notebook 里会验证这个数。
+
+▶ 第 5 页 · 一次更新的四个操作（约 1.5 分钟）
+【画面】左侧四条；右侧流程：zero_grad → forward → loss → loss.backward → optimizer.step。
+【讲】
+  一次参数更新，就是这四行代码，顺序不能乱。
+  第一，zero_grad，把上一次留下的梯度清零。PyTorch 的梯度默认是累加的，不清零就会叠上去。
+  第二，前向，算出这个 batch 的 loss。
+  第三，backward，自动求出 loss 对每个参数的梯度。
+  第四，step，优化器按自己的规则，用梯度去更新参数。
+  最简单的 SGD，规则就是：新参数 = 旧参数 − 学习率 × 梯度。
+  请记住这个公式，等会儿我们会在输出里亲眼看到它。
+
+▶ 第 6 页 · 模式与梯度是两套开关（约 1 分钟）
+【画面】三线表：model.eval() 固定 BN/关闭 Dropout 随机性 / torch.no_grad() 不记录 autograd 图 / Grad-CAM eval 且允许梯度。
+【讲】
+  这一页很多人都会搞混。PyTorch 里有两套独立的开关。
+  一套是 train 和 eval 模式，它只影响 BatchNorm 和 Dropout 这些层的行为。
+  另一套是要不要记录梯度，用 torch.no_grad 来关。
+  所以 eval 模式下，照样可以算梯度。后面讲 Grad-CAM 的时候，就正好需要“eval 模式、但允许梯度”。
+
+▶ 第 7 页 · 验证选模型，测试做报告（约 1 分钟）
+【画面】三张卡片：记录每轮训练与验证表现 / best_epoch 按 validation 冻结 / 一次 batch loss 下降不证明泛化提升。
+【讲】
+  训练很多轮以后，选哪一轮的模型？
+  我们记录每一轮的训练精度和验证精度，选验证精度最高的那一轮，叫 best_epoch，然后冻结。
+  测试集不参与这个选择。
+  还要提醒：一个 batch 上 loss 下降了，只说明模型在这 8 个样本上更好了一点，不能证明它在新数据上更好。
+
+▶ 第 8 页 · 让代码验证你的判断（约 0.5 分钟）
+【画面】代码：learner = deepcopy(model) / SGD / zero_grad / loss / backward / step。
+【讲】
+  注意第一行：deepcopy，我们复制一份模型来做实验，原来的演示模型一点都不动。
+【操作】切到 Jupyter，打开 notebooks/10_training_step_classroom.ipynb。
+
+
+第二部分 · Notebook 实操（约 7 分钟）
+================================================================
+【操作】确认 kernel；Restart and Clear Outputs。
+
+▶ 步骤 1 · cell「environment」
+【操作】运行。
+
+▶ 步骤 2 · cell「batch」
+【讲】
+  加载课前训练好的分类模型，取训练集前 8 个像元，切出 9 乘 9 的 patch。
+  预测一下：x 的形状是什么？
+【停顿】
+【操作】运行。
+【屏幕上应看到】
+  Patch: torch.Size([8, 12, 9, 9]) original IDs: [ 3 15 15  3  3  3 15 15] model targets: tensor([ 2, 14, 14,  2,  2,  2, 14, 14])
+【讲】
+  8 个样本、12 个 PCA 通道、9 乘 9，就是上节课的 B、12、9、9。
+  看标签：原始类别 3 变成了 target 2，原始类别 15 变成了 target 14，正好都减了 1。
+
+▶ 步骤 3 · cell「forward-loss」
+【操作】运行。
+【屏幕上应看到】
+  Logits: torch.Size([8, 16]) predicted indices: tensor([ 2, 14, 14,  2,  2,  2, 14, 14])
+  Cross entropy accepts logits: 0.03661684691905975
+  Hand-check -log(softmax([2,1])[0]): 0.31326165795326233
+【讲】
+  logits 是 8 乘 16。argmax 出来的预测和 target 完全一样，因为这个模型已经训练过了，这 8 个又是训练样本。
+  所以 loss 很小，0.037。
+  最后一行就是第 4 页手算的那个例子：0.313，对上了。
+
+▶ 步骤 4 · cell「one-update」
+【讲】
+  现在复制一份模型，用学习率 0.001 的 SGD，做一次完整的更新。
+  我们盯住最后一层的权重，看它的梯度有多大，更新前后变了多少。
+【操作】运行。
+【屏幕上应看到】
+  Gradient norm: 0.40607818961143494
+  Weight change: 0.00040607861592434347
+  One batch update is not evidence of test improvement.
+【讲】
+  梯度的范数是 0.406，权重变化的范数是 0.000406。
+  正好是学习率 0.001 乘以梯度——这就是第 5 页那个公式：新参数等于旧参数减去学习率乘梯度。
+  cell 里还有两个断言：复制的模型权重确实变了，原来的模型权重一点没变。
+【如果不一样】这几个数字来自课前训练的模型，换机器重训会略有不同，但“权重变化 = 0.001 × 梯度范数”这个关系一定成立。
+
+▶ 步骤 5 · 新建 cell：漏掉 zero_grad 会怎样（本课的受控练习）
+【讲】
+  PPT 第 9 页的练习：如果忘了 zero_grad，连续做两次 backward，梯度会怎样？先猜。
+【停顿】
+【操作】在 one-update 下面新建一个 cell，输入：
+
+    learner2 = deepcopy(model); learner2.eval()
+    w = learner2.head[-1].weight
+    F.cross_entropy(learner2(x), y).backward(); g1 = w.grad.clone()
+    F.cross_entropy(learner2(x), y).backward(); g2 = w.grad.clone()
+    print(float(g1.norm()), float(g2.norm()), torch.allclose(g2, 2 * g1))
+
+【操作】运行。
+【屏幕上应看到】0.406... 0.812... True
+【讲】
+  第二次的梯度正好是第一次的两倍。因为 PyTorch 把两次的梯度加在了一起。
+  如果这时候 step，就相当于用了两倍的学习率，而且混进了上一个 batch 的信息。
+  这就是为什么 zero_grad 必须放在每次更新的开头。
+
+▶ 步骤 6 · cell「mode-gradient」
+【讲】验证第 6 页：eval 模式下，输出依然带着梯度信息；只有 no_grad 里才没有。
+【操作】运行。
+【屏幕上应看到】
+  training flag: True
+  train/eval controls BN and Dropout; grad mode controls autograd.
+【讲】两个断言都通过：eval 不等于不求导。
+
+▶ 步骤 7 · cell「checkpoint」
+【操作】运行。
+【屏幕上应看到】训练和验证精度随 epoch 变化的曲线，一条灰色虚线标在被选中的那一轮；下面打印 Checkpoint selected by validation: 13。
+【讲】
+  这是课前训练 20 轮的记录。蓝线是训练精度，橙线是验证精度。
+  灰色虚线是按验证精度选出来的第 13 轮：在 20 轮里，它的验证精度最高。
+  大家可以对比一下这一轮之后，训练线和验证线各自怎么走——这就是我们只信验证集的原因。
+  整个选择过程没有看测试集。
+【如果不一样】选中的轮次以屏幕为准（你电脑上的课前训练选的是第 13 轮）。
+【操作】切回 PPT，翻到第 9 页。（新建的 cell 录完删除，不要保存。）
+
+
+第三部分 · 收尾（回到 PPT，约 2 分钟）
+================================================================
+
+▶ 第 9 页 · 停下来，做一次判断
+【画面】课堂预测：漏掉 zero_grad，连续两次 backward 后检查梯度；只操作复制模型。退出题：eval 模式是否一定没有梯度？
+【讲】
+  左边的练习刚做过：梯度会累加成两倍。
+  退出题：eval 模式下，是不是一定没有梯度？
+【停顿】
+【讲】
+  不是。eval 只管 BatchNorm 和 Dropout，要不要梯度由 no_grad 决定。
+
+▶ 第 10 页 · 结论要有边界
+【画面】已知：单 batch 更新不保证 test 改善；边界：训练模式与梯度模式分别控制。
+【讲】
+  今天的两条结论：一次 batch 的更新，不保证测试集会变好；训练模式和梯度模式，是两个独立的开关。
+  如果你想让 AI 帮你读一段训练代码，可以让它标出：哪些是输入、哪些是参数、哪些是梯度、哪些是优化器状态，
+  并写出每个形状从哪里来——然后你自己运行一遍核对。
+  课后作业 A03 里有一张形状表，请完成它。
+  下一课，我们打开网络内部：1D、2D、3D 卷积，到底在沿哪个轴卷积？我们下节课见。
+
+
+备用 · 出错时
+----------------------------------------------------------------
+  - FileNotFoundError: Missing verified demo bundle → results/teaching_ready 里缺 classifier-ce，按使用说明运行准备脚本。
+  - 新建 cell 报 NameError: deepcopy → 先运行 batch cell（它导入了 deepcopy）。

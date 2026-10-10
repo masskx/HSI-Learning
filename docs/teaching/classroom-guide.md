@@ -59,7 +59,7 @@ Notebook03–09保留历史训练，不是默认现场队列。Notebook02旧版�
 
 ## 课件构建
 
-新课件在`slides/decks/`，同版副本在`slides/classroom/`。入口`build_course_slides.py`使用JS Artifact Tool；内容源为`slides/src/course_content.py`与`classroom_content.py`。旧deck_design.py为历史实现。
+新课件在`slides/decks/`。入口`build_course_slides.py`默认使用`scripts/build_course_slides.js`（pptxgenjs，需先在`slides/`运行`npm install`），`--engine artifact-tool`可用旧版JS Artifact Tool；内容源为`slides/src/course_content.py`与`classroom_content.py`。旧deck_design.py为历史实现。逐页录课讲稿见`lesson/`。
 
 ```powershell
 .\.venv\Scripts\python.exe scripts/build_course_slides.py

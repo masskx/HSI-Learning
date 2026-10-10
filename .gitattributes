@@ -1,0 +1,3 @@
+
+# Lesson scripts are Windows text files (BOM + CRLF) meant for printing
+lesson/*.txt text eol=crlf
