@@ -1,5 +1,6 @@
 # L05 · 1D、2D、3D，究竟在沿哪个轴卷积？
 
+当前课堂执行入口：先L05A/Notebook10，再Notebook12：manual-convolution / three-axes / receptive-field。以下历史入口只用于延伸阅读，逐课顺序见[classroom-guide](../classroom-guide.md)。
 目标：讲清输入轴、核与通道，而非背模型排行榜。前置 L04；notebooks 04/05/06，ch05–07。定位 `SpectralCNN1D` / `SpectralSpatialCNN2D` / `SpectralSpatialCNN3D`。
 
 ## 25 分钟节奏

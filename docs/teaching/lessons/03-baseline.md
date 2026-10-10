@@ -1,5 +1,6 @@
 # L03 · 上神经网络前，SVM 能告诉我们什么？
 
+当前课堂执行入口：Notebook02：pipeline / kernel-scale / pca-confusion。以下历史入口只用于延伸阅读，逐课顺序见[classroom-guide](../classroom-guide.md)。
 目标：跑通一个标注像元 baseline，理解 RBF 的尺度依赖。前置 L02；notebook 02，定位 `SVC` / `train_test_split`，ch03 作为阅读。
 
 ## 节奏（20 分钟）

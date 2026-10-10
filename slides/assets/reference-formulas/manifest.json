@@ -1,0 +1,20 @@
+{
+  "B=2,\\ C=16 \\;\\Rightarrow\\; \\mathrm{logits} \\in \\mathbb{R}^{2 \\times 16}": "6e3ff11d954a8aea.png",
+  "X \\in \\mathbb{R}^{H \\times W \\times B}": "9f8cec901d16d374.png",
+  "145 \\times 145 \\times 200": "30a767a202c53840.png",
+  "OA = \\frac{900}{1000} = 0.90 \\qquad AA = \\frac{1+0+0}{3} = \\frac{1}{3}": "46b0beb26470ddbc.png",
+  "\\kappa = \\frac{p_o - p_e}{1 - p_e} = \\frac{0.90 - 0.90}{0.10} = 0": "11ef235b9ae82cfe.png",
+  "K(x, x\\') = \\exp(-\\gamma \\, \\| x - x\\' \\|^2)": "88624ff8675567ad.png",
+  "p = \\frac{s-1}{2} \\qquad \\mathrm{center} = (r{+}p,\\ c{+}p)": "c866e4e33a7ad2eb.png",
+  "\\mathrm{Params} = C_{\\mathrm{out}} \\left( \\frac{C_{\\mathrm{in}}}{g}\\, k_h k_w + 1 \\right)": "f55e3bdc291aaa3e.png",
+  "r' = r + (k-1)\\,j \\qquad j' = j \\times s": "4c6cf9aac6a7fcc3.png",
+  "32 \\times 3 \\times 19 \\times 19 \\;=\\; 96 \\times 19 \\times 19": "ceeabf2cff25045f.png",
+  "18{,}496 \\times 256 + 256 = 4{,}735{,}232": "dadd2f4932276fb6.png",
+  "w_c = \\frac{N}{C\\, n_c} \\qquad FL = -(1 - p_t)^{\\gamma} \\log p_t": "2d1e097ac6a4faf3.png",
+  "\\alpha_k = \\frac{1}{HW} \\sum_{i,j} \\frac{\\partial z_c}{\\partial A_{ij}^{k}} \\qquad \\mathrm{CAM} = \\mathrm{ReLU}\\left(\\sum_{k} \\alpha_k A^{k}\\right)": "4928d27b3768c94b.png",
+  "c_k = \\mathrm{mean}_i\\, f(x_i) \\qquad \\mathrm{logits} = - \\| f(q) - c_k \\|^2": "64512837290ee47a.png",
+  "s_{\\mathrm{MSP}}(x) = 1 - \\max\\, \\mathrm{softmax}(z(x))": "5c7724d6fc716830.png",
+  "s_{\\mathrm{dist}}(x) = \\min_k \\| f(x) - c_k \\|_2": "3186cfc446912a40.png",
+  "\\tau = Q_{0.95}(s_{\\mathrm{val}}) \\qquad s > \\tau \\;\\Rightarrow\\; \\mathrm{reject}": "d1fb2414c7a3e0b0.png",
+  "\\Delta_i = \\mathrm{m}_{\\mathrm{var}}(\\mathrm{seed}_i) - \\mathrm{m}_{\\mathrm{base}}(\\mathrm{seed}_i)": "edf14877829e68f2.png"
+}

@@ -1,8 +1,8 @@
 # 录课主线：先解决问题，再解释方法
 
-本页是第一批视频的唯一导航。章节号是阅读编号，Notebook 前缀是历史文件编号，视频使用独立的 L00–L10，三者不强行改名。
+当前课堂入口为[classroom-guide](classroom-guide.md)，包含12个单元（新增L05A）。本页保留视频导航。章节号是阅读编号，Notebook 前缀是历史文件编号，视频使用独立的 L00–L10，三者不强行改名。
 
-**当前状态：11张讲课卡已准备；新版00/15/16/17已通过本机执行、嵌图检查与11张图目检，可进入试录。** 旧01–09兼容复验、剩余文稿与论文来源核验仍待完成，不把核心四本的通过状态推广到整套课程。详见 [交付状态](delivery-status.md)。
+**本轮执行与课件验收见[revision-validation](revision-validation.md)。** 历史训练记录与当前演示分开；真实课堂试讲仍需教师观察学生反馈。
 
 | 视频 | 问题式标题 | 阅读 | 演示入口 | 本节交付物 |
 |---|---|---|---|---|
@@ -10,9 +10,10 @@
 | [L01](lessons/01-data.md) | 200 个波段，是 200 张照片吗？ | ch01 | notebook 01 / 00 | cube、光谱、GT 对照 |
 | [L02](lessons/02-protocol.md) | 99% 准确率，为什么可能没有意义？ | ch02 | notebook 02 + 手算例 | 样本划分与指标核对表 |
 | [L03](lessons/03-baseline.md) | 上神经网络前，SVM 能告诉我们什么？ | ch03 | notebook 02 | 可复现基线与调参边界 |
-| [L04](lessons/04-patches.md) | 一个像元怎样变成模型输入？ | ch04 | notebook 03 数据部分 | patch 坐标/形状断言 |
-| [L05](lessons/05-convolutions.md) | 1D、2D、3D，究竟在沿哪个轴卷积？ | ch05–07 | notebooks 04–06 | 形状表与模型比较限制 |
-| [L06](lessons/06-hybridsn.md) | HybridSN 的 reshape 为什么是关键？ | ch08 | notebook 03/09 | 论文—代码映射表 |
+| [L04](lessons/04-patches.md) | 一个像元怎样变成模型输入？ | ch04 | notebook 11 + 02 spatial-split | patch 坐标/形状断言 |
+| [L05A](lessons/05a-training.md) | 模型怎样完成一次参数更新？ | training bridge | notebook 10 | 梯度与参数变化 |
+| [L05](lessons/05-convolutions.md) | 1D、2D、3D，究竟在沿哪个轴卷积？ | ch05–07 | notebook 12 | 形状表与模型比较限制 |
+| [L06](lessons/06-hybridsn.md) | HybridSN 的 reshape 为什么是关键？ | ch08 | notebook 11 | 论文—代码映射表 |
 | [L07](lessons/07-errors.md) | OA 很高，为什么小类仍全错？ | ch15 | notebook 15 | 召回表、真实 Grad-CAM |
 | [L08](lessons/08-few-shot.md) | 5-shot 究竟用了多少标签？ | ch16 | notebook 16 | 类划分、episode 清单、原型 map |
 | [L09](lessons/09-open-set.md) | 模型能学会说“不知道”吗？ | ch17 | notebook 17 | 校准阈值、拒识图、误拒/漏检 |

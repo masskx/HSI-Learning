@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-09",
+  "tests_passed": 20,
+  "classroom_notebooks_executed": [
+    "00",
+    "01",
+    "02",
+    "10",
+    "11",
+    "12",
+    "15",
+    "16",
+    "17"
+  ],
+  "notebooks_directory_recheck": "passed",
+  "historical_03_09_scope": "path bootstrap only",
+  "student_fill_answer_contracts": "A01-A06 passed; blanks intentionally retained",
+  "readiness_checks_passed": 268,
+  "pptx_decks": 12,
+  "pptx_slides": 147,
+  "powerpoint_rendering": "all final pages exported",
+  "visual_scope": "all 147 pages individually reviewed at 1600x900; classroom trial pending",
+  "git_diff_check": "passed",
+  "primary_guide": "docs/teaching/classroom-guide.md",
+  "design_version": 2,
+  "design_style": "科研极简：浅底、深蓝、大图、克制排版"
+}

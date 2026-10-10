@@ -8,7 +8,7 @@
 
 ## 本章定位
 
-模型篇引入残差思想的一章。SSRN（Zhong et al., *IEEE TGRS* 2018）把"通用深度学习组件（ResNet）迁移到高光谱"的套路走了一遍：**谱域残差块**专攻光谱轴、**空间残差块**专攻空间轴，中间用过渡卷积衔接。本章还有两个"超出 notebook"的任务：其一是补上论文提出但 notebook 未实现的光谱不变性正则（SIR）并做**消融实验**——结果是一个负结果，而学会处理负结果正是本章最值钱的部分；其二是把 SSRN 放进协议 C 的演化线，观察"OA 冠军"与"全面冠军"的区别。
+本章讲解教学版SSRN的谱域残差块、空间残差块与过渡卷积，并以课程自定义的空间方差惩罚练习消融。教学实现未逐层核对原论文，扩展损失的结果不能用来评价原论文贡献。历史协议C/D各自报告，课堂新实验采用指南中的协议E。
 
 ## 学习目标 / Learning Objectives
 
@@ -74,13 +74,13 @@ $$y = \mathcal{F}(x) + x$$
 
 下面是**课程自定义的空间特征方差惩罚**（旧脚本沿用 `--lambda-sir` 参数名，不代表原论文归属）：假设patch内不同位置的谱特征应相近。这个假设在混合类别边界可能不成立，需要单独验证。
 
-$$\mathcal{L}_{SIR} = \frac{1}{NCD}\sum_{n,c,h,w,d}\left(s_{n,c,h,w,d} - \bar{s}_{n,c,d}\right)^2, \qquad \bar{s}_{n,c,d} = \frac{1}{HW}\sum_{h,w} s_{n,c,h,w,d}$$
+$$\mathcal{L}_{SIR} = \frac{1}{NCDHW}\sum_{n,c,h,w,d}\left(s_{n,c,h,w,d} - \bar{s}_{n,c,d}\right)^2, \qquad \bar{s}_{n,c,d} = \frac{1}{HW}\sum_{h,w} s_{n,c,h,w,d}$$
 
 即谱残差块输出 $s$ 在空间位置上的方差（对空间位置取均值后逐元素求差）。直觉：**小样本下，数据不够教会模型"patch 内光谱一致"，就把这条先验直接写进损失**。总损失 $\mathcal{L} = \mathcal{L}_{CE} + \lambda \cdot \mathcal{L}_{SIR}$。
 
 ### 实现
 
-notebook 08 并未实现 SIR。`scripts/train_ssrn.py` 补上了它：模型的 `forward` 把谱残差块输出存到 `self.last_spectral`，训练循环按上式计算 `sir` 并以 `--lambda-sir` 加权加入总损失（本课程实现，非论文原码）。因为损失不再是纯 CE，训练循环没有复用 `engine.fit`——这是"自定义损失需要自定义循环"的工程常识。
+notebook 08 没有这一课程扩展。`scripts/train_ssrn.py` 实现空间方差惩罚：模型的 `forward` 把谱残差块输出存到 `self.last_spectral`，训练循环按上式计算 `sir` 并以 `--lambda-sir` 加权加入总损失（本课程实现，非论文原码）。因为损失不再是纯 CE，训练循环没有复用 `engine.fit`——这是"自定义损失需要自定义循环"的工程常识。
 
 ### 消融：两次实验，两次负结果
 
@@ -101,10 +101,10 @@ notebook 08 并未实现 SIR。`scripts/train_ssrn.py` 补上了它：模型的 
 
 1. **协议饱和**：20% 训练 + 7×7 patch 重叠泄漏下，模型已经 98%+，正则没有发挥空间；5% 下虽然更"饥饿"，但泄漏依然存在（相对量更大）——SSRN 的训练动态可能已被泄漏主导；
 2. **λ 未调**：0.1 是拍脑袋值，λ=0.01 或 1.0 可能完全不同——单点 λ 的消融只说明"这个 λ 没用"；
-3. **实现差异**：本课程的 SIR 是按论文思想重写的（作用于谱残差块输出），与原文的作用位置/归一化方式可能有出入；
+3. **先验不匹配**：课程扩展鼓励patch内部特征一致；混合地物、未标注像元和边界可能违背这一假设，需受控对照。
 4. **单种子波动**：AA 差 2.8 个点（20% 时）在稀有类主导的 AA 上完全可能在种子间翻转（第 7 章 Alfalfa 0.595→0.000 的教训）。
 
-其中只有 (4) 能靠重复实验排除；(1)–(3) 需要受控协议下的系统消融——**这正是第 12 章的全部内容**。论文的主张在其自身协议内是否成立，要按其协议复现才能判断；**"论文说有效"与"我在我的设置下测出有效"之间隔着整个实验设计学科**。把一次负结果原原本本记下来（而不是悄悄删掉），是科研诚信的最小单元——本章的记分板行会如实记录 SIR = −0.21 OA。
+重复种子用于估计运行波动，不能排除所有随机性；参数扫描与空间对照分别检验不同候选解释。当前配置下的负结果应保留，但不外推到原论文或其他协议。
 
 ## 9.5 与 HybridSN 对照：OA 冠军 ≠ 全面冠军
 
@@ -120,7 +120,7 @@ notebook 08 并未实现 SIR。`scripts/train_ssrn.py` 补上了它：模型的 
 | HybridSN | 3D+2D 混合，patch 25 | 96.66 | 93.28 | 0.9619 |
 | **SSRN（本章）** | **分轴残差，patch 7，无 PCA** | **97.87** | 79.84 | 0.9756 |
 
-SSRN 拿下协议 C 的 **OA 与 Kappa 双冠**（97.87%），但 **AA 只有 79.84%**——逐类召回揭示原因：大类近乎完美（Corn-notill 0.988、Wheat/Woods/Grass-trees 1.000），而 **Alfalfa、Grass-pasture-mowed、Oats 三个稀有类全部 0.000**。对照 HybridSN（AA 93.28，Oats 1.000）——最大的结构差异不在残差，而在 **patch 尺寸：7 vs 25**。第 4 章图 4-1 的边界像元在 7×7 里几乎没有同类邻居可依赖，稀有类的小田块在 patch 7 下失去全部空间锚点。
+历史协议C中SSRN的OA为97.87%、AA为79.84%，Alfalfa、Grass-pasture-mowed、Oats的recall为0。与HybridSN的历史结果相比，划分、预处理、patch和训练预算存在差异；patch尺寸只能作为候选解释，须用同协议的受控实验检验。
 
 这一局的结论要写进你的科研直觉：**OA 最高的模型不一定是最好的模型**——在类别不均衡的基准上，OA 冠军完全可能靠牺牲稀有类换来。报告 OA+AA+Kappa 三件套（第 2 章）并在 AA 掉链子时回头查混淆矩阵，这套流程到此已经救过我们三次（第 6 章的 95.83%、本章的 97.87%）。至于残差本身的贡献——本章没有做"去残差"的消融，它和 SIR 一起留给第 12 章的规范化消融练习。
 
@@ -129,23 +129,23 @@ SSRN 拿下协议 C 的 **OA 与 Kappa 双冠**（97.87%），但 **AA 只有 79
 ## 配套实操 / Hands-on
 
 - `notebooks/08_ssrn_teaching.ipynb` —— 教学版 SSRN（无 SIR）：数据 → 每类划分 → patch 7 → 双分支残差网络 → 训练 → 整图预测；
-- `scripts/train_ssrn.py` —— 工程版，新增 `--lambda-sir`（论文正则）与 `--mode sklearn`（协议 C）；产物入 `results/ssrn/IP/`；
+- `scripts/train_ssrn.py` —— 工程版；`--lambda-spatial-variance`为课程扩展，兼容旧`--lambda-sir`名字；`--mode sklearn`使用历史协议C。
 - `scripts/generate_ch09_figures.py` —— 复现本章三张图与表 9-1；
 - 改动重跑建议：
-  - `--train-rate 0.02` → 每类 1–2 个样本的极端小样本场景，重测 SIR（论文的主场设定）；
+  - `--train-rate 0.02` → 小样本扩展实验；先报告实际每类训练数，再扫描空间方差惩罚权重。
   - `--lambda-sir 0.01 / 1.0` → λ 敏感性；
   - 消融雏形：删掉两个 shortcut（残差改顺序堆叠），对比训练曲线的前 10 个 epoch——直接观察"梯度高速公路"的差别。
 
 ## 本章要点 / Key Takeaways
 
-- 中文：残差学习让网络学"相对恒等的偏移"（梯度直通 + 深度无害），SSRN 把轴拆开——谱残差块 (1,1,7) 与空残差块 (3,3,1) 串行，过渡卷积占 86% 参数；SIR 把"patch 内光谱一致"的先验写进损失，但本课程两次消融（20% 与 5% 训练率）均未复现收益——归因清单（协议饱和、λ 未调、实现差异、单种子）里只有最后一项能靠重复排除，负结果如实入板；协议 C 内 SSRN 拿下 OA/Kappa 双冠（97.87%）但三个稀有类召回全零（AA 79.84，patch 7 之祸）——OA 冠军 ≠ 全面冠军，三件套 + 混淆矩阵第三次救场。
-- English: Residual learning fits offsets from identity (gradient highway + harmless depth); SSRN splits the axes — a spectral residual block (1,1,7) and a spatial one (3,3,1) in series, with the transition conv holding 86% of parameters. SIR encodes "spectra are spatially consistent within a patch" into the loss, but our two ablations (20% and 5% training) both failed to reproduce the gain — of the blame list (saturated protocol, untuned λ, implementation gap, single seed), only the last is fixable by repetition, and the negative result goes on the board as-is. In protocol C SSRN wins OA/Kappa (97.87%) yet all three rare classes sit at zero recall (AA 79.84 — the patch-7 tax): the OA champion is not the overall champion, and the metrics trio plus confusion matrix has now saved us three times.
+- 中文：残差提供恒等路径，但不保证加深无代价。教学版SSRN分开处理光谱与空间；课程空间方差惩罚在当前实验中未显示收益。多种子描述波动，受控消融检验机制；OA、AA和逐类recall共同报告。
+- English: Residual paths do not guarantee harmless depth. This teaching SSRN separates spectral and spatial operations. The custom spatial-variance penalty shows no gain in the recorded settings; this does not evaluate the original paper. Report seed variation, controlled ablations and per-class recall alongside OA and AA.
 
 ## 自测题 / Self-check
 
 1. 残差连接解决的是什么问题？如果某个残差块里 $\mathcal{F}$ 的权重全部学到 0，这个块输出什么？网络会崩吗？
 2. SSRN 的谱分支核是 `(1,1,7)`、空分支是 `(3,3,1)`，而第 7 章 3D CNN 用 `(7,3,3)` 联合核。用"因式分解"的语言解释两者的关系与各自的代价。
-3. SIR 消融得到两次负结果。列出至少三个可能原因，并指出哪一个可以通过"多种子重复实验"排除、哪一个必须靠 λ 扫描排除。
+3. 课程空间方差惩罚得到负结果。列出三个候选解释，并为每项设计可检验的对照；多种子能估计什么、不能排除什么？
 4. SSRN 在协议 C 下 OA 最高但 AA 只有 79.84%（三个稀有类全零）。如果你在论文里要声称"SSRN 优于 HybridSN"，审稿人最可能用哪个数字反驳你？你会如何补实验？
 
 <details>
@@ -153,13 +153,13 @@ SSRN 拿下协议 C 的 **OA 与 Kappa 双冠**（97.87%），但 **AA 只有 79
 
 1. 解决**退化问题**：纯堆叠的深层网络训练误差不降反升（优化失败，非过拟合）。若 $\mathcal{F} \to 0$，块输出 = shortcut(x) ≈ x（恒等映射）——信息原样通过，网络至少不比浅层差。"加深无害"正是残差的结构保证。
 2. 联合核 `(7,3,3)` 一次聚合"7 光谱 × 3×3 空间"，是三个轴的联合张量积；分轴设计 `(1,1,7)` → `(3,3,1)` 是把联合聚合**因式分解**成两次单轴聚合（先谱后空）。代价对比：分轴的参数与计算更省（聚合量 7 与 9 vs 联合的 63）、且各轴可用不同深度（谱核大、空核小），但两轴的**交互**要等到过渡卷积/后续层才发生——联合核在第一层就建模谱空交互。SSRN 赌的是"先各自提炼、再交互"更高效。
-3. 可能原因（本章 9.4 的清单）：协议饱和（泄漏主导，正则无空间）、λ 未调（0.1 单点）、实现与论文有差异（作用位置/归一化）、单种子波动。**多种子重复**只能排除第四个（波动）；**λ 扫描**排除第二个；第一、三个需要改协议（空间不相交、更小训练率）与对照原实现——各对应不同实验，别混为一谈。
+3. 候选解释包括权重未调、局部一致性先验不适合混合patch、训练预算或种子波动。配对种子估计波动，权重扫描比较响应，固定协议的边界分桶与输入消融检验先验；这些实验不保证排除所有替代解释。
 4. 最可能用 **AA 79.84% vs HybridSN 93.28%** 反驳：稀有类三连零说明 SSRN 在类别不均衡场景会系统性牺牲小类。补实验：(a) 把 patch 提到 25 重测（检验"patch 尺寸假说"——若 AA 回升则瓶颈确是上下文而非残差结构）；(b) 报告逐类召回表而非只有 OA；(c) 引入稀有类加权的损失重训；(d) 多种子均值 ± 方差确认差异的稳定性（第 12 章）。
 </details>
 
 ## 延伸阅读 / Further Reading
 
-- Zhong, Z., Li, J., Luo, Z., Chapman, M., "Spectral–spatial residual network for hyperspectral image classification: A 3-D deep learning framework," *IEEE TGRS*, 2018.——SSRN 原论文（含 SIR 的原始定义与实验设置）。
+- Zhong et al., Spectral–spatial residual network for hyperspectral image classification, IEEE TGRS, 2018. SSRN来源；本课程扩展损失不归属该论文。
 - He, K., Zhang, X., Ren, S., Sun, J., "Deep residual learning for image recognition," *CVPR*, 2016.——残差学习与退化问题的原始论文。
 - PyTorch 文档：`nn.Conv3d` 的多轴核、`Tensor.permute`（本章分支切换的实现）。
 - Roy, S. K., et al., *IEEE GRSL*, 2020（第 8 章已引）——与 SSRN 对照阅读：联合核 vs 分轴残差的两条设计路线。

@@ -1,0 +1,134 @@
+[
+  {
+    "id": "L00",
+    "file": "slides/decks/L00-environment.pptx",
+    "bytes": 105386,
+    "sha256": "1bcb7ff6a7f2177b93853cdde04cf37a219704aee8259726b5b347f25fc21141",
+    "slides": 12,
+    "powerpoint_png_count": 12,
+    "preview": "slides/previews/com-export/L00-environment-20261009T033506208Z",
+    "visual_review": "all pages individually reviewed at 1600x900",
+    "design_version": 2
+  },
+  {
+    "id": "L01",
+    "file": "slides/decks/L01-data.pptx",
+    "bytes": 645628,
+    "sha256": "c3be8e885c369dd77d077ee9a45140bbebcdb28ed7642af569be2c3dc4973512",
+    "slides": 13,
+    "powerpoint_png_count": 13,
+    "preview": "slides/previews/com-export/L01-data-20261009T033506208Z",
+    "visual_review": "all pages individually reviewed at 1600x900",
+    "design_version": 2
+  },
+  {
+    "id": "L02",
+    "file": "slides/decks/L02-protocol.pptx",
+    "bytes": 191221,
+    "sha256": "f7eeccb0f8784d8b9b5dbdfc4d078aa9c0208389d012b1510b22bdc065df4026",
+    "slides": 12,
+    "powerpoint_png_count": 12,
+    "preview": "slides/previews/com-export/L02-protocol-20261009T033506208Z",
+    "visual_review": "all pages individually reviewed at 1600x900",
+    "design_version": 2
+  },
+  {
+    "id": "L03",
+    "file": "slides/decks/L03-svm.pptx",
+    "bytes": 164178,
+    "sha256": "194cdd11aac439af0f41f590cb2cc791d33f2c49c78bce47f9ad0d6ccb8b5f80",
+    "slides": 12,
+    "powerpoint_png_count": 12,
+    "preview": "slides/previews/com-export/L03-svm-20261009T034403578Z",
+    "visual_review": "all pages individually reviewed at 1600x900",
+    "design_version": 2
+  },
+  {
+    "id": "L04",
+    "file": "slides/decks/L04-patch.pptx",
+    "bytes": 139092,
+    "sha256": "887a20b999a79ea71d98fe1dbf2a2cf3d18f88198a7703337906b0da21d4e994",
+    "slides": 12,
+    "powerpoint_png_count": 12,
+    "preview": "slides/previews/com-export/L04-patch-20261009T033506208Z",
+    "visual_review": "all pages individually reviewed at 1600x900",
+    "design_version": 2
+  },
+  {
+    "id": "L05A",
+    "file": "slides/decks/L05A-training.pptx",
+    "bytes": 144796,
+    "sha256": "393e32c42ccf979886914e2aee765b45be9377ba450967d6bb98559a93badfb8",
+    "slides": 10,
+    "powerpoint_png_count": 10,
+    "preview": "slides/previews/com-export/L05A-training-20261009T033506208Z",
+    "visual_review": "all pages individually reviewed at 1600x900",
+    "design_version": 2
+  },
+  {
+    "id": "L05",
+    "file": "slides/decks/L05-cnn.pptx",
+    "bytes": 194828,
+    "sha256": "656687d3af861f600fce305239d0f3514411d83470d99e252a9cada182ab4881",
+    "slides": 13,
+    "powerpoint_png_count": 13,
+    "preview": "slides/previews/com-export/L05-cnn-20261009T033506208Z",
+    "visual_review": "all pages individually reviewed at 1600x900",
+    "design_version": 2
+  },
+  {
+    "id": "L06",
+    "file": "slides/decks/L06-hybridsn.pptx",
+    "bytes": 302078,
+    "sha256": "8f4294432273be2e883c2be0e769d260231198e1573f3bd10ebfd9c3fee76bc3",
+    "slides": 12,
+    "powerpoint_png_count": 12,
+    "preview": "slides/previews/com-export/L06-hybridsn-20261009T034403578Z",
+    "visual_review": "all pages individually reviewed at 1600x900",
+    "design_version": 2
+  },
+  {
+    "id": "L07",
+    "file": "slides/decks/L07-errors.pptx",
+    "bytes": 291525,
+    "sha256": "bef44de674cc9c6408dbdfaf1039f7aa704592f0a3ab57dba71fad4ed0eae477",
+    "slides": 12,
+    "powerpoint_png_count": 12,
+    "preview": "slides/previews/com-export/L07-errors-20261009T033506208Z",
+    "visual_review": "all pages individually reviewed at 1600x900",
+    "design_version": 2
+  },
+  {
+    "id": "L08",
+    "file": "slides/decks/L08-fewshot.pptx",
+    "bytes": 189450,
+    "sha256": "9c51749816ff37de1df9820d65c267301d1d95334c7c71ddd01d15c7d8bd30df",
+    "slides": 13,
+    "powerpoint_png_count": 13,
+    "preview": "slides/previews/com-export/L08-fewshot-20261009T033506208Z",
+    "visual_review": "all pages individually reviewed at 1600x900",
+    "design_version": 2
+  },
+  {
+    "id": "L09",
+    "file": "slides/decks/L09-openset.pptx",
+    "bytes": 369510,
+    "sha256": "50e614615c0716cdf58961e6787e41bbbd562a3186280c9f86edbeb69fc2966e",
+    "slides": 14,
+    "powerpoint_png_count": 14,
+    "preview": "slides/previews/com-export/L09-openset-20261009T033506208Z",
+    "visual_review": "all pages individually reviewed at 1600x900",
+    "design_version": 2
+  },
+  {
+    "id": "L10",
+    "file": "slides/decks/L10-research.pptx",
+    "bytes": 183869,
+    "sha256": "062f1f2180aa85345ecef5214b2b085875145f1c9316e5176bb1469a4cfae8a0",
+    "slides": 12,
+    "powerpoint_png_count": 12,
+    "preview": "slides/previews/com-export/L10-research-20261009T033506208Z",
+    "visual_review": "all pages individually reviewed at 1600x900",
+    "design_version": 2
+  }
+]

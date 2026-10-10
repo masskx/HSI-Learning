@@ -1,5 +1,6 @@
 # L02 · 99% 准确率，为什么可能没有意义？
 
+当前课堂执行入口：Notebook02：protocol / metrics-toy / raw-confusion。以下历史入口只用于延伸阅读，逐课顺序见[classroom-guide](../classroom-guide.md)。
 目标：能说清数据划分、指标分母与结论适用域。前置 L01。定位 ch02 / notebook 02 的 `train_test_split`、`classification_report`；用 `tests/test_teaching.py::test_kappa_majority` 核对算例。
 
 ## 20 分钟安排

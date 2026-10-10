@@ -1,5 +1,6 @@
 # 第 1 章 高光谱成像基础
 
+> 当前课堂演示按[使用指南](../../docs/teaching/classroom-guide.md)走。章内历史配置与数字保留原协议；Notebook02已重建为协议E，旧版在archive中，不混作同协议成绩。
 > **Hyperspectral Imaging Fundamentals**
 
 状态：✅ 已完成

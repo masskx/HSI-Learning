@@ -1,14 +1,42 @@
 {
-  "status": "pending-execution",
-  "description": "Lecture bundle manifest. No verified weights are published by this file.",
+  "status": "verified-local-execution",
+  "description": "Local classroom bundles were trained and hash-verified on 2026-10-09. Binary weights remain ignored and are not distributed by this manifest.",
   "prepare_command": "python scripts/prepare_teaching_artifacts.py",
   "verify_command": "python scripts/check_teaching_ready.py",
   "bundles": [
-    {"name": "classifier-ce", "path": "results/teaching_ready/classifier-ce", "status": "pending"},
-    {"name": "classifier-weighted", "path": "results/teaching_ready/classifier-weighted", "status": "pending"},
-    {"name": "protonet", "path": "results/teaching_ready/protonet", "status": "pending"},
-    {"name": "openset", "path": "results/teaching_ready/openset", "status": "pending"}
+    {
+      "name": "classifier-ce",
+      "path": "results/teaching_ready/classifier-ce",
+      "status": "verified-local",
+      "hash_manifest_sha256": "f207e95f189f69af387f59c6f0ceac2cf8f7da51a9124c467a1625cb16b336a4"
+    },
+    {
+      "name": "classifier-weighted",
+      "path": "results/teaching_ready/classifier-weighted",
+      "status": "verified-local",
+      "hash_manifest_sha256": "4f08c0033be6bb8a8a179a85c146d6bc911004512fb17194504113bc3ae15a79"
+    },
+    {
+      "name": "protonet",
+      "path": "results/teaching_ready/protonet",
+      "status": "verified-local",
+      "hash_manifest_sha256": "de1da1467be50887ce41d6fd24af8719a7d38cd61d424dd019af8abf8806c37e"
+    },
+    {
+      "name": "openset",
+      "path": "results/teaching_ready/openset",
+      "status": "verified-local",
+      "hash_manifest_sha256": "e5faf01dec8def9d4a244db2207308426ef88fad9e2eacc678f5ad8c9d4a23ad"
+    }
   ],
-  "bundle_files": ["model.pth", "preprocessing.npz", "split.npz", "run_config.json", "history.json", "metrics.json", "hashes.json"],
+  "bundle_files": [
+    "model.pth",
+    "preprocessing.npz",
+    "split.npz",
+    "run_config.json",
+    "history.json",
+    "metrics.json",
+    "hashes.json"
+  ],
   "provenance": "Per-run configuration records source hashes, dataset hashes, environment and protocol. Run-local hashes.json validates files. Binary upload is not authorized by preparation."
 }

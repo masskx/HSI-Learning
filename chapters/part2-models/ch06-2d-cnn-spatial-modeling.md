@@ -87,7 +87,7 @@
 
 ### 空间上下文的真实增益
 
-先看训练充分后的逐类召回（1D 60ep → 2D 40ep）：Corn-mintill **0.495 → 0.944**、Corn **0.492 → 0.884**、Soybean-clean **0.495 → 0.918**、Buildings-Grass-Trees-Drives **0.321 → 0.938**、Grass-pasture-mowed **0.000 → 0.864**——第 2、3 章反复出现的"玉米/大豆族互混"和"小类崩塌"几乎被空间上下文整体修复。图 6-3 的混淆矩阵对角线干净得多，图 6-4 的整图预测几乎复刻 Ground Truth：田块内部成片一致、边界锐利——这就是"空间上下文"四个字的视觉定义。
+历史1D 60ep与2D 40ep逐类召回记录分别为：Corn-mintill 0.495→0.944、Corn 0.492→0.884、Soybean-clean 0.495→0.918、Buildings-Grass-Trees-Drives 0.321→0.938、Grass-pasture-mowed 0→0.864。这里只描述两组配置的差异；输入、PCA、预算与空间依赖尚未全部对齐，不能把全部增益归因于上下文。全图包含训练位置，也不是独立泛化成绩。
 
 ![图 6-3 2D CNN 混淆矩阵（40 epochs）](../assets/ch06-confusion-matrix.png)
 

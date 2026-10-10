@@ -2,6 +2,8 @@
 
 建议 Python 3.12；环境兼容性以实际验收报告为准，不宣称所有系统已通过。讲解中文，图中文字英文。数据目录含 IP/SA/PU，首批演示只使用 IP。
 
+最新12单元课堂路线见[classroom-guide](teaching/classroom-guide.md)，练习见[student_workbook](../student_workbook/README.md)。本机已验证版本见`artifacts/teaching/environment-versions.json`。
+
 ## 一键验收入口
 
 本轮新增串行入口，默认只跑测试，不自动安装依赖、提交或推送：
@@ -12,7 +14,7 @@ python scripts/prepare_recording.py --stage test
 python scripts/prepare_recording.py --stage all
 ```
 
-`all` 依次执行测试、quick冒烟、正式演示资产、Notebook执行与验收。每个阶段日志保存在 `results/recording_checks/<UTC时间>/`；失败停止，报告中未执行阶段不会伪装为完成。自动检查之后仍需人工目检和两节试录。
+`all` 依次执行测试、quick冒烟、正式模型与SVM资产、数字导出、两组Notebook执行、子目录启动复验与验收。每个阶段日志保存在 `results/recording_checks/<UTC时间>/`；失败停止，报告中未执行阶段不会伪装为完成。自动检查之后仍需人工目检和两节试录。
 
 ## 1. 环境与内核
 

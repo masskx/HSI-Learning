@@ -1,5 +1,6 @@
 # 课程质量加固与PPT交付报告
 
+> 2026-10-09课堂修订已进一步处理下述问题。当前入口与验收以[classroom-guide](classroom-guide.md)、[revision-validation](revision-validation.md)为准；本页旧轮次状态保留作为历史记录。
 ## 本轮已准备（尚未全部执行验收）
 
 - 用户指定技能 `@user_3b34947d/ppt-generator-skill` 1.0.2 已安装并读取；选择其Python实现，实际复用 `create_content_slide`，不执行带虚构示例数字的main。

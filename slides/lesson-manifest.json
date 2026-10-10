@@ -1,21 +1,20 @@
 {
   "design": {
-    "system": "slides/src/deck_design.py",
-    "engine": "python-pptx",
+    "engine": "@oai/artifact-tool",
+    "style": "科研极简：浅底、深蓝、大图、克制排版",
+    "version": 2,
     "fonts": {
-      "cjk": "Microsoft YaHei (latin+ea set per run)",
+      "cjk": "Microsoft YaHei",
       "code": "Consolas"
     },
-    "formulas": "matplotlib mathtext -> transparent PNG, LaTeX source in course_content.py",
-    "motif": "hyperspectral gradient strip; no footers, no page numbers",
-    "replaces": "ppt-generator-skill v1 shell (withdrawn after visual review)"
+    "source": "slides/src/course_content.py + classroom_content.py"
   },
   "decks": [
     {
       "id": "L00",
       "title": "先验证环境，再相信结果",
-      "path": "decks\\L00-environment.pptx",
-      "slides": 13,
+      "path": "decks/L00-environment.pptx",
+      "slides": 12,
       "pages": [
         {
           "type": "cover",
@@ -23,7 +22,7 @@
         },
         {
           "type": "objectives",
-          "title": "本课交付"
+          "title": "这节课，你将完成什么"
         },
         {
           "type": "theory",
@@ -66,24 +65,22 @@
           "math": null
         },
         {
+          "type": "theory",
+          "title": "课前资产与现场备用",
+          "image": null,
+          "math": null
+        },
+        {
           "type": "practice",
-          "title": "代码实操"
+          "title": "让代码验证你的判断"
         },
         {
           "type": "exercise",
-          "title": "课堂练习"
-        },
-        {
-          "type": "ai-assist",
-          "title": "AI辅助"
+          "title": "停下来，做一次判断"
         },
         {
           "type": "limits",
-          "title": "小结与边界"
-        },
-        {
-          "type": "sources",
-          "title": "来源与复现"
+          "title": "结论要有边界"
         }
       ],
       "notebook": "00_environment_check.ipynb",
@@ -93,14 +90,14 @@
         "forward"
       ],
       "generated": true,
-      "rendered": false,
-      "visual_review": "pending",
-      "sha256": "cecee24b581ce2a0fcf3a2517bbf0fa7f9389823fd90075888a516e4ef595362"
+      "rendered": true,
+      "visual_review": "all pages individually reviewed at 1600x900",
+      "powerpoint_preview": "slides/previews/com-export/L00-environment-20261009T033506208Z"
     },
     {
       "id": "L01",
       "title": "200 个波段，是 200 张照片吗？",
-      "path": "decks\\L01-data.pptx",
+      "path": "decks/L01-data.pptx",
       "slides": 13,
       "pages": [
         {
@@ -109,7 +106,7 @@
         },
         {
           "type": "objectives",
-          "title": "本课交付"
+          "title": "这节课，你将完成什么"
         },
         {
           "type": "image",
@@ -126,7 +123,7 @@
           "title": "观测图是三个波段的合成显示",
           "image": [
             "03_hybridsn_baseline.ipynb",
-            "cell5",
+            "legacy-5",
             0
           ],
           "math": null
@@ -160,24 +157,32 @@
           "math": null
         },
         {
+          "type": "image",
+          "title": "光谱曲线里的类内与类间变化",
+          "image": [
+            "01_data_reading_and_visualization.ipynb",
+            "spectral-comparison",
+            0
+          ],
+          "math": null
+        },
+        {
+          "type": "table",
+          "title": "显示、标准化、PCA分别改变什么",
+          "image": null,
+          "math": null
+        },
+        {
           "type": "practice",
-          "title": "代码实操"
+          "title": "让代码验证你的判断"
         },
         {
           "type": "exercise",
-          "title": "课堂练习"
-        },
-        {
-          "type": "ai-assist",
-          "title": "AI辅助"
+          "title": "停下来，做一次判断"
         },
         {
           "type": "limits",
-          "title": "小结与边界"
-        },
-        {
-          "type": "sources",
-          "title": "来源与复现"
+          "title": "结论要有边界"
         }
       ],
       "notebook": "01_data_reading_and_visualization.ipynb",
@@ -187,15 +192,15 @@
         "cube[r, c, :]"
       ],
       "generated": true,
-      "rendered": false,
-      "visual_review": "pending",
-      "sha256": "a91b416b4dc020395a1de0c5a6b497ff1a5806a5a8154e433378266a76dc693c"
+      "rendered": true,
+      "visual_review": "all pages individually reviewed at 1600x900",
+      "powerpoint_preview": "slides/previews/com-export/L01-data-20261009T033506208Z"
     },
     {
       "id": "L02",
       "title": "99% 准确率，为什么可能没有意义？",
-      "path": "decks\\L02-protocol.pptx",
-      "slides": 13,
+      "path": "decks/L02-protocol.pptx",
+      "slides": 12,
       "pages": [
         {
           "type": "cover",
@@ -203,7 +208,7 @@
         },
         {
           "type": "objectives",
-          "title": "本课交付"
+          "title": "这节课，你将完成什么"
         },
         {
           "type": "theory",
@@ -212,13 +217,9 @@
           "math": null
         },
         {
-          "type": "image",
-          "title": "三份数据，三种职责",
-          "image": [
-            "03_hybridsn_baseline.ipynb",
-            "cell11",
-            0
-          ],
+          "type": "diagram",
+          "title": "信息流的方向",
+          "image": null,
           "math": null
         },
         {
@@ -238,53 +239,52 @@
           "title": "混淆矩阵是指标的原图",
           "image": [
             "02_svm_baseline.ipynb",
-            "32e479d9-7018-4689-af9b-d70239566b14",
-            0
+            "raw-confusion",
+            1
           ],
           "math": null
         },
         {
+          "type": "table",
+          "title": "课堂协议E与历史记录",
+          "image": null,
+          "math": null
+        },
+        {
           "type": "theory",
-          "title": "课程四套协议，数字不可互比",
+          "title": "指标分母必须写出来",
           "image": null,
           "math": null
         },
         {
           "type": "practice",
-          "title": "代码实操"
+          "title": "让代码验证你的判断"
         },
         {
           "type": "exercise",
-          "title": "课堂练习"
-        },
-        {
-          "type": "ai-assist",
-          "title": "AI辅助"
+          "title": "停下来，做一次判断"
         },
         {
           "type": "limits",
-          "title": "小结与边界"
-        },
-        {
-          "type": "sources",
-          "title": "来源与复现"
+          "title": "结论要有边界"
         }
       ],
       "notebook": "02_svm_baseline.ipynb",
       "cells": [
-        "train_test_split",
-        "classification_report"
+        "protocol",
+        "metrics-toy",
+        "raw-confusion"
       ],
       "generated": true,
-      "rendered": false,
-      "visual_review": "pending",
-      "sha256": "0c31e4985c6142e677e43732eb7adf595403185effb1e9f97b2b6911f62821e8"
+      "rendered": true,
+      "visual_review": "all pages individually reviewed at 1600x900",
+      "powerpoint_preview": "slides/previews/com-export/L02-protocol-20261009T033506208Z"
     },
     {
       "id": "L03",
       "title": "上神经网络之前，先做一个可信基线",
-      "path": "decks\\L03-svm.pptx",
-      "slides": 13,
+      "path": "decks/L03-svm.pptx",
+      "slides": 12,
       "pages": [
         {
           "type": "cover",
@@ -292,11 +292,11 @@
         },
         {
           "type": "objectives",
-          "title": "本课交付"
+          "title": "这节课，你将完成什么"
         },
         {
           "type": "theory",
-          "title": "Baseline是检查器，不是稻草人",
+          "title": "先建立可重建的基线",
           "image": null,
           "math": null
         },
@@ -314,7 +314,7 @@
         },
         {
           "type": "theory",
-          "title": "尺度塌缩：教科书网格全灭",
+          "title": "gamma取决于模型看到的特征",
           "image": null,
           "math": null
         },
@@ -329,47 +329,47 @@
           "title": "换个特征，混淆结构就变",
           "image": [
             "02_svm_baseline.ipynb",
-            "ff083796-156f-45dd-8d43-c6eefa8ae068",
-            0
+            "pca-confusion",
+            1
           ],
           "math": null
         },
         {
+          "type": "diagram",
+          "title": "验证搜索与最终报告",
+          "image": null,
+          "math": null
+        },
+        {
           "type": "practice",
-          "title": "代码实操"
+          "title": "让代码验证你的判断"
         },
         {
           "type": "exercise",
-          "title": "课堂练习"
-        },
-        {
-          "type": "ai-assist",
-          "title": "AI辅助"
+          "title": "停下来，做一次判断"
         },
         {
           "type": "limits",
-          "title": "小结与边界"
-        },
-        {
-          "type": "sources",
-          "title": "来源与复现"
+          "title": "结论要有边界"
         }
       ],
       "notebook": "02_svm_baseline.ipynb",
       "cells": [
-        "SVC",
-        "train_test_split"
+        "pipeline",
+        "kernel-scale",
+        "raw-confusion",
+        "pca-confusion"
       ],
       "generated": true,
-      "rendered": false,
-      "visual_review": "pending",
-      "sha256": "97b45a56d7319cc455ea3941dfb70fafeda2e93208555580c764f0c592e0bfc5"
+      "rendered": true,
+      "visual_review": "all pages individually reviewed at 1600x900",
+      "powerpoint_preview": "slides/previews/com-export/L03-svm-20261009T034403578Z"
     },
     {
       "id": "L04",
       "title": "一个像元怎样变成模型输入？",
-      "path": "decks\\L04-patch.pptx",
-      "slides": 13,
+      "path": "decks/L04-patch.pptx",
+      "slides": 12,
       "pages": [
         {
           "type": "cover",
@@ -377,15 +377,15 @@
         },
         {
           "type": "objectives",
-          "title": "本课交付"
+          "title": "这节课，你将完成什么"
         },
         {
           "type": "image",
           "title": "邻域是输入，中心是监督",
           "image": [
-            "03_hybridsn_baseline.ipynb",
-            "cell5",
-            2
+            "11_patch_hybridsn_classroom.ipynb",
+            "toy-patches",
+            0
           ],
           "math": null
         },
@@ -411,9 +411,9 @@
           "type": "image",
           "title": "回贴map必须有位置证据",
           "image": [
-            "03_hybridsn_baseline.ipynb",
-            "cell18",
-            1
+            "02_svm_baseline.ipynb",
+            "maps",
+            0
           ],
           "math": null
         },
@@ -424,40 +424,108 @@
           "math": null
         },
         {
+          "type": "diagram",
+          "title": "带缓冲区的空间划分",
+          "image": null,
+          "math": null
+        },
+        {
           "type": "practice",
-          "title": "代码实操"
+          "title": "让代码验证你的判断"
         },
         {
           "type": "exercise",
-          "title": "课堂练习"
-        },
-        {
-          "type": "ai-assist",
-          "title": "AI辅助"
+          "title": "停下来，做一次判断"
         },
         {
           "type": "limits",
-          "title": "小结与边界"
-        },
-        {
-          "type": "sources",
-          "title": "来源与复现"
+          "title": "结论要有边界"
         }
       ],
-      "notebook": "03_hybridsn_baseline.ipynb",
+      "notebook": "11_patch_hybridsn_classroom.ipynb",
       "cells": [
-        "PatchSet",
-        "__getitem__"
+        "toy-patches",
+        "reshape-check"
       ],
       "generated": true,
-      "rendered": false,
-      "visual_review": "pending",
-      "sha256": "6a2c4b4c1a0ca2bf3afbc9d079f6f906e8c8f5f32e4b850a2c4feaa7cb51e943"
+      "rendered": true,
+      "visual_review": "all pages individually reviewed at 1600x900",
+      "powerpoint_preview": "slides/previews/com-export/L04-patch-20261009T033506208Z"
+    },
+    {
+      "id": "L05A",
+      "title": "模型怎样完成一次参数更新？",
+      "path": "decks/L05A-training.pptx",
+      "slides": 10,
+      "pages": [
+        {
+          "type": "cover",
+          "title": "模型怎样完成一次参数更新？"
+        },
+        {
+          "type": "objectives",
+          "title": "这节课，你将完成什么"
+        },
+        {
+          "type": "diagram",
+          "title": "从中心标签到模型target",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "Logits与交叉熵",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "diagram",
+          "title": "一次更新的四个操作",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "table",
+          "title": "模式与梯度是两套开关",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "验证选模型，测试做报告",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "practice",
+          "title": "让代码验证你的判断"
+        },
+        {
+          "type": "exercise",
+          "title": "停下来，做一次判断"
+        },
+        {
+          "type": "limits",
+          "title": "结论要有边界"
+        }
+      ],
+      "notebook": "10_training_step_classroom.ipynb",
+      "cells": [
+        "batch",
+        "forward-loss",
+        "one-update",
+        "mode-gradient",
+        "checkpoint"
+      ],
+      "generated": true,
+      "rendered": true,
+      "visual_review": "all pages individually reviewed at 1600x900",
+      "powerpoint_preview": "slides/previews/com-export/L05A-training-20261009T033506208Z"
     },
     {
       "id": "L05",
       "title": "1D、2D、3D：到底沿哪个轴卷积？",
-      "path": "decks\\L05-cnn.pptx",
+      "path": "decks/L05-cnn.pptx",
       "slides": 13,
       "pages": [
         {
@@ -466,7 +534,7 @@
         },
         {
           "type": "objectives",
-          "title": "本课交付"
+          "title": "这节课，你将完成什么"
         },
         {
           "type": "theory",
@@ -490,8 +558,8 @@
           "type": "image",
           "title": "训练曲线读的是趋势",
           "image": [
-            "05_2d_cnn_teaching.ipynb",
-            "1a44d125",
+            "12_convolution_classroom.ipynb",
+            "current-curves",
             0
           ],
           "math": null
@@ -500,8 +568,8 @@
           "type": "image",
           "title": "预测放回空间再读",
           "image": [
-            "05_2d_cnn_teaching.ipynb",
-            "feb108ea",
+            "15_imbalance_analysis_teaching.ipynb",
+            "maps",
             0
           ],
           "math": null
@@ -513,40 +581,47 @@
           "math": null
         },
         {
+          "type": "diagram",
+          "title": "一次卷积乘加",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "table",
+          "title": "三种输入轴与参数量",
+          "image": null,
+          "math": null
+        },
+        {
           "type": "practice",
-          "title": "代码实操"
+          "title": "让代码验证你的判断"
         },
         {
           "type": "exercise",
-          "title": "课堂练习"
-        },
-        {
-          "type": "ai-assist",
-          "title": "AI辅助"
+          "title": "停下来，做一次判断"
         },
         {
           "type": "limits",
-          "title": "小结与边界"
-        },
-        {
-          "type": "sources",
-          "title": "来源与复现"
+          "title": "结论要有边界"
         }
       ],
-      "notebook": "05_2d_cnn_teaching.ipynb",
+      "notebook": "12_convolution_classroom.ipynb",
       "cells": [
-        "SpectralSpatialCNN2D"
+        "manual-convolution",
+        "three-axes",
+        "receptive-field",
+        "current-curves"
       ],
       "generated": true,
-      "rendered": false,
-      "visual_review": "pending",
-      "sha256": "c7f612a4afad994ceaf5cfedd1df23172afa6182d7ca6309bf543dba01be9a86"
+      "rendered": true,
+      "visual_review": "all pages individually reviewed at 1600x900",
+      "powerpoint_preview": "slides/previews/com-export/L05-cnn-20261009T033506208Z"
     },
     {
       "id": "L06",
       "title": "HybridSN 的 reshape 为什么是关键？",
-      "path": "decks\\L06-hybridsn.pptx",
-      "slides": 13,
+      "path": "decks/L06-hybridsn.pptx",
+      "slides": 12,
       "pages": [
         {
           "type": "cover",
@@ -554,7 +629,7 @@
         },
         {
           "type": "objectives",
-          "title": "本课交付"
+          "title": "这节课，你将完成什么"
         },
         {
           "type": "theory",
@@ -585,7 +660,7 @@
           "title": "训练过程与检查点选择",
           "image": [
             "03_hybridsn_baseline.ipynb",
-            "cell16",
+            "legacy-16",
             0
           ],
           "math": null
@@ -597,41 +672,40 @@
           "math": null
         },
         {
+          "type": "table",
+          "title": "逐层shape与元素对应",
+          "image": null,
+          "math": null
+        },
+        {
           "type": "practice",
-          "title": "代码实操"
+          "title": "让代码验证你的判断"
         },
         {
           "type": "exercise",
-          "title": "课堂练习"
-        },
-        {
-          "type": "ai-assist",
-          "title": "AI辅助"
+          "title": "停下来，做一次判断"
         },
         {
           "type": "limits",
-          "title": "小结与边界"
-        },
-        {
-          "type": "sources",
-          "title": "来源与复现"
+          "title": "结论要有边界"
         }
       ],
-      "notebook": "03_hybridsn_baseline.ipynb",
+      "notebook": "11_patch_hybridsn_classroom.ipynb",
       "cells": [
-        "HybridSN",
-        "forward"
+        "hybridsn-shapes",
+        "reshape-check",
+        "pca-change"
       ],
       "generated": true,
-      "rendered": false,
-      "visual_review": "pending",
-      "sha256": "ee7d7884e9b1921f128ac312f50d509e40c2766ed680a8524de36c4048c0b9dc"
+      "rendered": true,
+      "visual_review": "all pages individually reviewed at 1600x900",
+      "powerpoint_preview": "slides/previews/com-export/L06-hybridsn-20261009T034403578Z"
     },
     {
       "id": "L07",
       "title": "OA 很高，小类为什么仍全错？",
-      "path": "decks\\L07-errors.pptx",
-      "slides": 13,
+      "path": "decks/L07-errors.pptx",
+      "slides": 12,
       "pages": [
         {
           "type": "cover",
@@ -639,7 +713,7 @@
         },
         {
           "type": "objectives",
-          "title": "本课交付"
+          "title": "这节课，你将完成什么"
         },
         {
           "type": "image",
@@ -690,41 +764,41 @@
           "math": null
         },
         {
+          "type": "table",
+          "title": "手算一个batch的加权损失",
+          "image": null,
+          "math": null
+        },
+        {
           "type": "practice",
-          "title": "代码实操"
+          "title": "让代码验证你的判断"
         },
         {
           "type": "exercise",
-          "title": "课堂练习"
-        },
-        {
-          "type": "ai-assist",
-          "title": "AI辅助"
+          "title": "停下来，做一次判断"
         },
         {
           "type": "limits",
-          "title": "小结与边界"
-        },
-        {
-          "type": "sources",
-          "title": "来源与复现"
+          "title": "结论要有边界"
         }
       ],
       "notebook": "15_imbalance_analysis_teaching.ipynb",
       "cells": [
         "loss-comparison",
         "gradcam",
-        "maps"
+        "maps",
+        "weighted-loss-toy",
+        "target-comparison"
       ],
       "generated": true,
-      "rendered": false,
-      "visual_review": "pending",
-      "sha256": "ad642d6f7558de638a71f62f603f12de42e66a9c7565062724daf29190a91d90"
+      "rendered": true,
+      "visual_review": "all pages individually reviewed at 1600x900",
+      "powerpoint_preview": "slides/previews/com-export/L07-errors-20261009T033506208Z"
     },
     {
       "id": "L08",
       "title": "5-shot 的五个样本，究竟怎么算？",
-      "path": "decks\\L08-fewshot.pptx",
+      "path": "decks/L08-fewshot.pptx",
       "slides": 13,
       "pages": [
         {
@@ -733,7 +807,7 @@
         },
         {
           "type": "objectives",
-          "title": "本课交付"
+          "title": "这节课，你将完成什么"
         },
         {
           "type": "theory",
@@ -784,24 +858,28 @@
           "math": null
         },
         {
+          "type": "diagram",
+          "title": "一个episode如何更新encoder",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "配对K对照与任务方差",
+          "image": null,
+          "math": null
+        },
+        {
           "type": "practice",
-          "title": "代码实操"
+          "title": "让代码验证你的判断"
         },
         {
           "type": "exercise",
-          "title": "课堂练习"
-        },
-        {
-          "type": "ai-assist",
-          "title": "AI辅助"
+          "title": "停下来，做一次判断"
         },
         {
           "type": "limits",
-          "title": "小结与边界"
-        },
-        {
-          "type": "sources",
-          "title": "来源与复现"
+          "title": "结论要有边界"
         }
       ],
       "notebook": "16_protonet_teaching.ipynb",
@@ -810,17 +888,18 @@
         "episode",
         "prototype-math",
         "evaluation",
-        "maps"
+        "maps",
+        "episode-update"
       ],
       "generated": true,
-      "rendered": false,
-      "visual_review": "pending",
-      "sha256": "d6c41821926cb3bab5e60653f4701174554f6cb5999d48ef07891fd33331c23f"
+      "rendered": true,
+      "visual_review": "all pages individually reviewed at 1600x900",
+      "powerpoint_preview": "slides/previews/com-export/L08-fewshot-20261009T033506208Z"
     },
     {
       "id": "L09",
       "title": "模型能学会说“我不知道”吗？",
-      "path": "decks\\L09-openset.pptx",
+      "path": "decks/L09-openset.pptx",
       "slides": 14,
       "pages": [
         {
@@ -829,7 +908,7 @@
         },
         {
           "type": "objectives",
-          "title": "本课交付"
+          "title": "这节课，你将完成什么"
         },
         {
           "type": "theory",
@@ -886,24 +965,28 @@
           "math": null
         },
         {
+          "type": "table",
+          "title": "接受、正确接受与误拒的分母",
+          "image": null,
+          "math": null
+        },
+        {
+          "type": "theory",
+          "title": "验证集参数练习",
+          "image": null,
+          "math": null
+        },
+        {
           "type": "practice",
-          "title": "代码实操"
+          "title": "让代码验证你的判断"
         },
         {
           "type": "exercise",
-          "title": "课堂练习"
-        },
-        {
-          "type": "ai-assist",
-          "title": "AI辅助"
+          "title": "停下来，做一次判断"
         },
         {
           "type": "limits",
-          "title": "小结与边界"
-        },
-        {
-          "type": "sources",
-          "title": "来源与复现"
+          "title": "结论要有边界"
         }
       ],
       "notebook": "17_openset_teaching.ipynb",
@@ -912,18 +995,19 @@
         "scores",
         "calibration",
         "evaluation",
-        "maps"
+        "maps",
+        "threshold-exercise"
       ],
       "generated": true,
-      "rendered": false,
-      "visual_review": "pending",
-      "sha256": "6a86f196030b22f9d2ca9cc516c931bb10a0a9e678e92e2e1437ed60bf7fdb2c"
+      "rendered": true,
+      "visual_review": "all pages individually reviewed at 1600x900",
+      "powerpoint_preview": "slides/previews/com-export/L09-openset-20261009T033506208Z"
     },
     {
       "id": "L10",
       "title": "一次实验怎样变成可信研究证据？",
-      "path": "decks\\L10-research.pptx",
-      "slides": 13,
+      "path": "decks/L10-research.pptx",
+      "slides": 12,
       "pages": [
         {
           "type": "cover",
@@ -931,11 +1015,11 @@
         },
         {
           "type": "objectives",
-          "title": "本课交付"
+          "title": "这节课，你将完成什么"
         },
         {
           "type": "theory",
-          "title": "研究不是把模块加在一起",
+          "title": "研究案例：加权损失的代价",
           "image": null,
           "math": null
         },
@@ -970,24 +1054,22 @@
           "math": null
         },
         {
+          "type": "table",
+          "title": "证据表到结果段落",
+          "image": null,
+          "math": null
+        },
+        {
           "type": "practice",
-          "title": "代码实操"
+          "title": "让代码验证你的判断"
         },
         {
           "type": "exercise",
-          "title": "课堂练习"
-        },
-        {
-          "type": "ai-assist",
-          "title": "AI辅助"
+          "title": "停下来，做一次判断"
         },
         {
           "type": "limits",
-          "title": "小结与边界"
-        },
-        {
-          "type": "sources",
-          "title": "来源与复现"
+          "title": "结论要有边界"
         }
       ],
       "notebook": null,
@@ -997,10 +1079,10 @@
         "source-audit.md"
       ],
       "generated": true,
-      "rendered": false,
-      "visual_review": "pending",
-      "sha256": "4fc3fdf28b7dfe02f2c7d09e8e72b8fb696235b258aebb27b4bed0f67be50193"
+      "rendered": true,
+      "visual_review": "all pages individually reviewed at 1600x900",
+      "powerpoint_preview": "slides/previews/com-export/L10-research-20261009T033506208Z"
     }
   ],
-  "note": "PPTX generated and package-checked; rendering/visual review is a separate step."
+  "note": "Package validation is separate from visual inspection and actual trial teaching."
 }

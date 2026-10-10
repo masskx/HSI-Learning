@@ -5,9 +5,15 @@
 
 本仓库面向高光谱图像分类学习者，包含四部分、17章。推荐学习主线为「数据与闭集基础 → 经典模型 → 小样本 → 开集 → 科研方法与写作」。通过经典方法、关键推导、真实代码与可检验实验学习研究，而不是追求单次最高分或保证论文发表。
 
+## 课堂修订版（2026-10-09）
+
+优先使用[课堂使用指南](docs/teaching/classroom-guide.md)：12个教学单元，加入一次参数更新、手算卷积、原型网络更新、阈值重校准与研究案例。新闭集演示按协议E重新运行；历史模型记录保留，不能混作同协议比较。
+
+学生按[完整示例→填空→迁移](student_workbook/README.md)完成练习。实际准备、执行、课件检查见[本轮验收记录](docs/teaching/revision-validation.md)。
+
 ## 录课入口 / Lecture Preparation
 
-- [视频课程导航与11个问题驱动单元](docs/teaching/course-map.md)
+- [视频课程导航](docs/teaching/course-map.md)
 - [新手启动指南](docs/getting-started.md)
 - [国庆录制安排](docs/teaching/recording-schedule.md) · [录制验收清单](docs/teaching/recording-checklist.md)
 - [方法来源审计](docs/teaching/source-audit.md) · [教学纠错记录](docs/teaching/errata.md)

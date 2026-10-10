@@ -8,7 +8,7 @@ import json
 import re
 import sys
 import time
-from lecture_notebook_validation import output_issues
+from lecture_notebook_validation import output_issues, EXPECTED_PNGS
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
@@ -22,7 +22,7 @@ def main():
     for p in [* (ROOT/'scripts').glob('*.py'),*(ROOT/'src').rglob('*.py')]:
         try: ast.parse(p.read_text(encoding='utf-8')); record('syntax '+str(p.relative_to(ROOT)),True)
         except SyntaxError as exc: record('syntax '+str(p.relative_to(ROOT)),False,str(exc))
-    names=['00_environment_check.ipynb','15_imbalance_analysis_teaching.ipynb','16_protonet_teaching.ipynb','17_openset_teaching.ipynb']
+    names=list(EXPECTED_PNGS)
     for name in names:
         p=ROOT/'notebooks'/name
         if not p.exists(): record(name,False,'not built'); continue
@@ -63,7 +63,7 @@ def main():
                 record('bundle '+name,True,f'load/verify {time.perf_counter()-t:.2f}s')
             except Exception as exc: record('bundle '+name,False,str(exc))
     except ImportError as exc: record('runtime dependencies',False,str(exc))
-    for p in [ROOT/'README.md',*(ROOT/'docs').rglob('*.md')]:
+    for p in [ROOT/'README.md',ROOT/'slides/README.md',*(ROOT/'docs').rglob('*.md'),*(ROOT/'student_workbook').glob('*.md')]:
         for target in re.findall(r'\]\(([^)]+)\)',p.read_text(encoding='utf-8')):
             if target.startswith(('https:','http:','#','mailto:')): continue
             record('link '+str(p.relative_to(ROOT))+' '+target,(p.parent/target.split('#')[0]).exists())

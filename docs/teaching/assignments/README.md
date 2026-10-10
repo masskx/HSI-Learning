@@ -1,6 +1,6 @@
 # 六个实践任务：交付证据，不交最高分
 
-按A01→A06递进。每题100分，评分围绕协议、实现、解释、复现；不按准确率高低排名。提交包统一包含 `README.md`（环境/命令）、最小代码或notebook、配置、输出及限制说明。先做再看 [解答与评分参考](solutions.md)。
+配套[学生填空与迁移任务](../../../student_workbook/README.md)。按A01→A06递进。每题100分，评分围绕协议、实现、解释、复现；不按准确率高低排名。提交包统一包含 `README.md`（环境/命令）、最小代码或notebook、配置、输出及限制说明。先做再看 [解答与评分参考](solutions.md)。
 
 ## A01 数据卡与切片（L00/L01）
 
@@ -22,7 +22,7 @@ assert x[1,2,:].shape == (5,)
 
 ## A02 基线与指标（L02/L03）
 
-起点：notebook 02 `SVC` / `train_test_split`。
+起点：notebook02 `protocol` / `metrics-toy` / `pipeline`；C由validation选。
 
 任务：先手算900/90/10三类全部预测A的OA/AA/Kappa，再运行SVM Pipeline。训练/验证/测试分别存索引；超参由validation选择。
 

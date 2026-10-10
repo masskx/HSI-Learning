@@ -1,5 +1,6 @@
 # 录课就绪交付状态
 
+> 2026-10-09课堂修订已进一步处理下述问题。当前入口与验收以[classroom-guide](classroom-guide.md)、[revision-validation](revision-validation.md)为准；本页旧轮次状态保留作为历史记录。
 本轮未自动提交、推送或上传模型。历史 results 保留；新版00/15/16/17已在成功执行后更新输出。
 
 ## 已有证据的验收（2026-10-08 更新）

@@ -80,7 +80,9 @@ plt.title('Indian Pines ground truth (0 = unlabeled)'); plt.axis('off'); plt.sho
             code('forward',"""from hsi_learning.teaching import PatchClassifier
 model = PatchClassifier(12, len(names)).eval()
 with torch.no_grad(): logits = model(torch.zeros(2,12,9,9))
-assert logits.shape == (2,len(names))
+BATCH_SIZE = 2  # exercise: change this and the input together
+with torch.no_grad(): logits = model(torch.zeros(BATCH_SIZE,12,9,9))
+assert logits.shape == (BATCH_SIZE,len(names))
 print('Input (2,12,9,9) -> logits', tuple(logits.shape))
 print('Random weights: this is an interface check, NOT a classification result.')
 """),md('exercise','## 练习\n把 batch 改成3、类别数改成9；预测输出形状并验证。排错先检查 sys.executable，不要盲目重装包。')]
@@ -112,7 +114,21 @@ with torch.no_grad():
     logits=prototype_logits(se,torch.as_tensor(ep.support_y),qe,5)
 print('Episode accuracy:', float((logits.argmax(1)==torch.as_tensor(ep.query_y)).float().mean()))
 """),
-code('evaluation',"""import json
+code('episode-update',"""from copy import deepcopy
+from hsi_learning.teaching import EpisodeSampler
+from hsi_learning.teaching_runs import episode_forward
+# Update only a COPY and only on meta-training classes, never test support/query.
+train_sampler=EpisodeSampler(gt.ravel(),split['train_ids'],cfg['classes']['train'],42,15)
+train_ep=train_sampler.sample(5,5,5)
+learner=deepcopy(model); optimizer=torch.optim.Adam(learner.parameters(),lr=1e-4)
+before=next(learner.parameters()).detach().clone()
+train_logits,train_targets=episode_forward(learner,cube,train_ep,cfg['patch_size'],True)
+optimizer.zero_grad(); loss=torch.nn.functional.cross_entropy(train_logits,train_targets)
+loss.backward(); optimizer.step()
+print('Support -> prototypes -> query logits:',train_logits.shape,'CE:',float(loss.detach()))
+print('Meta-train gradient update:',float((next(learner.parameters())-before).norm()))
+torch.testing.assert_close(next(model.parameters()),before)
+"""),code('evaluation',"""import json
 metrics=json.loads((BUNDLE_ROOT/'protonet/metrics.json').read_text())
 print('Same encoder; fixed class pool and paired queries:')
 for k,v in metrics['kshot'].items(): print(k, 'shot:', v['mean'], 'episode std:',v['episode_std'])
@@ -155,6 +171,7 @@ thresholds={key:calibrate_threshold(score.numpy(),cfg['acceptance'])
             for key,score in zip(['msp','distance'],val_scores)}
 print('Validation-only thresholds:',thresholds)
 for key in thresholds: assert np.isclose(thresholds[key],cfg['thresholds'][key],rtol=1e-5)
+# Baseline reproduction above. Change ACCEPTANCE in the separate exercise cell.
 """),
 code('evaluation',"""import json
 from sklearn.metrics import roc_auc_score,roc_curve
@@ -182,6 +199,20 @@ panels,outputs=openset_maps(model,cube,gt,split,cfg)
 maps(gt,panels,names,'White = unknown / rejected; black = unlabeled background')
 error_panels(gt,outputs,split,cfg)
 print('White pixels may be correct rejections OR known-class false rejections.')
+"""),code('threshold-exercise',"""from copy import deepcopy
+from hsi_learning.classroom import threshold_experiment
+ACCEPTANCE = .90  # choose using validation only, before inspecting test outcomes
+val_dict={k:s.numpy() for k,s in zip(['msp','distance'],val_scores)}
+test_dict={k:s.numpy() for k,s in zip(['msp','distance'],scores)}
+predicted=np.asarray(classes)[logits.argmax(1).numpy()]
+new_tau,new_metrics,_=threshold_experiment(true,predicted,test_dict,classes,val_dict,ACCEPTANCE)
+print('New validation thresholds:',new_tau)
+print(json.dumps(new_metrics,indent=2))
+exercise_cfg=deepcopy(cfg); exercise_cfg.update(thresholds=new_tau,acceptance=ACCEPTANCE)
+exercise_panels,exercise_outputs=openset_maps(model,cube,gt,split,exercise_cfg)
+maps(gt,exercise_panels,names,'Acceptance target 0.90; metrics use test centers only')
+error_panels(gt,exercise_outputs,split,exercise_cfg)
+assert cfg['acceptance']==.95  # original run remains unchanged
 """),md('exercise','## 练习\n把已知接受率目标从.95改成.90，只使用验证分数重新校准；解释误拒与漏检的变化。AUROC是排序指标，不是固定阈值下的分类精度。\n\n本例是同场景中心监督设定，patch可能包含未知地物的无标签观测；不宣称空间外推。OpenMax为概念延伸，未伪装成此处的距离法。')]
     return cells
 
@@ -194,7 +225,18 @@ np.testing.assert_array_equal(split['test_ids'],split_w['test_ids'])
 np.testing.assert_allclose(cube,cube_w)
 print('Same training/test centers and preprocessing; loss differs.')
 """),
-code('loss-comparison',"""import json
+code('weighted-loss-toy',"""import torch.nn.functional as F
+# Build logits whose true-class CE values are exactly .2 and 1.0.
+losses=torch.tensor([.2,1.]); probabilities=torch.exp(-losses)
+toy_logits=torch.stack([probabilities.log(),(1-probabilities).log()],1)
+toy_logits[1]=toy_logits[1].flip(0); targets=torch.tensor([0,1])
+weights=torch.tensor([1.,4.])
+plain=F.cross_entropy(toy_logits,targets)
+weighted_loss=F.cross_entropy(toy_logits,targets,weight=weights)
+print('Plain / weighted:',float(plain),float(weighted_loss))
+torch.testing.assert_close(plain,torch.tensor(.6))
+torch.testing.assert_close(weighted_loss,torch.tensor(.84))
+"""),code('loss-comparison',"""import json
 from sklearn.metrics import accuracy_score,recall_score,confusion_matrix
 true=gt.ravel()[split['test_ids']]; results={}
 for label,model in [('CE',ce),('Weighted CE',weighted)]:
@@ -214,7 +256,15 @@ model=ce
 cams,logits=cam_figure(model,cube,gt,split['test_ids'],cfg['patch_size'],cfg['classes'],names)
 print('CAM shape:',tuple(cams.shape),'finite:',bool(torch.isfinite(cams).all()))
 """),
-code('maps',"""from hsi_learning.teaching_plots import classifier_maps
+code('target-comparison',"""pixel=split['test_ids'][0]; inputs=patches_at(cube,[pixel],cfg['patch_size'])
+first=int(ce(inputs).argmax(1)); second=(first+1)%len(cfg['classes'])
+fig,axes=plt.subplots(1,2,figsize=(7,3),layout='constrained')
+for ax,target in zip(axes,[first,second]):
+    response,_=grad_cam(ce,ce.encoder.features[7],inputs,torch.tensor([target]))
+    ax.imshow(response[0],vmin=0,vmax=1,cmap='magma'); ax.set_title(f'Class ID {cfg["classes"][target]}'); ax.axis('off')
+plt.show()
+print('Same input, two targets. A zero CAM remains a valid result, not evidence of no dependence.')
+"""),code('maps',"""from hsi_learning.teaching_plots import classifier_maps
 pred_ce,err_ce=classifier_maps(ce,cube,gt,split,cfg)
 pred_w,err_w=classifier_maps(weighted,cube,gt,split,cfg)
 maps(gt,{'GT':gt,'CE':pred_ce,'Weighted CE':pred_w},names,'Same-split classification maps')

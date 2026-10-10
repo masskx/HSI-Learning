@@ -1,5 +1,6 @@
 # 录课图片目检记录
 
+> 2026-10-09课堂修订已进一步处理下述问题。当前入口与验收以[classroom-guide](classroom-guide.md)、[revision-validation](revision-validation.md)为准；本页旧轮次状态保留作为历史记录。
 ## 已查看的输出
 
 来源：`results/lecture_visual_review/20260930T091038198811Z/`。

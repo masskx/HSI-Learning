@@ -11,8 +11,8 @@ Protocol (kept in sync with notebooks/08, mode="notebook"):
 mode="sklearn" swaps in the course-standard stratified two-step split
 (10/10/80, seed 42) so SSRN can join the protocol-C scoreboard.
 
-Beyond the notebook: --lambda-sir adds the paper's spectral invariance
-regularisation (Zhong et al. 2018) — the spectral-residual-block output is
+Beyond the notebook: --lambda-sir adds the course custom spatial-variance
+regularisation (not attributed to the SSRN paper) — the spectral-residual-block output is
 penalised for varying across spatial positions of the patch. The notebook
 does not implement it; the ablation is this chapter's hands-on contribution.
 
@@ -96,8 +96,8 @@ class SSRN(nn.Module):
     """Teaching SSRN — kept in sync with notebooks/08.
 
     Forward stores the spectral-residual-block output in ``self.last_spectral``
-    (before the transition conv) so the training loop can add the paper's
-    spectral invariance regularisation without touching the graph elsewhere.
+    (before the transition conv) so the training loop can add the course custom
+    spatial-variance penalty without touching the graph elsewhere.
     """
 
     def __init__(self, num_classes: int, patch_size: int, input_bands: int,
@@ -186,8 +186,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--lr", type=float, default=3e-4)
     parser.add_argument("--weight-decay", type=float, default=1e-4)
-    parser.add_argument("--lambda-sir", type=float, default=0.0,
-                        help="weight of the spectral invariance regularisation "
+    parser.add_argument("--lambda-spatial-variance", "--lambda-sir", dest="lambda_sir", type=float, default=0.0,
+                        help="weight of course custom spatial-variance penalty "
                              "(0 = off, mirroring the notebook).")
     parser.add_argument("--no-residual", action="store_true",
                         help="ablation: drop the residual shortcuts (sequential blocks).")
@@ -353,7 +353,7 @@ def main() -> int:
             sir_value = 0.0
             if args.lambda_sir > 0 and model.last_spectral is not None:
                 spec = model.last_spectral
-                # spectral invariance: penalise variance of the spectral-block
+                # course custom penalty: variance of the spectral-block
                 # output across the patch's spatial positions (H, W)
                 sir = ((spec - spec.mean(dim=(2, 3), keepdim=True)) ** 2).mean()
                 loss = loss + args.lambda_sir * sir

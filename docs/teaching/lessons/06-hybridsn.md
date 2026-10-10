@@ -1,5 +1,6 @@
 # L06 · HybridSN 的 reshape 为什么是关键？
 
+当前课堂执行入口：Notebook11：hybridsn-shapes / reshape-check / pca-change。以下历史入口只用于延伸阅读，逐课顺序见[classroom-guide](../classroom-guide.md)。
 目标：把论文结构映射成真实张量，区分复现、简化与改进。前置 L05；ch08、notebooks 03/09；精读 `src/hsi_learning/models/hybridsn.py`。
 
 ## 22 分钟节奏

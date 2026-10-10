@@ -22,7 +22,11 @@ STAGES = {
     'test': ['-m', 'unittest', 'discover', '-s', 'tests', '-v'],
     'smoke': ['scripts/prepare_teaching_artifacts.py', '--quick', '--output-dir', 'results/teaching_smoke'],
     'assets': ['scripts/prepare_teaching_artifacts.py'],
+    'svm': ['scripts/prepare_classroom.py'],
+    'facts': ['scripts/export_classroom_facts.py'],
     'notebooks': ['scripts/build_lecture_notebooks.py'],
+    'classroom': ['scripts/build_classroom_notebooks.py'],
+    'execution': ['scripts/verify_classroom_execution.py'],
     'verify': ['scripts/check_teaching_ready.py'],
 }
 

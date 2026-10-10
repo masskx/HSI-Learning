@@ -1,5 +1,6 @@
 # 第 4 章 从像素到 Patch：深度学习数据工程
 
+> 当前课堂演示按[使用指南](../../docs/teaching/classroom-guide.md)走。章内历史配置与数字保留原协议；Notebook02已重建为协议E，旧版在archive中，不混作同协议成绩。
 > **From Pixels to Patches: Data Engineering for Deep Learning**
 
 状态：✅ 已完成

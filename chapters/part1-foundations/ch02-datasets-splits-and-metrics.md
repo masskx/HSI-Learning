@@ -1,5 +1,6 @@
 # 第 2 章 数据集、划分与评价指标
 
+> 当前课堂演示按[使用指南](../../docs/teaching/classroom-guide.md)走。章内历史配置与数字保留原协议；Notebook02已重建为协议E，旧版在archive中，不混作同协议成绩。
 > **Datasets, Splits & Metrics**
 
 状态：✅ 已完成

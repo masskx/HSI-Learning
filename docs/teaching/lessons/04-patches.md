@@ -1,5 +1,6 @@
 # L04 · 一个像元怎样变成模型输入？
 
+当前课堂执行入口：Notebook11：toy-patches；Notebook02：spatial-split。以下历史入口只用于延伸阅读，逐课顺序见[classroom-guide](../classroom-guide.md)。
 目标：亲手验证中心标签、padding、轴顺序，理解 patch 边界。前置 L01/L02；ch04、notebook 03 数据部分，代码 `PatchDataset.__getitem__` / `teaching.patches_at`。
 
 ## 18 分钟安排

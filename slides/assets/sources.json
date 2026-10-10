@@ -1,286 +1,212 @@
 [
   {
-    "kind": "course-notebook-output",
     "notebook": "00_environment_check.ipynb",
-    "cell": "id-dataset",
-    "sha256": "ce2f8ec30d76edb148d07636d8f8b81ac8d8c951e7e5e11b2c3348d658301b3c",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\00_environment_check-dataset-0-ce2f8ec30d.png",
-    "uses": [
-      {
-        "lesson": "L00",
-        "slide": 6
-      },
-      {
-        "lesson": "L01",
-        "slide": 3
-      }
-    ]
+    "cell": "dataset",
+    "ordinal": 0,
+    "sha256": "c619d81445eb2d3a4657c31e20fe374a61fc11e96712159fc5e16c47b510bb4a",
+    "source_png_sha256": "c619d81445eb2d3a4657c31e20fe374a61fc11e96712159fc5e16c47b510bb4a",
+    "transform": null,
+    "path": "assets\\generated\\00_environment_check-dataset-0-c619d81445.png",
+    "lesson": "L00"
   },
   {
-    "kind": "course-notebook-output",
+    "notebook": "00_environment_check.ipynb",
+    "cell": "dataset",
+    "ordinal": 0,
+    "sha256": "c619d81445eb2d3a4657c31e20fe374a61fc11e96712159fc5e16c47b510bb4a",
+    "source_png_sha256": "c619d81445eb2d3a4657c31e20fe374a61fc11e96712159fc5e16c47b510bb4a",
+    "transform": null,
+    "path": "assets\\generated\\00_environment_check-dataset-0-c619d81445.png",
+    "lesson": "L01"
+  },
+  {
     "notebook": "03_hybridsn_baseline.ipynb",
-    "cell": "position-5 (legacy cell without id)",
+    "cell": "legacy-5",
+    "ordinal": 0,
     "sha256": "86778d06369997b92fae298178cadc85140d07356ff4919d9487cd7a8a35e1ee",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\03_hybridsn_baseline-cell5-0-86778d0636.png",
-    "uses": [
-      {
-        "lesson": "L01",
-        "slide": 4
-      }
-    ]
+    "source_png_sha256": "86778d06369997b92fae298178cadc85140d07356ff4919d9487cd7a8a35e1ee",
+    "transform": null,
+    "path": "assets\\generated\\03_hybridsn_baseline-legacy-5-0-86778d0636.png",
+    "lesson": "L01"
   },
   {
-    "kind": "course-notebook-output",
     "notebook": "01_data_reading_and_visualization.ipynb",
-    "cell": "id-8482399b-633f-4fb3-922f-94cb5d0df5b1",
-    "sha256": "6f07f2655d35733d8cd8fc0709a78928dcf724fdeee22243570f7349afae5053",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\01_data_reading_and_visualization-8482399b-633f-4fb3-922f-94cb5d0df5b1-0-6f07f2655d.png",
-    "uses": [
-      {
-        "lesson": "L01",
-        "slide": 6
-      }
-    ]
+    "cell": "8482399b-633f-4fb3-922f-94cb5d0df5b1",
+    "ordinal": 0,
+    "sha256": "3193cd1f9243d073b381c4090158f8bcdc2bed4042eedde81ca300c9b6495e63",
+    "source_png_sha256": "3193cd1f9243d073b381c4090158f8bcdc2bed4042eedde81ca300c9b6495e63",
+    "transform": null,
+    "path": "assets\\generated\\01_data_reading_and_visualization-8482399b-633f-4fb3-922f-94cb5d0df5b1-0-3193cd1f92.png",
+    "lesson": "L01"
   },
   {
-    "kind": "course-notebook-output",
-    "notebook": "03_hybridsn_baseline.ipynb",
-    "cell": "position-11 (legacy cell without id)",
-    "sha256": "a51f4ab7ce6e364853cb2cc21ec23aa7f9a280d4d44334e0babd9e3750d012d1",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\03_hybridsn_baseline-cell11-0-a51f4ab7ce.png",
-    "uses": [
-      {
-        "lesson": "L02",
-        "slide": 4
-      }
-    ]
+    "notebook": "01_data_reading_and_visualization.ipynb",
+    "cell": "spectral-comparison",
+    "ordinal": 0,
+    "sha256": "4af96f18cc68d699febb6e2b939adee5fb3ebb4f02a7ebe3442a540ecbb92f91",
+    "source_png_sha256": "4af96f18cc68d699febb6e2b939adee5fb3ebb4f02a7ebe3442a540ecbb92f91",
+    "transform": null,
+    "path": "assets\\generated\\01_data_reading_and_visualization-spectral-comparison-0-4af96f18cc.png",
+    "lesson": "L01"
   },
   {
-    "kind": "course-notebook-output",
     "notebook": "02_svm_baseline.ipynb",
-    "cell": "id-32e479d9-7018-4689-af9b-d70239566b14",
-    "sha256": "6d6d2d1d8b396dc262f7db5719bd35902631d340ff06245fbd128ad546145d47",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\02_svm_baseline-32e479d9-7018-4689-af9b-d70239566b14-0-6d6d2d1d8b.png",
-    "uses": [
-      {
-        "lesson": "L02",
-        "slide": 7
-      }
-    ]
+    "cell": "raw-confusion",
+    "ordinal": 1,
+    "sha256": "ab78fdf95d8644993f8e1141f59c69d84a4ee72ad22d67bd8892593cb1247058",
+    "source_png_sha256": "ab78fdf95d8644993f8e1141f59c69d84a4ee72ad22d67bd8892593cb1247058",
+    "transform": null,
+    "path": "assets\\generated\\02_svm_baseline-raw-confusion-1-ab78fdf95d.png",
+    "lesson": "L02"
   },
   {
-    "kind": "course-notebook-output",
     "notebook": "02_svm_baseline.ipynb",
-    "cell": "id-ff083796-156f-45dd-8d43-c6eefa8ae068",
-    "sha256": "495c0df272120d109450740693339bcec50aedef620537732d2ee86a612cf8fb",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\02_svm_baseline-ff083796-156f-45dd-8d43-c6eefa8ae068-0-495c0df272.png",
-    "uses": [
-      {
-        "lesson": "L03",
-        "slide": 8
-      }
-    ]
+    "cell": "pca-confusion",
+    "ordinal": 1,
+    "sha256": "cb8c718591d736aeac771486aedd76827397b7f04d3e008e2c9b1f49ebf92120",
+    "source_png_sha256": "cb8c718591d736aeac771486aedd76827397b7f04d3e008e2c9b1f49ebf92120",
+    "transform": null,
+    "path": "assets\\generated\\02_svm_baseline-pca-confusion-1-cb8c718591.png",
+    "lesson": "L03"
   },
   {
-    "kind": "course-notebook-output",
-    "notebook": "03_hybridsn_baseline.ipynb",
-    "cell": "position-5 (legacy cell without id)",
-    "sha256": "7deee89db2fdaa1ffca264ae759e30a530ef822d00004c6fdfdf39bdd0ce4f05",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\03_hybridsn_baseline-cell5-2-7deee89db2.png",
-    "uses": [
-      {
-        "lesson": "L04",
-        "slide": 3
-      }
-    ]
+    "notebook": "11_patch_hybridsn_classroom.ipynb",
+    "cell": "toy-patches",
+    "ordinal": 0,
+    "sha256": "cc6dc127fb4978cf3176173f464b84421fa3128334d25c5e8c62c544bc3b2f7d",
+    "source_png_sha256": "cc6dc127fb4978cf3176173f464b84421fa3128334d25c5e8c62c544bc3b2f7d",
+    "transform": null,
+    "path": "assets\\generated\\11_patch_hybridsn_classroom-toy-patches-0-cc6dc127fb.png",
+    "lesson": "L04"
   },
   {
-    "kind": "course-notebook-output",
-    "notebook": "03_hybridsn_baseline.ipynb",
-    "cell": "position-18 (legacy cell without id)",
-    "sha256": "5831aadd75a2bd9b1035fd6676de23fe03e9fd61f96ead899d733cd8dc1ee04c",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\03_hybridsn_baseline-cell18-1-5831aadd75.png",
-    "uses": [
-      {
-        "lesson": "L04",
-        "slide": 7
-      }
-    ]
+    "notebook": "02_svm_baseline.ipynb",
+    "cell": "maps",
+    "ordinal": 0,
+    "sha256": "5c5ae1005630cb29683fa24afc90e99274937951f59c8d25f0208274de19bd06",
+    "source_png_sha256": "5c5ae1005630cb29683fa24afc90e99274937951f59c8d25f0208274de19bd06",
+    "transform": null,
+    "path": "assets\\generated\\02_svm_baseline-maps-0-5c5ae10056.png",
+    "lesson": "L04"
   },
   {
-    "kind": "course-notebook-output",
-    "notebook": "05_2d_cnn_teaching.ipynb",
-    "cell": "id-1a44d125",
-    "sha256": "5ed728016c14360a24e740f8ed1172bda20945a0fd655e992d3e73ee04f0c974",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\05_2d_cnn_teaching-1a44d125-0-5ed728016c.png",
-    "uses": [
-      {
-        "lesson": "L05",
-        "slide": 6
-      }
-    ]
+    "notebook": "12_convolution_classroom.ipynb",
+    "cell": "current-curves",
+    "ordinal": 0,
+    "sha256": "a4dfd3a3bfbd7beace0290cbe340ea4c3fb87c8dc170db9506ced1c2d230b2be",
+    "source_png_sha256": "a4dfd3a3bfbd7beace0290cbe340ea4c3fb87c8dc170db9506ced1c2d230b2be",
+    "transform": null,
+    "path": "assets\\generated\\12_convolution_classroom-current-curves-0-a4dfd3a3bf.png",
+    "lesson": "L05"
   },
   {
-    "kind": "course-notebook-output",
-    "notebook": "05_2d_cnn_teaching.ipynb",
-    "cell": "id-feb108ea",
-    "sha256": "96f683fa25b2ed7a69611bf1274a4469c312e81251a8be77d775df39051924b8",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\05_2d_cnn_teaching-feb108ea-0-96f683fa25.png",
-    "uses": [
-      {
-        "lesson": "L05",
-        "slide": 7
-      }
-    ]
-  },
-  {
-    "kind": "course-notebook-output",
-    "notebook": "03_hybridsn_baseline.ipynb",
-    "cell": "position-16 (legacy cell without id)",
-    "sha256": "902ed2a8897f5c62e73335221012a1dbb075e8d83f71532d84268fd2158b1f89",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\03_hybridsn_baseline-cell16-0-902ed2a889.png",
-    "uses": [
-      {
-        "lesson": "L06",
-        "slide": 7
-      }
-    ]
-  },
-  {
-    "kind": "course-notebook-output",
     "notebook": "15_imbalance_analysis_teaching.ipynb",
-    "cell": "id-loss-comparison",
-    "sha256": "0a46ef5068fc13f7dd9fcec95589d3b3fddb61e1c0cff3842cc916d61e29ccae",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\15_imbalance_analysis_teaching-loss-comparison-0-0a46ef5068.png",
-    "uses": [
-      {
-        "lesson": "L07",
-        "slide": 3
-      }
-    ]
+    "cell": "maps",
+    "ordinal": 0,
+    "sha256": "735d1d6a0b578d26ac5a6a02ff05757f354f40ba86ca10b0b22fd6ae835a4645",
+    "source_png_sha256": "735d1d6a0b578d26ac5a6a02ff05757f354f40ba86ca10b0b22fd6ae835a4645",
+    "transform": null,
+    "path": "assets\\generated\\15_imbalance_analysis_teaching-maps-0-735d1d6a0b.png",
+    "lesson": "L05"
   },
   {
-    "kind": "course-notebook-output",
+    "notebook": "03_hybridsn_baseline.ipynb",
+    "cell": "legacy-16",
+    "ordinal": 0,
+    "sha256": "1e0aedae0f129c115547f633bb6fc3f2d74b0aa4481a2d104037d197b9fe3e63",
+    "source_png_sha256": "902ed2a8897f5c62e73335221012a1dbb075e8d83f71532d84268fd2158b1f89",
+    "transform": "Two-column redraw from saved 20 epoch logs and 4 validation logs; values unchanged; historical protocol B",
+    "path": "assets\\generated\\03_hybridsn_baseline-legacy-16-0-1e0aedae0f.png",
+    "lesson": "L06"
+  },
+  {
     "notebook": "15_imbalance_analysis_teaching.ipynb",
-    "cell": "id-maps",
-    "sha256": "f0297ff4c860c10edfaf8418477635ce71544e827515b67783b705d577891771",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\15_imbalance_analysis_teaching-maps-0-f0297ff4c8.png",
-    "uses": [
-      {
-        "lesson": "L07",
-        "slide": 5
-      }
-    ]
+    "cell": "loss-comparison",
+    "ordinal": 0,
+    "sha256": "14deb60ac85dce8487bad78b06eb4927f7bb672816e5fed053fb5d0ee3cdb26f",
+    "source_png_sha256": "14deb60ac85dce8487bad78b06eb4927f7bb672816e5fed053fb5d0ee3cdb26f",
+    "transform": null,
+    "path": "assets\\generated\\15_imbalance_analysis_teaching-loss-comparison-0-14deb60ac8.png",
+    "lesson": "L07"
   },
   {
-    "kind": "course-notebook-output",
     "notebook": "15_imbalance_analysis_teaching.ipynb",
-    "cell": "id-gradcam",
-    "sha256": "52cc05a5131db0644ca2c9ac7f6fd628bde7152961b41d2b8771183bf79d1e54",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\15_imbalance_analysis_teaching-gradcam-0-52cc05a513.png",
-    "uses": [
-      {
-        "lesson": "L07",
-        "slide": 7
-      }
-    ]
+    "cell": "maps",
+    "ordinal": 0,
+    "sha256": "735d1d6a0b578d26ac5a6a02ff05757f354f40ba86ca10b0b22fd6ae835a4645",
+    "source_png_sha256": "735d1d6a0b578d26ac5a6a02ff05757f354f40ba86ca10b0b22fd6ae835a4645",
+    "transform": null,
+    "path": "assets\\generated\\15_imbalance_analysis_teaching-maps-0-735d1d6a0b.png",
+    "lesson": "L07"
   },
   {
-    "kind": "course-notebook-output",
+    "notebook": "15_imbalance_analysis_teaching.ipynb",
+    "cell": "gradcam",
+    "ordinal": 0,
+    "sha256": "9b587bc474cf002476cf1576e7f8ec29d4c2b5f5d787ebe310119ebefe10eab1",
+    "source_png_sha256": "9b587bc474cf002476cf1576e7f8ec29d4c2b5f5d787ebe310119ebefe10eab1",
+    "transform": null,
+    "path": "assets\\generated\\15_imbalance_analysis_teaching-gradcam-0-9b587bc474.png",
+    "lesson": "L07"
+  },
+  {
     "notebook": "16_protonet_teaching.ipynb",
-    "cell": "id-episode",
-    "sha256": "19d877830ecbc1f1e8c817f202bc6ac462a0f7ad94423971d788b01446dc48c9",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\16_protonet_teaching-episode-0-19d877830e.png",
-    "uses": [
-      {
-        "lesson": "L08",
-        "slide": 5
-      }
-    ]
+    "cell": "episode",
+    "ordinal": 0,
+    "sha256": "76c3bef98cd8cd117abcca813ecde836d1e267e8f2cca4efdc1dfc3741038f89",
+    "source_png_sha256": "76c3bef98cd8cd117abcca813ecde836d1e267e8f2cca4efdc1dfc3741038f89",
+    "transform": null,
+    "path": "assets\\generated\\16_protonet_teaching-episode-0-76c3bef98c.png",
+    "lesson": "L08"
   },
   {
-    "kind": "course-notebook-output",
     "notebook": "16_protonet_teaching.ipynb",
-    "cell": "id-evaluation",
-    "sha256": "b6579a4f9ef552cf72459cfd9d8a92e2ef559030df652754d888a2b1e66e8137",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\16_protonet_teaching-evaluation-0-b6579a4f9e.png",
-    "uses": [
-      {
-        "lesson": "L08",
-        "slide": 7
-      }
-    ]
+    "cell": "evaluation",
+    "ordinal": 0,
+    "sha256": "0d0758b03751aefea2d2b0488460c642f276ddf01f1e194fb4c763f7da2a3619",
+    "source_png_sha256": "0d0758b03751aefea2d2b0488460c642f276ddf01f1e194fb4c763f7da2a3619",
+    "transform": null,
+    "path": "assets\\generated\\16_protonet_teaching-evaluation-0-0d0758b037.png",
+    "lesson": "L08"
   },
   {
-    "kind": "course-notebook-output",
     "notebook": "16_protonet_teaching.ipynb",
-    "cell": "id-maps",
-    "sha256": "1e14b3b150f77709fc94f7280e74bcf71eed995eb28ff3937e9c1fd814f871a0",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\16_protonet_teaching-maps-0-1e14b3b150.png",
-    "uses": [
-      {
-        "lesson": "L08",
-        "slide": 8
-      }
-    ]
+    "cell": "maps",
+    "ordinal": 0,
+    "sha256": "9db5f76215c7488ff1b34afa65b3e2c3a946b51580de6ced11c93abc81fc2c26",
+    "source_png_sha256": "9db5f76215c7488ff1b34afa65b3e2c3a946b51580de6ced11c93abc81fc2c26",
+    "transform": null,
+    "path": "assets\\generated\\16_protonet_teaching-maps-0-9db5f76215.png",
+    "lesson": "L08"
   },
   {
-    "kind": "course-notebook-output",
     "notebook": "17_openset_teaching.ipynb",
-    "cell": "id-evaluation",
-    "sha256": "14dc1772e9de3be0026f4bef8fec39d904f4d9bbe784dcb2711971ac4c55fa59",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\17_openset_teaching-evaluation-0-14dc1772e9.png",
-    "uses": [
-      {
-        "lesson": "L09",
-        "slide": 7
-      }
-    ]
+    "cell": "evaluation",
+    "ordinal": 0,
+    "sha256": "01d6c7f099f65efd8c5ff057b49495cfeae9ddcebb1216ab1aa89ca6aca00b9c",
+    "source_png_sha256": "01d6c7f099f65efd8c5ff057b49495cfeae9ddcebb1216ab1aa89ca6aca00b9c",
+    "transform": null,
+    "path": "assets\\generated\\17_openset_teaching-evaluation-0-01d6c7f099.png",
+    "lesson": "L09"
   },
   {
-    "kind": "course-notebook-output",
     "notebook": "17_openset_teaching.ipynb",
-    "cell": "id-maps",
-    "sha256": "a14edb3f1cccdce7d60146de48490af0037e2151605ca3e468f05aa3144347cb",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\17_openset_teaching-maps-0-a14edb3f1c.png",
-    "uses": [
-      {
-        "lesson": "L09",
-        "slide": 8
-      }
-    ]
+    "cell": "maps",
+    "ordinal": 0,
+    "sha256": "8467de7a81f36c1c3edbe786005b6a6e37e8201e7c1a3e9962188aec573f4110",
+    "source_png_sha256": "8467de7a81f36c1c3edbe786005b6a6e37e8201e7c1a3e9962188aec573f4110",
+    "transform": null,
+    "path": "assets\\generated\\17_openset_teaching-maps-0-8467de7a81.png",
+    "lesson": "L09"
   },
   {
-    "kind": "course-notebook-output",
     "notebook": "17_openset_teaching.ipynb",
-    "cell": "id-maps",
-    "sha256": "b1870dea972e45daf89ae7a5d043aa31523c30af1e51773625dee9b10c0fc4f0",
-    "license": "Course-generated figure; underlying dataset conditions still apply",
-    "path": "assets\\generated\\17_openset_teaching-maps-1-b1870dea97.png",
-    "uses": [
-      {
-        "lesson": "L09",
-        "slide": 9
-      }
-    ]
+    "cell": "maps",
+    "ordinal": 1,
+    "sha256": "a3ab9b6b2f6bec394f81f2578763aaa38bc0ab9de797e789b0a8201a92f4bd9c",
+    "source_png_sha256": "a3ab9b6b2f6bec394f81f2578763aaa38bc0ab9de797e789b0a8201a92f4bd9c",
+    "transform": null,
+    "path": "assets\\generated\\17_openset_teaching-maps-1-a3ab9b6b2f.png",
+    "lesson": "L09"
   }
 ]

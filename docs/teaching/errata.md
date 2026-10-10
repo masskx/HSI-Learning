@@ -1,5 +1,6 @@
 # 录课纠错记录（保留旧实验，不混换证据）
 
+> 2026-10-09课堂修订已进一步处理下述问题。当前入口与验收以[classroom-guide](classroom-guide.md)、[revision-validation](revision-validation.md)为准；本页旧轮次状态保留作为历史记录。
 ## 已确认的问题
 
 | 原材料 | 问题 | 本轮处理 / 验收状态 |

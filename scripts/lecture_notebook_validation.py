@@ -8,12 +8,16 @@ from __future__ import annotations
 import base64
 
 EXPECTED_PNGS = {
+    '02_svm_baseline.ipynb': {'raw-confusion': 2, 'pca-confusion': 2, 'maps': 2},
+    '10_training_step_classroom.ipynb': {'checkpoint': 1},
+    '11_patch_hybridsn_classroom.ipynb': {'toy-patches': 1},
+    '12_convolution_classroom.ipynb': {'current-curves': 1},
     '00_environment_check.ipynb': {'dataset': 1},
     '15_imbalance_analysis_teaching.ipynb': {
-        'loss-comparison': 1, 'gradcam': 1, 'maps': 2,
+        'loss-comparison': 1, 'gradcam': 1, 'target-comparison': 1, 'maps': 2,
     },
     '16_protonet_teaching.ipynb': {'episode': 1, 'evaluation': 1, 'maps': 1},
-    '17_openset_teaching.ipynb': {'evaluation': 1, 'maps': 2},
+    '17_openset_teaching.ipynb': {'evaluation': 1, 'maps': 2, 'threshold-exercise': 2},
 }
 
 
