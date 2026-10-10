@@ -183,10 +183,12 @@ function cover(pres, data, l) {
       shadow: { type: 'outer', color: '000000', opacity: 0.35, blur: 18, offset: 6, angle: 90 } });
     const f = fit(hero.image_asset, { x: box.x + 0.22, y: box.y + 0.22, w: box.w - 0.44, h: box.h - 0.44 });
     s.addImage({ path: hero.image_asset, ...f, altText: 'cover figure' });
+    // Recorded for the video intro, which ends on this exact cover layout.
+    var heroInfo = { image: path.relative(ROOT, hero.image_asset).split(path.sep).join('/'), card: box, figure: f };
   }
   s.addNotes(notesFrame(data, l, `开场问题：${l.exit_question}\n原标题：${l.title}\n参考节奏：5分钟回顾，10分钟手算，10分钟代码，12分钟练习，5分钟错误分析，3分钟退出题。`)
     + '\n封面图源：' + (hero?.image?.join(' / ') || ''));
-  return { type: 'cover', title: l.title };
+  return { type: 'cover', title: l.title, cover_title: COVERS[l.id] || l.title, hero: heroInfo || null };
 }
 
 function objectives(pres, data, l) {
