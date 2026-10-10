@@ -1,0 +1,9 @@
+{
+  "name": "hsi-learning-slides",
+  "private": true,
+  "description": "Builds the HSI-Learning classroom decks (scripts/build_course_slides.js).",
+  "dependencies": {
+    "jszip": "3.10.1",
+    "pptxgenjs": "3.12.0"
+  }
+}
