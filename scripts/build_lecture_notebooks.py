@@ -79,11 +79,10 @@ plt.title('Indian Pines ground truth (0 = unlabeled)'); plt.axis('off'); plt.sho
 """),
             code('forward',"""from hsi_learning.teaching import PatchClassifier
 model = PatchClassifier(12, len(names)).eval()
-with torch.no_grad(): logits = model(torch.zeros(2,12,9,9))
 BATCH_SIZE = 2  # exercise: change this and the input together
 with torch.no_grad(): logits = model(torch.zeros(BATCH_SIZE,12,9,9))
 assert logits.shape == (BATCH_SIZE,len(names))
-print('Input (2,12,9,9) -> logits', tuple(logits.shape))
+print('Input', (BATCH_SIZE,12,9,9), '-> logits', tuple(logits.shape))
 print('Random weights: this is an interface check, NOT a classification result.')
 """),md('exercise','## 练习\n把 batch 改成3、类别数改成9；预测输出形状并验证。排错先检查 sys.executable，不要盲目重装包。')]
 
